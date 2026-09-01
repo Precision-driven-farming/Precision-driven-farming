@@ -1,71 +1,83 @@
-Dataset Description, Labeling Scheme & Augmentation
+# Dataset Description, Labeling Scheme & Augmentation
 
-Issue: #23
-Milestone: Phase 2 — Foundations
-Last updated: 2026-09-01
+> **Issue:** #23
+> **Milestone:** Phase 2 — Foundations
+> **Last updated:** 2026-09-01
 
-1. Overview
+---
 
-Here’s the rundown of the dataset we picked for the Precision-Driven Farming crop disease classification system. The aim is pretty clear: the AI model needs to tell if a crop leaf is healthy, diseased, or pest-damaged, just by looking at an image. That means we need labeled leaf images for all three categories.
+## 1. Overview
 
-Both focus crops—maize and tomato—come from one dataset:
+This document describes the dataset selected for the Precision-Driven Farming crop disease classification system. The AI model needs to identify whether a crop leaf is healthy, diseased, or pest-damaged from an image alone — so the dataset must contain labelled leaf images across those categories.
 
-Crop | Dataset | Source | Raw Images | Augmented Images | Classes
---- | --- | --- | --- | --- | ---
-Maize | CCMT | Mendeley / Kaggle | 5,289 | 24,551 | 7
-Tomato | CCMT | Mendeley / Kaggle | 5,435 | 27,178 | 5
+Both target crops (maize and tomato) are sourced from a single dataset:
 
-2. Dataset — CCMT (Cashew, Cassava, Maize, Tomato)
+| Crop | Dataset | Source | Raw Images | Augmented Images | Classes |
+|---|---|---|---|---|---|
+| Maize | CCMT | Mendeley / Kaggle | 5,289 | 24,551 | 7 |
+| Tomato | CCMT | Mendeley / Kaggle | 5,780 | 27,168 | 5 |
 
-2.1 Source & Citation
+---
 
-Full name: CCMT: Dataset for Crop Pest and Disease Detection  
-Authors: P.K. Mensah, V. Akoto-Adjepong, K. Adu et al.  
-Institution: University of Energy and Natural Resources, Sunyani, Ghana  
-Published: June 2023, Data in Brief (Elsevier)  
-DOI: 10.1016/j.dib.2023.109306  
-Mendeley DOI: 10.17632/bwh3zbpkpv.1  
-Kaggle mirror: ccmt-plant-disease-clean-verified  
-License: Free for research use
+## 2. Dataset — CCMT (Cashew, Cassava, Maize, Tomato)
 
-2.2 Why This Dataset
+### 2.1 Source & Citation
 
-- Validation by experts — plant virologists and pathologists labeled the images, and they met to clear up mislabels.
-- Detailed pest classes — you’re not getting all pest damage lumped into “other.” CCMT splits out fall armyworm, grasshopper, and leaf beetle individually, which really helps with pest ID.
-- Actual farm conditions — they used a Canon DSLR camera, snapped these on Ghanaian farms, and covered a range of lighting, backgrounds (plain, dark, bright, field), and angles.
-- Both maize and tomato are included, so image quality and labeling are consistent between crops.
-- The dataset’s published, peer-reviewed, and has a DOI—nice and legit for research or citation.
+- **Full name:** CCMT: Dataset for Crop Pest and Disease Detection
+- **Authors:** P.K. Mensah, V. Akoto-Adjepong, K. Adu et al.
+- **Institution:** University of Energy and Natural Resources, Sunyani, Ghana
+- **Published:** June 2023, Data in Brief (Elsevier)
+- **DOI:** 10.1016/j.dib.2023.109306
+- **Mendeley DOI:** 10.17632/bwh3zbpkpv.1
+- **Kaggle mirror:** `ccmt-plant-disease-clean-verified`
+- **License:** Freely available for research use
 
-2.3 Labeling Scheme
+### 2.2 Why This Dataset
 
-CCMT uses a folder-based system. Each class gets its own folder, and every image inside belongs to that class. No need for a separate annotation file—the folder name is the label.
+- Expert-validated: images were annotated by plant virologists and pathologists, with a consensus conference to eliminate mislabels
+- Pest-specific classes: unlike many crop disease datasets that lump all pests into one generic "pest damage" bucket, CCMT separates fall armyworm, grasshopper, and leaf beetle into distinct classes — critical for accurate pest identification
+- Real-world conditions: captured on local farms in Ghana using a Canon EOS Rebel T7 DSLR under varied lighting, backgrounds (white, dark, illuminated, real field), and angles
+- Both target crops (maize and tomato) are available in a single dataset, ensuring consistent image quality and labeling standards across crops
+- Published and peer-reviewed with a clear DOI for academic citation
 
-Maize Classes (7)
-Class | Category | Description
---- | --- | ---
-Fall armyworm | Pest | Caused by Spodoptera frugiperda larvae
-Grasshopper | Pest | Feeding damage from grasshoppers
-Healthy | Baseline | No visible disease or pest damage
-Leaf beetle | Pest | Injury from beetle species
-Leaf blight | Disease | Fungal, gives big lesions
-Leaf spot | Disease | Smaller spots, usually circular/oval, fungal
-Streak virus | Disease | Viral, causes yellow streaks along veins
+### 2.3 Labeling Scheme
 
-Tomato Classes (5)
-Class | Category | Description
---- | --- | ---
-Healthy | Baseline | No visible disease or pest damage
-Leaf blight | Disease | Fungal, brown/black lesions
-Leaf curl | Disease | Viral, leaves curl upward and yellow
-Septoria leaf spot | Disease | Fungal, small spots with dark borders
-Verticillium wilt | Disease | Fungal, causes yellowing and wilting
+The CCMT dataset uses a folder-based labeling scheme. Each class has its own subfolder, and every image inside that folder belongs to that class. No separate annotation file is needed — the folder name is the label.
 
-Folder Structure
+#### Maize Classes (7)
+
+| Class | Category | Description |
+|---|---|---|
+| Fall armyworm | Pest | Damage caused by Spodoptera frugiperda larvae |
+| Grasshopper | Pest | Feeding damage from grasshopper species |
+| Healthy | Baseline | No visible disease or pest damage |
+| Leaf beetle | Pest | Damage from leaf beetle species |
+| Leaf blight | Disease | Fungal infection causing large lesions |
+| Leaf spot | Disease | Smaller circular/oval fungal lesions |
+| Streak virus | Disease | Viral infection causing yellow streaks along leaf veins |
+
+> **Note:** The folder name in the dataset is spelled "grasshoper" (one p) — this is a typo in the source data, not a different class.
+
+#### Tomato Classes (5)
+
+| Class | Category | Description |
+|---|---|---|
+| Healthy | Baseline | No visible disease or pest damage |
+| Leaf blight | Disease | Fungal infection causing brown/black lesions |
+| Leaf curl | Disease | Viral infection causing upward curling and yellowing of leaves |
+| Septoria leaf spot | Disease | Fungal infection causing small circular spots with dark borders |
+| Verticillium wilt | Disease | Fungal infection causing yellowing, wilting, and vascular discolouration |
+
+> **Note:** The folder name in the dataset is spelled "verticulium wilt" (missing an l) — this is a typo in the source data.
+
+#### Folder Structure
+
+```
 data/
 ├── Raw Data/
 │   ├── Maize/
 │   │   ├── fall armyworm/
-│   │   ├── grasshopper/
+│   │   ├── grasshoper/
 │   │   ├── healthy/
 │   │   ├── leaf beetle/
 │   │   ├── leaf blight/
@@ -76,72 +88,123 @@ data/
 │       ├── leaf blight/
 │       ├── leaf curl/
 │       ├── septoria leaf spot/
-│       └── verticillium wilt/
+│       └── verticulium wilt/
 ├── Augmented Data/
 │   ├── Maize/
 │   │   └── (same 7 subfolders)
 │   └── Tomato/
 │       └── (same 5 subfolders)
+```
 
-3. Image Counts & Class Balance
+---
 
-3.1 Maize
+## 3. Image Counts & Class Balance
 
-Raw data (5,289 images):
+### 3.1 Maize
 
-Class | Images | % of Total
---- | --- | ---
-Leaf spot (largest) | 1,239 | 23.4%
-Healthy (smallest) | 204 | 3.9%
-Total | 5,289 | 100%
-Imbalance ratio | 6.1 | (largest ÷ smallest)
+**Raw data (5,289 images):**
 
-Augmented data (24,551 images):
+| Class | Images | % of Total |
+|---|---|---|
+| Leaf spot | 1,239 | 23.4% |
+| Leaf blight | 990 | 18.7% |
+| Streak virus | 965 | 18.2% |
+| Leaf beetle | 933 | 17.6% |
+| Grasshopper | 673 | 12.7% |
+| Fall armyworm | 285 | 5.4% |
+| Healthy | 204 | 3.9% |
+| **Total** | **5,289** | **100%** |
 
-Class | Images | % of Total
---- | --- | ---
-Streak virus (largest) | 5,047 | 20.6%
-Healthy (smallest) | 1,041 | 4.2%
-Total | 24,551 | 100%
-Imbalance ratio | 4.8 | (largest ÷ smallest)
+- **Imbalance ratio:** 6.1x (leaf spot ÷ healthy)
 
-3.2 Tomato
+**Augmented data (24,551 images):**
 
-Raw and augmented image counts per class aren’t settled yet—will be checked during EDA (see issue #24).
+| Class | Images | % of Total |
+|---|---|---|
+| Streak virus | 5,047 | 20.6% |
+| Leaf blight | 5,029 | 20.5% |
+| Leaf beetle | 4,739 | 19.3% |
+| Leaf spot | 4,285 | 17.5% |
+| Grasshopper | 2,986 | 12.2% |
+| Fall armyworm | 1,424 | 5.8% |
+| Healthy | 1,041 | 4.2% |
+| **Total** | **24,551** | **100%** |
 
-4. Augmentation
+- **Imbalance ratio:** 4.8x (streak virus ÷ healthy)
 
-The dataset team already boosted the data through augmentation (cropping and resizing):
+### 3.2 Tomato
 
-Crop | Raw → Augmented | Growth Factor
---- | --- | ---
-Maize | 5,289 → 24,551 | ~4.6x
-Tomato | 5,435 → 27,178 | ~5.0x
+**Raw data (5,780 images):**
 
-For maize, there’s still a notable class imbalance even after augmentation—the “healthy” group is just over 1,000 images, pretty small by comparison. Additional re-balancing is on the to-do list (class weighting or downsampling before training).
+| Class | Images | % of Total |
+|---|---|---|
+| Septoria leaf spot | 2,743 | 47.5% |
+| Leaf blight | 1,288 | 22.3% |
+| Verticillium wilt | 772 | 13.4% |
+| Leaf curl | 511 | 8.8% |
+| Healthy | 466 | 8.1% |
+| **Total** | **5,780** | **100%** |
 
-For tomato, class balance will be checked later during EDA.
+- **Imbalance ratio:** 5.9x (septoria leaf spot ÷ healthy)
 
-5. Scope & Limitations
+**Augmented data (27,168 images):**
 
-5.1 What’s Covered
+| Class | Images | % of Total |
+|---|---|---|
+| Septoria leaf spot | 11,713 | 43.1% |
+| Leaf blight | 6,509 | 24.0% |
+| Verticillium wilt | 3,864 | 14.2% |
+| Leaf curl | 2,582 | 9.5% |
+| Healthy | 2,500 | 9.2% |
+| **Total** | **27,168** | **100%** |
 
-- Disease detection: Several diseases covered for both crops, each with its own class.
-- Pest detection: Maize set includes three named pests (fall armyworm, grasshopper, leaf beetle), so you can actually identify pests.
-- Healthy baseline: Both crops have a “healthy” class for reference.
+- **Imbalance ratio:** 4.7x (septoria leaf spot ÷ healthy)
 
-5.2 Known Limitations
+---
 
-- No rodent damage data: There’s just no labeled image dataset for rodent damage out there, so we’re missing that. For now, rodent detection isn’t possible—maybe in a future version.
-- Maize class imbalance: Healthy maize leaves show up less often, both raw and augmented. We’ll have to actively balance this before training (class weighting, oversampling, or downsampling).
-- Tomato pests: The tomato images only categorize diseases, no pest-specific folders. So pest ID in tomato is limited to whatever looks visually distinct and doesn’t overlap with disease symptoms.
-- Geographic coverage: All images come from Ghana, not South Africa. Crop diseases tend to be similar across sub-Saharan Africa, but there can be local differences in how diseases show up.
+## 4. Augmentation
 
-6. Data Access
+The dataset authors already applied augmentation (cropping and resizing) to expand the raw images:
 
-Crop | Access | Size
---- | --- | ---
-Maize | Kaggle: ccmt-plant-disease-clean-verified → Raw Data/Maize and Augmented Data/Maize | Full CCMT (~1.22 GB raw, ~6.81 GB augmented)
-Tomato | Kaggle: ccmt-plant-disease-clean-verified → Raw Data/Tomato and Augmented Data/Tomato | Same download
+| Crop | Raw → Augmented | Growth Factor |
+|---|---|---|
+| Maize | 5,289 → 24,551 | ~4.6x |
+| Tomato | 5,780 → 27,168 | ~4.7x |
 
-Note: The CCMT dataset actually includes four crops. For this project, we’re only pulling Maize and Tomato out of the set.
+For both crops, augmentation reduced the imbalance ratio but did not eliminate it:
+
+| Crop | Raw Imbalance | Augmented Imbalance | Smallest Class (Augmented) |
+|---|---|---|---|
+| Maize | 6.1x | 4.8x | Healthy (1,041) |
+| Tomato | 5.9x | 4.7x | Healthy (2,500) |
+
+In both cases, the "healthy" class remains the smallest. Additional balancing strategies will be needed before model training (see Recommendations in the EDA write-up, issue #24).
+
+---
+
+## 5. Scope & Limitations
+
+### 5.1 What the Dataset Covers
+
+- **Disease detection:** Both crops cover multiple disease types with clearly separated classes
+- **Pest detection:** The maize subset includes three named insect pest classes (fall armyworm, grasshopper, leaf beetle), providing real pest identification capability
+- **Healthy baseline:** Both crops include a "healthy" class for comparison
+
+### 5.2 Known Limitations
+
+- **No rodent damage data:** No publicly available, pre-labelled image dataset exists for rodent or animal damage to crops. This is a genuine gap in available agricultural datasets. Rodent damage detection is not feasible for version 1 and is noted as a future improvement
+- **Class imbalance in both crops:** The healthy class is underrepresented in both maize and tomato. Septoria leaf spot dominates the tomato dataset at nearly half the images. Mitigation strategies (class weighting, oversampling, or downsampling) must be applied before training
+- **Tomato pest coverage:** The tomato subset contains only disease classes and no pest-specific classes, unlike maize. Pest detection for tomato is limited to visual symptoms that overlap with disease presentations
+- **Geographic origin:** Images were sourced from farms in Ghana, not South Africa. While crop diseases are broadly similar across sub-Saharan Africa, some region-specific disease presentations may differ
+- **Folder name typos:** Two folders contain spelling errors ("grasshoper", "verticulium wilt"). Code referencing these folders must use the misspelled names
+
+---
+
+## 6. Data Access
+
+| Crop | Access Method | Size |
+|---|---|---|
+| Maize | Kaggle: `ccmt-plant-disease-clean-verified` → `Raw Data/Maize` and `Augmented Data/Maize` | Part of full CCMT (~1.22 GB raw, ~6.81 GB augmented) |
+| Tomato | Kaggle: `ccmt-plant-disease-clean-verified` → `Raw Data/Tomato` and `Augmented Data/Tomato` | Part of full CCMT (same download) |
+
+**Note:** The CCMT dataset contains all four crops (Cashew, Cassava, Maize, Tomato). Only the Maize and Tomato subfolders are used for this project.
