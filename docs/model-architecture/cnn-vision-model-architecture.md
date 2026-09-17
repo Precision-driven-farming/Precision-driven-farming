@@ -8,8 +8,8 @@ The system uses computer vision to analyse crop leaf images and classify visible
 
 The model is intended to support two deployment environments:
 
-* Agricultural drones
-* Fixed cameras positioned around crop fields
+- Agricultural drones
+- Fixed cameras positioned around crop fields
 
 The AI system is designed as a decision-support tool. A farmer must review the prediction before any pesticide treatment is applied.
 
@@ -59,10 +59,11 @@ The dataset contains class imbalance. Therefore, class weighting and/or controll
 
 The dataset also contains folder-name spelling inconsistencies such as:
 
-* `grasshoper` instead of `grasshopper`
-* `verticulium wilt` instead of `verticillium wilt`
+- `grasshoper` instead of `grasshopper`
+- `verticulium wilt` instead of `verticillium wilt`
 
 These names will be standardised during preprocessing without changing the underlying image data.
+"The folder names themselves will not be changed (code will load images using the original, misspelled folder names: grasshoper, verticulium wilt). Only the class label used in model output and display will use the corrected spelling."
 
 ---
 
@@ -94,11 +95,11 @@ Images will be checked before entering the training pipeline.
 
 The validation process should identify:
 
-* Corrupted image files
-* Unsupported image formats
-* Images with missing data
-* Incorrect image dimensions
-* Duplicate or unusable images where possible
+- Corrupted image files
+- Unsupported image formats
+- Images with missing data
+- Incorrect image dimensions
+- Duplicate or unusable images where possible
 
 ### 4.2 Image resizing
 
@@ -122,12 +123,12 @@ Blue
 
 Training images may be augmented using controlled transformations such as:
 
-* Horizontal flipping
-* Small rotations
-* Cropping
-* Scaling
-* Brightness changes
-* Contrast changes
+- Horizontal flipping
+- Small rotations
+- Cropping
+- Scaling
+- Brightness changes
+- Contrast changes
 
 Augmentation will only be applied to the training data.
 
@@ -242,13 +243,13 @@ The backbone contains convolutional operations and lightweight building blocks t
 
 These patterns may include:
 
-* Leaf edges
-* Spots
-* Discolouration
-* Lesions
-* Texture
-* Pest damage
-* Shape patterns
+- Leaf edges
+- Spots
+- Discolouration
+- Lesions
+- Texture
+- Pest damage
+- Shape patterns
 
 ### 7.3 Global Average Pooling
 
@@ -294,176 +295,7 @@ The confidence value will be shown to the user as part of the AI result.
 
 ---
 
-## 8. Training Strategy
-
-The model will use supervised learning.
-
-The dataset will be divided into:
-
-```text
-Training set
-Validation set
-Test set
-```
-
-The training set will be used to learn model parameters.
-
-The validation set will be used during development to monitor model performance and tune parameters.
-
-The test set will be kept separate for final evaluation.
-
-The exact split ratio will be documented when the dataset preparation is implemented.
-
-### Transfer learning
-
-The initial model will use pre-trained MobileNetV3 weights.
-
-The training process may occur in two stages:
-
-```text
-Stage 1
-Freeze most backbone layers
-        ↓
-Train classification head
-
-Stage 2
-Unfreeze selected backbone layers
-        ↓
-Fine-tune with a smaller learning rate
-```
-
-This approach allows the model to adapt the pre-trained visual features to maize and tomato disease classification.
-
----
-
-## 9. Class Imbalance Handling
-
-The dataset contains unequal numbers of images for different classes.
-
-This creates a risk that the model may perform well on common classes while performing poorly on classes with fewer training examples.
-
-Possible techniques include:
-
-* Class-weighted loss
-* Controlled sampling
-* Training augmentation
-* Monitoring per-class performance
-
-The selected approach will be tested during model development.
-
-Accuracy alone will not be used to determine whether the model performs adequately because it can hide poor performance on minority classes.
-
----
-
-## 10. Evaluation Metrics
-
-The model will be evaluated using multiple metrics.
-
-### Accuracy
-
-Measures the percentage of predictions that are correct.
-
-### Precision
-
-Measures how many predictions for a class were actually correct.
-
-### Recall
-
-Measures how many actual examples of a class were correctly identified.
-
-### F1-score
-
-Combines precision and recall into a single metric.
-
-### Confusion matrix
-
-A confusion matrix will be used to identify which classes the model confuses with one another.
-
-For example:
-
-```text
-Leaf spot ↔ Leaf blight
-Healthy ↔ Disease
-Fall armyworm ↔ Leaf beetle
-```
-
-The model will also report confidence scores.
-
-Performance should be reviewed per class rather than relying only on overall accuracy.
-
----
-
-## 11. Inference Pipeline
-
-After training, the model will be used to classify new images.
-
-The inference process is:
-
-```text
-Camera / Drone Image
-        ↓
-Image Validation
-        ↓
-Resize to 224 × 224
-        ↓
-Normalisation
-        ↓
-MobileNetV3 Model
-        ↓
-12-class Prediction
-        ↓
-Confidence Score
-        ↓
-Result
-```
-
-Example result:
-
-```text
-Crop: Maize
-Prediction: Leaf spot
-Confidence: 91%
-```
-
-The result can then be passed to the wider precision-farming system.
-
----
-
-## 12. Computer Vision and Precision Agriculture Pipeline
-
-The classification model is only one component of the complete system.
-
-The wider system is proposed as:
-
-```text
-Camera / Drone Image
-        ↓
-Computer Vision Preprocessing
-        ↓
-Leaf Detection / Extraction
-        ↓
-MobileNetV3 Classifier
-        ↓
-Disease / Pest / Healthy Prediction
-        ↓
-Confidence Score
-        ↓
-GPS + Location Data
-        ↓
-Severity / Affected-Area Logic
-        ↓
-Precision Treatment Map
-```
-
-The CNN classifier identifies the crop condition from the image.
-
-GPS information is handled by the wider system and is not generated by the CNN itself.
-
-The spraying or treatment map will combine AI predictions with location information and affected-area information.
-
----
-
-## 13. Confidence and Human Verification
+## 8. Confidence and Human Verification
 
 The AI system will provide a confidence score with each prediction.
 
@@ -491,16 +323,16 @@ The farmer remains responsible for reviewing the result before treatment.
 
 ---
 
-## 14. Edge Deployment
+## 9. Edge Deployment
 
 The model is being designed with future edge deployment in mind.
 
 Potential deployment environments include:
 
-* Agricultural drones
-* Fixed cameras
-* Field computers
-* Edge devices
+- Agricultural drones
+- Fixed cameras
+- Field computers
+- Edge devices
 
 MobileNetV3 is considered because its lightweight architecture can reduce computational requirements compared with larger CNN models.
 
@@ -508,7 +340,7 @@ However, actual deployment performance will depend on the selected hardware, cam
 
 ---
 
-## 15. Risks and Trade-offs
+## 10. Risks and Trade-offs
 
 ### Accuracy versus speed
 
@@ -522,12 +354,12 @@ The dataset originates from Ghana and may not represent every agricultural envir
 
 Differences in:
 
-* Climate
-* Soil
-* Crop variety
-* Lighting
-* Camera type
-* Disease development stage
+- Climate
+- Soil
+- Crop variety
+- Lighting
+- Camera type
+- Disease development stage
 
 may affect model performance.
 
@@ -545,7 +377,7 @@ For this reason, confidence scores and farmer verification are important parts o
 
 ---
 
-## 16. Relationship to the Business and AI System
+## 11. Relationship to the Business and AI System
 
 The CNN model supports the business requirement of helping farmers identify crop-health problems faster.
 
@@ -569,38 +401,38 @@ Decision support
 
 The AI output can later be used to support:
 
-* Crop-health monitoring
-* Historical comparisons
-* Disease hotspot identification
-* Precision treatment planning
-* Reduction of unnecessary blanket spraying
+- Crop-health monitoring
+- Historical comparisons
+- Disease hotspot identification
+- Precision treatment planning
+- Reduction of unnecessary blanket spraying
 
 The system is therefore intended to support the farmer's decision-making process rather than replace it.
 
 ---
 
-## 17. Future Improvements
+## 12. Future Improvements
 
 Future versions of the system may include:
 
-* Larger and more geographically diverse datasets
-* Additional crop types
-* Additional diseases
-* Additional pest classes
-* Object detection for locating individual leaves
-* Disease severity estimation
-* Image segmentation for affected-area measurement
-* GPS-based disease hotspot mapping
-* Automated historical crop-health comparison
-* Model quantisation
-* Edge-device optimisation
-* Continuous model retraining with verified field data
+- Larger and more geographically diverse datasets
+- Additional crop types
+- Additional diseases
+- Additional pest classes
+- Object detection for locating individual leaves
+- Disease severity estimation
+- Image segmentation for affected-area measurement
+- GPS-based disease hotspot mapping
+- Automated historical crop-health comparison
+- Model quantisation
+- Edge-device optimisation
+- Continuous model retraining with verified field data
 
 A future version could combine classification, object detection and segmentation to provide more detailed information about where disease occurs within a field.
 
 ---
 
-## 18. Conclusion
+## 13. Conclusion
 
 The proposed computer vision solution uses MobileNetV3-Large as the primary CNN architecture for classifying maize and tomato crop conditions.
 
@@ -609,3 +441,5 @@ The model receives 224 × 224 RGB images and produces predictions across 12 clas
 The architecture is designed to balance classification performance with computational efficiency so that future deployment on agricultural drones or field-based edge devices can be considered.
 
 The CNN model forms the computer-vision component of the wider Precision-Driven Farming system. Its predictions can be combined with GPS, affected-area analysis and farmer verification to support precision agriculture and treatment planning.
+
+--
