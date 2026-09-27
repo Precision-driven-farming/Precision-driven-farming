@@ -108,22 +108,23 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 # maize or tomato plant was scanned. Worth flagging in the report as a
 # labelling ambiguity to clarify with Member 5, even though this script
 # follows the spec exactly as given.
-RAW_TO_LABEL = {
+RAW_TO_LABEL: Dict[str, str] = {
     # --- Maize (7 classes) ---
-    "Fall_Armyworm":       "Fall armyworm",
-    "Grasshoper":          "Grasshopper",   # misspelled on disk (missing "p")
-    "Healthy_Maize":       "Healthy",
-    "Leaf_Beetle":         "Leaf beetle",
-    "Leaf_Bligth_Maize":   "Leaf blight",   # misspelled on disk (swapped "th")
-    "Leaf_Spot_Maize":     "Leaf spot",
-    "Steak_Virus":         "Streak virus",  # misspelled on disk (missing "r")
+      "fall armyworm": "Fall armyworm",
+    "grasshoper": "Grasshopper",        # documented typo — keep as-is 
+    "healthy": "Healthy",
+    "leaf beetle": "Leaf beetle",
+    "leaf blight": "Leaf blight",
+    "leaf spot": "Leaf spot",
+    "streak virus": "Streak virus",
+
 
     # --- Tomato (5 classes) ---
-    "Healthy_Tomato":      "Healthy",
-    "Leaf_Bligth_Tomato":  "Leaf blight",   # misspelled on disk (swapped "th")
-    "Leaf_Curl":           "Leaf curl",
-    "Septoria_Leaf_Spot":  "Septoria leaf spot",
-    "Verticillum_Wilt":    "Verticillium wilt",  # misspelled on disk (missing "i")
+       "leaf curl": "Leaf curl",
+    "septoria leaf spot": "Septoria leaf spot",
+    "verticulium wilt": "Verticillium wilt",   # documented typo — keep as-is 
+    # "healthy" and "leaf blight" folder names reused for tomato — same
+
 }
 
 RAW_FOLDER_NAMES = list(RAW_TO_LABEL.keys())      # 12 raw (possibly misspelled) folder names
@@ -172,7 +173,7 @@ class LeafDiseaseDataset(Dataset):
     """
     Expects a list of (image_path, class_index) pairs, already resolved from
     the (possibly misspelled) raw folder names to the 12 corrected class
-    indices via RAW_TO_LABEL / RAW_FOLDER_NAMES above.
+    indices via RAW_TO_LABEL above.
     """
 
     def __init__(self, samples, train: bool):
