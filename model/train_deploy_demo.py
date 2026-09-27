@@ -50,6 +50,7 @@ import os
 import random
 import shutil
 from pathlib import Path
+from typing import Dict, List
 
 import cv2
 import numpy as np
@@ -75,13 +76,20 @@ NUM_CLASSES = 12
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Set this to the real raw dataset folder when available. Structure expected:
-#   DATASET_ROOT/<raw_folder_name>/<image files>
-# where <raw_folder_name> is one of the keys in RAW_TO_LABEL below.
+#DATASET_ROOT/<crop>/<raw_folder_name>/<image files>#
+#where <raw_folder_name> is one of the keys in RAW_TO_LABEL below.
 DATASET_ROOT = "./data/raw"
 
 # Flip to False once the real dataset is in place at DATASET_ROOT.
 USE_DUMMY_DATA = True
 DUMMY_IMAGES_PER_CLASS = 6  # kept tiny -- this is only to prove the pipeline runs
+
+# Confidence threshold for the human-verification fallback (Part B).
+# Below this, the system flags the result for farmer review instead of
+# treating the prediction as final. This value is a starting point —
+# the report should note it will be tuned experimentally once real
+# validation data is available.
+CONFIDENCE_THRESHOLD = 70.0  # percent
 
 # ImageNet normalisation stats -- required because the backbone is
 # ImageNet-pretrained, so inputs must be normalised the same way the
@@ -92,44 +100,73 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 # ==============================================================================
 # 1. CLASS DEFINITIONS + MISSPELLED FOLDER-NAME MAPPING
 # ==============================================================================
-# The raw dataset ships with a handful of misspelled folder names (a common
-# reality with publicly-scraped agricultural datasets). We map every raw
-# folder name to its corrected, human-readable display label here, so the
-# rest of the pipeline -- and the printed inference output Member 7 needs --
-# always shows the clean label regardless of what the folder on disk is
-# actually called. Dict insertion order is preserved in Python 3.7+, so this
-# also fixes the class-index <-> label ordering used everywhere below.
-#
-# NOTE / CAVEAT worth raising with the team: per the confirmed architecture,
-# "Healthy" and "Leaf blight" are each used as a class name under BOTH crops.
-# Internally every one of the 12 raw folders still gets its own distinct
-# class index (so the model itself is unaffected), but a farmer-facing
-# display showing only "Healthy: 91%" cannot on its own tell you whether a
-# maize or tomato plant was scanned. Worth flagging in the report as a
-# labelling ambiguity to clarify with Member 5, even though this script
-# follows the spec exactly as given.
+# Maps each raw (possibly misspelled) folder name to its corrected base label.
+# Note: "healthy" and "leaf blight" folders exist under BOTH crops on disk,
+# so this dict alone is not enough to produce 12 distinct classes -- the
+# crop folder (Maize/Tomato) must also be used. See CLASS_NAMES below.
 RAW_TO_LABEL: Dict[str, str] = {
-    # --- Maize (7 classes) ---
-      "fall armyworm": "Fall armyworm",
-    "grasshoper": "Grasshopper",        # documented typo — keep as-is 
+    # --- Maize (7 raw folder names) ---
+    "fall armyworm": "Fall armyworm",
+    "grasshoper": "Grasshopper",        # documented typo — keep as-is
     "healthy": "Healthy",
     "leaf beetle": "Leaf beetle",
     "leaf blight": "Leaf blight",
     "leaf spot": "Leaf spot",
     "streak virus": "Streak virus",
-
-
-    # --- Tomato (5 classes) ---
-       "leaf curl": "Leaf curl",
+    # --- Tomato (5 raw folder names) ---
+    "leaf curl": "Leaf curl",
     "septoria leaf spot": "Septoria leaf spot",
-    "verticulium wilt": "Verticillium wilt",   # documented typo — keep as-is 
-    # "healthy" and "leaf blight" folder names reused for tomato — same
-
+    "verticulium wilt": "Verticillium wilt",   # documented typo — keep as-is
+    # "healthy" and "leaf blight" keys above are reused for tomato folders too.
 }
 
-RAW_FOLDER_NAMES = list(RAW_TO_LABEL.keys())      # 12 raw (possibly misspelled) folder names
-CLASS_NAMES = list(RAW_TO_LABEL.values())          # 12 corrected display labels, same order
-assert len(RAW_FOLDER_NAMES) == NUM_CLASSES == len(CLASS_NAMES)
+# The dataset is nested by crop: DATASET_ROOT/<crop>/<raw_folder_name>/*.jpg
+CROP_FOLDERS = ["Maize", "Tomato"]
+
+# Folder names that exist under BOTH crops and need crop disambiguation
+# to produce distinct class indices.
+SHARED_LABELS = {"Healthy", "Leaf blight"}
+
+
+def resolve_label(crop: str, raw_folder_name: str) -> str:
+    """
+    Maps a (crop, raw_folder_name) pair to one of the 12 official class
+    names. Disambiguates "Healthy" and "Leaf blight" per crop, since those
+    folder names appear under both Maize and Tomato on disk.
+    """
+    base_label = RAW_TO_LABEL.get(raw_folder_name)
+    if base_label is None:
+        raise ValueError(
+            f"Unrecognised folder name '{raw_folder_name}' under crop '{crop}'. "
+            f"Add it to RAW_TO_LABEL."
+        )
+    if base_label in SHARED_LABELS:
+        return f"{base_label} ({crop})"
+    return base_label
+
+
+# The 12 official classes, in a fixed order, so class index <-> label is
+# stable across training, saving, and inference.
+CLASS_NAMES: List[str] = [
+    # Maize (7)
+    "Fall armyworm", "Grasshopper", "Healthy (Maize)", "Leaf beetle",
+    "Leaf blight (Maize)", "Leaf spot", "Streak virus",
+    # Tomato (5)
+    "Healthy (Tomato)", "Leaf blight (Tomato)", "Leaf curl",
+    "Septoria leaf spot", "Verticillium wilt",
+]
+NUM_CLASSES = len(CLASS_NAMES)
+assert NUM_CLASSES == 12
+
+
+def display_label(class_name: str) -> str:
+    """Strip the crop-disambiguation suffix for the farmer-facing output
+    string (e.g. 'Healthy (Maize)' -> 'Healthy'), matching the exact
+    output format Member 7 needs: '<label>: <confidence>%'."""
+    return class_name.split(" (")[0]
+
+
+
 
 # ==============================================================================
 # 2. PREPROCESSING (OpenCV + torchvision), in the specified order:
@@ -192,23 +229,31 @@ class LeafDiseaseDataset(Dataset):
 
 def build_sample_list(dataset_root: str):
     """
-    Walks dataset_root, matching each subfolder against RAW_FOLDER_NAMES
-    (handling the known misspellings), and returns a flat list of
-    (image_path, class_index) pairs.
+    Walks dataset_root/<crop>/<raw_folder_name>/*.jpg, resolving each
+    (crop, raw_folder_name) pair to one of the 12 official class indices
+    via resolve_label(). Handles the two documented folder-name typos
+    automatically since RAW_TO_LABEL maps them directly.
     """
     samples = []
     root = Path(dataset_root)
-    for raw_name in RAW_FOLDER_NAMES:
-        class_idx = RAW_FOLDER_NAMES.index(raw_name)
-        folder = root / raw_name
-        if not folder.exists():
-            print(f"[warn] expected folder not found, skipping: {folder}")
+    for crop in CROP_FOLDERS:
+        crop_dir = root / crop
+        if not crop_dir.exists():
+            print(f"[warn] expected crop folder not found, skipping: {crop_dir}")
             continue
-        for img_path in folder.glob("*"):
-            if img_path.suffix.lower() in (".jpg", ".jpeg", ".png"):
-                samples.append((str(img_path), class_idx))
+        for raw_folder in crop_dir.iterdir():
+            if not raw_folder.is_dir():
+                continue
+            try:
+                label = resolve_label(crop, raw_folder.name)
+            except ValueError as e:
+                print(f"[warn] {e}")
+                continue
+            class_idx = CLASS_NAMES.index(label)
+            for img_path in raw_folder.glob("*"):
+                if img_path.suffix.lower() in (".jpg", ".jpeg", ".png"):
+                    samples.append((str(img_path), class_idx))
     return samples
-
 
 # ==============================================================================
 # 3. MODEL: MobileNetV3-Large backbone + custom head
@@ -357,51 +402,110 @@ def train_model(model, train_loader, val_loader, class_weights,
 # ==============================================================================
 
 def predict_image(model, image_path: str):
+    """
+    Runs inference on a single image and applies the confidence-threshold
+    fallback described in Part B: predictions below CONFIDENCE_THRESHOLD
+    are flagged for human verification rather than treated as final,
+    per Team 1's requirement that farmers must review results before
+    any spraying decision is made.
+    """
     model.eval()
-    img = load_and_preprocess_cv2(image_path)          # validate -> resize -> RGB
-    tensor = eval_transform(img).unsqueeze(0).to(DEVICE)  # normalize -> tensor, add batch dim
+    img = load_and_preprocess_cv2(image_path)
+    tensor = eval_transform(img).unsqueeze(0).to(DEVICE)
 
     with torch.no_grad():
         logits = model(tensor)
-        probs = torch.softmax(logits, dim=1)            # softmax applied here, at inference
+        probs = torch.softmax(logits, dim=1)
         confidence, pred_idx = torch.max(probs, dim=1)
 
-    label = CLASS_NAMES[pred_idx.item()]
+    label = display_label(CLASS_NAMES[pred_idx.item()])
     confidence_pct = confidence.item() * 100
+    needs_verification = confidence_pct < CONFIDENCE_THRESHOLD
 
     # Exact output format required for Member 7's accuracy-metrics section
     print(f"{label}: {confidence_pct:.0f}%")
-    return label, confidence_pct
+    if needs_verification:
+        print(f"  [LOW CONFIDENCE — below {CONFIDENCE_THRESHOLD:.0f}% threshold] "
+              f"Flagging for farmer verification before any spraying action.")
 
+    return label, confidence_pct, needs_verification
+ 
+def evaluate_test_set(model, test_loader):
+    """
+    Runs the model over the full test set and returns (true_labels,
+    predicted_labels) as flat lists of class indices — the exact inputs
+    Member 7 needs for sklearn's confusion_matrix / classification_report.
 
+    IMPORTANT for Member 7: these are indices into the 12-entry CLASS_NAMES
+    list (with crop disambiguation, e.g. "Healthy (Maize)" vs
+    "Healthy (Tomato)"), NOT the collapsed display strings used in the
+    printed inference output. Build your confusion matrix using CLASS_NAMES
+    as the axis labels, not display_label(CLASS_NAMES[i]) — otherwise a
+    maize-Healthy sample misclassified as tomato-Healthy would look like a
+    correct prediction instead of an error.
+    """
+    model.eval()
+    true_labels, pred_labels = [], []
+    with torch.no_grad():
+        for images, labels in test_loader:
+            images = images.to(DEVICE)
+            logits = model(images)
+            preds = logits.argmax(dim=1)
+            true_labels.extend(labels.tolist())
+            pred_labels.extend(preds.cpu().tolist())
+    return true_labels, pred_labels
+ 
+
+def export_for_deployment(model, export_path: str = "leaf_classifier.pt"):
+    """
+    Exports the trained model to TorchScript for edge deployment on
+    drone/pole hardware, per Part B.
+
+    TorchScript is chosen over ONNX here because the deployment target is
+    still Python/PyTorch-based (drone companion computer or a field laptop
+    running the same stack used for training), so no cross-framework
+    conversion is needed. If a future deployment target requires a
+    non-PyTorch runtime (e.g. a microcontroller or a mobile app using
+    TensorFlow Lite), ONNX export would need to be added instead — this
+    is noted as a Future Improvement, not a current requirement.
+    """
+    model.eval()
+    example_input = torch.rand(1, 3, IMG_SIZE, IMG_SIZE).to(DEVICE)
+    traced_model = torch.jit.trace(model, example_input)
+    traced_model.save(export_path)
+    print(f"[export] Model exported for deployment -> {export_path}")
+    return export_path
+ 
 # ==============================================================================
 # 6. DUMMY DATA GENERATOR (demo-only — replaced by real dataset when available)
 # ==============================================================================
 
 def generate_dummy_dataset(root: str, images_per_class: int = DUMMY_IMAGES_PER_CLASS):
     """
-    Creates synthetic random-noise images under the SAME misspelled folder
-    names the real dataset uses, purely so the pipeline above can be
-    exercised end-to-end without the real dataset present. This produces
-    meaningless images -- accuracy numbers from this run are NOT real
-    results and must not be reported as such; they only demonstrate that
-    the code runs without errors.
+    Creates synthetic random-noise images under DATASET_ROOT/<crop>/<raw_folder_name>/,
+    matching the real dataset's nested structure, purely so the pipeline can be
+    exercised end-to-end without the real dataset present.
     """
     root_path = Path(root)
     if root_path.exists():
         shutil.rmtree(root_path)
     root_path.mkdir(parents=True)
 
-    for raw_name in RAW_FOLDER_NAMES:
-        class_dir = root_path / raw_name
-        class_dir.mkdir(parents=True)
-        for i in range(images_per_class):
-            noise = np.random.randint(0, 255, (IMG_SIZE, IMG_SIZE, 3), dtype=np.uint8)
-            Image.fromarray(noise).save(class_dir / f"dummy_{i}.jpg")
+    maize_folders = ["fall armyworm", "grasshoper", "healthy", "leaf beetle",
+                      "leaf blight", "leaf spot", "streak virus"]
+    tomato_folders = ["healthy", "leaf blight", "leaf curl",
+                       "septoria leaf spot", "verticulium wilt"]
 
-    print(f"[dummy data] Generated {images_per_class} synthetic images "
-          f"for each of {len(RAW_FOLDER_NAMES)} classes under {root}")
+    for crop, folders in [("Maize", maize_folders), ("Tomato", tomato_folders)]:
+        for raw_name in folders:
+            class_dir = root_path / crop / raw_name
+            class_dir.mkdir(parents=True)
+            for i in range(images_per_class):
+                noise = np.random.randint(0, 255, (IMG_SIZE, IMG_SIZE, 3), dtype=np.uint8)
+                Image.fromarray(noise).save(class_dir / f"dummy_{i}.jpg")
 
+    print(f"[dummy data] Generated {images_per_class} synthetic images per class "
+          f"across {len(maize_folders)} maize + {len(tomato_folders)} tomato classes under {root}")
 
 # ==============================================================================
 # MAIN
@@ -456,4 +560,20 @@ if __name__ == "__main__":
     # ---- Sample inference on one image (Part C requirement for Member 7) ----
     print("\n[Inference demo] Running prediction on one sample image...")
     sample_image_path = test_samples[0][0]
-    predict_image(model, sample_image_path)
+ 
+    # ---- Full test-set evaluation, for Member 7's accuracy-metrics section ----
+    test_ds = LeafDiseaseDataset(test_samples, train=False)
+    test_loader = DataLoader(test_ds, batch_size=4, shuffle=False)
+
+    print("\n[Evaluation] Running full test-set evaluation for Member 7...")
+    true_labels, pred_labels = evaluate_test_set(model, test_loader)
+    print(f"Evaluated {len(true_labels)} test samples.")
+    print("Pass `true_labels`, `pred_labels`, and `CLASS_NAMES` to Member 7 "
+          "for confusion_matrix / classification_report.")
+
+    print(f"Evaluated {len(true_labels)} test samples.")
+    print("Pass `true_labels`, `pred_labels`, and `CLASS_NAMES` to Member 7 "
+          "for confusion_matrix / classification_report.")
+
+    # ---- Export trained model for deployment (Part B) ----
+    export_for_deployment(model)
