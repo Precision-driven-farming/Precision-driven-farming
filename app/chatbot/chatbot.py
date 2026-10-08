@@ -1,50 +1,115 @@
 """
-Member 8 - Farmer Chatbot - Reads Member 9 spraying_map.json
+Member 8 - Farmer Chatbot 
+Integrates Member 9 spraying_pipeline.py
 """
-from nlp_parser import predict_intent, get_response_for_intent
-import json
 import os
+import sys
+import json
 
-# Load spraying map from Member 9
-def load_spraying_map():
-    map_path = "../spraying_pipeline/spraying_map"
-    # Placeholder for now until Member 9 finalizes real file
+# Load Member 9 map
+def load_member9_map():
+    map_path = os.path.join(os.path.dirname(__file__), "..", "spraying_pipeline", "spraying_map.json")
+    map_path = os.path.abspath(map_path)
     if not os.path.exists(map_path):
-        return {
-            "Zone1": {"status": "healthy", "confidence": 95, "action": "don't spray"},
-            "Zone2": {"status": "rust 78%", "confidence": 78, "action": "verify first"},
-            "Zone3": {"status": "low 45%", "confidence": 45, "action": "monitor"},
-            "generated_by": "Member 9 spraying_pipeline.py"
-        }
+        return {"Zone2": "78% rust - verify first [PLACEHOLDER until Member 9 real]"}
     with open(map_path) as f:
         return json.load(f)
 
-spraying_map = load_spraying_map()
+spraying_map = load_member9_map()
 
-def chatbot_answer(farmer_question):
-    intent, confidence = predict_intent(farmer_question)
-    base_response = get_response_for_intent(intent)
+class FarmerChatbot:
 
-    # Integration with Member 9 - if question about spray, add map
-    extra_info = ""
-    if intent in ["spraying_zone", "zone_details", "severity_score"]:
-        extra_info = f" | Current Map: {spraying_map} |"
+    def __init__(self):
+        self.nlp = FarmerNLP()
+        self.map = spraying_map  # Integration with Member 9
 
-    # SAFETY LAYER 
-    safety_message = " [SAFETY: This is READ-ONLY decision-support. Please verify in field. Farmer is final decision maker. No auto-spray.]"
+    def safety_check(self, intent, cv_confidence=None):
+        """
+        Member 8 Safety Gate - Prevents automatic spraying decision
+        Farmer must verify - READ-ONLY system
+        """
+        if intent == "verify_spray_decision":
+            return True
+        if intent == "show_spray_map":
+            return True  # Even showing map needs verification before action
+        if cv_confidence is not None and cv_confidence < 0.70:
+            return True
+        return True  # Default: Always require verification for safety
 
-    final_output = {
-        "farmer_question": farmer_question,
-        "predicted_intent": intent,
-        "intent_confidence": round(confidence*100, 2),
-        "response": base_response + extra_info + safety_message,
-        "source": "Member 9 spraying_pipeline.py -> Member 8 chatbot",
-        "action": "READ_ONLY - requires farmer verification gate",
-        "transparency": f"Model confidence {confidence*100:.1f}% from leaf_classifier.pt"
-    }
+    def respond(self, message, cv_confidence=None):
 
-    return json.dumps(final_output, indent=2)
+        result = self.nlp.classify(message)
+        intent = result["intent"]
+        nlp_confidence = result["confidence"]
 
-# Example
-print(chatbot_answer("where to spray?"))
-print(chatbot_answer("should I spray now?"))
+        requires_verification = self.safety_check(intent, cv_confidence)
+
+        if intent == "crop_health_status":
+            response = (
+                f"I can show the latest crop health results from Member 9 map: {self.map}. "
+                f"Detected diseases, affected areas and confidence scores. Current map shows Zone2 78% rust."
+            )
+        elif intent == "disease_information":
+            response = (
+                "The system can provide the disease detected "
+                "by the computer vision model (Member 6 leaf_classifier.pt) together with "
+                f"its confidence score. Map: {self.map}"
+            )
+        elif intent == "show_confidence":
+            response = (
+                "The AI confidence score refers to how confident "
+                "the computer vision model is in its prediction. I always show it for transparency."
+            )
+        elif intent == "show_spray_map":
+            response = (
+                f"I can display the precision spraying map from Member 9: {self.map} "
+                f"showing the areas identified for possible treatment. PLEASE VERIFY IN FIELD."
+            )
+        elif intent == "historical_results":
+            response = "I can display previous disease detection results for comparison."
+        elif intent == "health_trend":
+            response = "I can compare disease detection results over time to show increase/decrease."
+        elif intent == "disease_location":
+            response = f"I can show GPS locations from Member 9 map: {self.map} where disease was detected."
+        elif intent == "explain_alert":
+            response = "This area was flagged because CV model detected features of possible crop disease. Confidence shown in map."
+        elif intent == "verify_spray_decision":
+            response = (
+                "The AI recommendation must be reviewed and "
+                "verified by the farmer before spraying. "
+                "The chatbot does not automatically authorise spraying. READ-ONLY."
+            )
+        else:
+            response = (
+                "I could not understand. "
+                "Please ask about crop health, disease detection, "
+                "confidence, spraying maps or historical results."
+            )
+
+        # FINAL SAFETY FOOTER 
+        safety_footer = " [SAFETY: READ-ONLY, requires farmer verification, no auto-spray. Source: Member 9 -> Member 8]"
+
+        return {
+            "member": "Member 8 - Luyanda",
+            "message": message,
+            "intent": intent,
+            "nlp_confidence": nlp_confidence,
+            "response": response + safety_footer,
+            "requires_verification": requires_verification,
+            "spraying_map_source": "Member 9 spraying_pipeline.py",
+            "action": "READ_ONLY"
+        }
+
+if __name__ == "__main__":
+    chatbot = FarmerChatbot()
+    print("Precision-Driven-Farming Farmer Chatbot - Member 8")
+    print("Type 'exit' to stop.")
+    while True:
+        user_message = input("Farmer: ")
+        if user_message.lower() == "exit":
+            break
+        result = chatbot.respond(user_message, cv_confidence=0.78)
+        print("Chatbot:", result["response"])
+        print("Intent:", result["intent"])
+        print("NLP confidence:", result["nlp_confidence"])
+        print("Requires verification:", result["requires_verification"])
