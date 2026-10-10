@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Farmer dashboard: Demo Farm, North Field</title>
+<style>
+:root{
+  --ink:#14231C; --muted:#41504A; --bg:#EDF0EE; --card:#FFFFFF; --line:#9DAAA3;
+  --accent:#0B5A43; --focus:#1A4FD6; --banner:#0B3B2D;
+  --high:#A73F00; --std:#E69F00; --def:#CC79A7; --mon:#56B4E9; --none:#DDEBE3;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 Arial,"Helvetica Neue",Helvetica,system-ui,sans-serif}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.banner :focus-visible{outline-color:#fff}
+button{font:inherit;color:inherit;cursor:pointer}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+
+/* top bar */
+.topbar{background:#fff;border-bottom:2px solid var(--ink)}
+.topbar-in{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+h1{font-size:1.35rem;margin:0}
+.scan{margin:2px 0 0;color:var(--muted);display:flex;gap:6px 20px;flex-wrap:wrap}
+.badge-demo{background:#FFE08A;border:2px solid var(--ink);padding:6px 12px;border-radius:999px;font-weight:700;white-space:nowrap}
+.banner{background:var(--banner);color:#fff;padding:12px 0;font-size:1.05rem}
+
+/* tabs */
+.tabs{display:flex;gap:8px;margin:16px 0 12px}
+.tabs button{flex:1;min-height:48px;border:2px solid var(--ink);background:#fff;border-radius:10px;font-weight:700;padding:8px 12px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+
+/* cards and layout */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+h2{font-size:1.15rem;margin:0 0 12px}
+.card-head h2{margin:0}
+h3{font-size:1.5rem;margin:0 0 4px}
+.cols{display:block}
+@media(min-width:900px){.cols{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}}
+
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.sum{background:#fff;border:1px solid var(--line);border-top:6px solid var(--accent);border-radius:12px;padding:12px}
+.sum-n{font-size:2rem;font-weight:700;line-height:1.1}
+.sum-l{font-size:.95rem;margin-top:4px}
+.sum-note{font-size:.85rem;color:var(--muted);margin-top:2px}
+.cards .sum:last-child{grid-column:1/-1}
+@media(min-width:720px){.cards{grid-template-columns:repeat(5,minmax(0,1fr))}.cards .sum:last-child{grid-column:auto}}
+
+/* buttons */
+.btn{min-height:48px;padding:10px 16px;border-radius:10px;border:2px solid var(--ink);background:#fff;font-weight:700}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-small{min-height:44px;padding:6px 14px}
+.btn[aria-pressed="true"].decision{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--ink)}
+.seg{display:flex}
+.seg button{min-height:44px;min-width:84px;border:2px solid var(--ink);background:#fff;font-weight:700;padding:6px 14px}
+.seg button:first-child{border-radius:10px 0 0 10px}
+.seg button:last-child{border-radius:0 10px 10px 0;border-left:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.linkbtn{background:none;border:0;padding:10px 4px;min-height:44px;text-decoration:underline;font-weight:700}
+
+/* alerts */
+.alerts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.alert{display:flex;gap:8px 12px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:1px solid var(--line);border-left:8px solid var(--ink);border-radius:8px;padding:8px 12px}
+.alert.review{border-left-color:var(--high)}
+.alert.check{border-left-color:#0072B2}
+.alert.decline{border-left-color:var(--def)}
+.alert.ok{border-left-color:var(--accent)}
+.alert-text{flex:1 1 220px}
+
+/* map */
+.map-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.north{display:flex;flex-direction:column;align-items:center;font-weight:700;font-size:.85rem;line-height:1}
+.grid{display:grid;gap:14px;padding:10px}
+.cell{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:8px;border:2px solid var(--ink);border-radius:10px;min-height:112px;aspect-ratio:1/1;font-size:.82rem;line-height:1.25;overflow-wrap:anywhere}
+.cell-id{font-size:1.15rem;font-weight:700}
+.cell-act{font-weight:700}
+.cell.sel{box-shadow:0 0 0 3px #fff,0 0 0 8px var(--ink)}
+.cell:focus-visible{outline:3px solid var(--focus);outline-offset:10px}
+.b-high{background:var(--high);color:#fff}
+.b-std{background:var(--std);color:var(--ink)}
+.b-def{background:var(--def);color:var(--ink)}
+.b-mon{background:var(--mon);color:var(--ink)}
+.b-none{background:var(--none);color:var(--ink)}
+.pill{display:inline-block;background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:6px;padding:0 6px;font-weight:700;font-size:.78rem;margin-top:2px}
+@media(min-width:480px){.cell{font-size:.95rem;padding:12px}.cell-id{font-size:1.3rem}.pill{font-size:.85rem}}
+
+.legend{display:grid;gap:8px;margin-top:14px;font-size:.92rem}
+.lg{display:flex;gap:10px;align-items:center}
+.sw{flex:none;width:30px;height:30px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-weight:700;background:#fff}
+.sw.selsw{box-shadow:0 0 0 2px #fff,0 0 0 5px var(--ink);margin:3px}
+
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:360px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:.95rem}
+th button{background:none;border:0;padding:6px 0;min-height:44px;font-weight:700;text-decoration:underline}
+tr.sel th,tr.sel td{background:#DCE9FF}
+tr.sel th{box-shadow:inset 6px 0 0 var(--ink)}
+tbody tr{cursor:pointer}
+.rowbtn{background:none;border:0;min-height:44px;min-width:56px;padding:4px 6px;font-weight:700;font-size:1.05rem;text-decoration:underline;text-align:left}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;border:2px solid var(--ink);font-weight:700;font-size:.88rem;margin-bottom:4px}
+
+/* detail */
+.empty{margin:4px 0;font-weight:700}
+.dl{margin:12px 0 0}
+.dl .row{display:grid;grid-template-columns:1fr;gap:2px;padding:10px 0;border-bottom:1px solid #D5DCD8}
+.dl dt{font-size:.88rem;color:var(--muted);font-weight:700}
+.dl dd{margin:0}
+@media(min-width:480px){.dl .row{grid-template-columns:170px 1fr;gap:12px}}
+.meter{position:relative;height:14px;background:#DDE3E0;border:1px solid var(--ink);border-radius:7px;margin:8px 0 22px}
+.meter-fill{height:100%;border-radius:6px 0 0 6px}
+.meter-mark{position:absolute;left:70%;top:-5px;bottom:-5px;width:3px;background:var(--ink)}
+.meter-lbl{position:absolute;left:70%;top:18px;transform:translateX(-50%);font-size:.78rem;font-weight:700;white-space:nowrap}
+.status{display:inline-block;border:2px solid var(--ink);border-radius:6px;padding:2px 8px;font-weight:700}
+.status.ok{background:var(--none)}
+.notice{border:2px solid var(--ink);background:#FFF4CC;border-radius:8px;padding:8px 12px;margin:12px 0 0;font-weight:700}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.actions .btn{flex:1 1 160px}
+.hint{margin:8px 0 0;font-size:.95rem}
+ul.plan{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ul.plan li{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border:2px solid var(--ink);border-radius:8px;padding:8px 12px;font-weight:700}
+
+/* history */
+.chart{width:100%;height:auto;display:block;max-width:760px}
+.hlegend{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.hlegend li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* chat */
+.chat-log{height:min(420px,52vh);overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:12px;background:#F7F9F8}
+.msg{max-width:88%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff}
+.msg.user{align-self:flex-end;background:var(--ink);color:#fff;border-color:var(--ink)}
+.msg.bot{align-self:flex-start}
+.tagq{display:block;margin-top:8px;font-size:.8rem;color:var(--muted);overflow-wrap:anywhere}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chips .btn{font-weight:400;border-radius:999px;min-height:44px;padding:6px 14px}
+.askrow{display:flex;gap:8px;flex-wrap:wrap}
+.askrow input{flex:1 1 220px;min-height:48px;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;font:inherit}
+label.lbl{display:block;font-weight:700;margin-bottom:4px}
+
+/* footer */
+.foot{background:#fff;border-top:2px solid var(--ink);margin-top:24px;padding:16px 0}
+.foot-in{display:flex;gap:12px 24px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.foot-info{display:flex;gap:4px 20px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div>
+      <h1 id="fieldTitle">Demo Farm – North Field</h1>
+      <p class="scan"><span id="scanInfo"></span><span id="imgInfo"></span></p>
+    </div>
+    <span class="badge-demo">Demo data</span>
+  </div>
+  <div class="banner" role="note"><div class="wrap"><strong>Decision support only. Nothing is sprayed until you approve it.</strong></div></div>
+</header>
+
+<main class="wrap">
+  <div class="tabs" role="tablist" aria-label="Dashboard sections" id="tabs">
+    <button role="tab" id="tab-field" aria-controls="panel-field" aria-selected="true" data-tab="field">Field</button>
+    <button role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1" data-tab="history">History</button>
+    <button role="tab" id="tab-chat" aria-controls="panel-chat" aria-selected="false" tabindex="-1" data-tab="chat">Ask</button>
+  </div>
+
+  <!-- FIELD -->
+  <div id="panel-field" role="tabpanel" aria-labelledby="tab-field">
+    <section id="summary" class="cards" aria-label="Summary"></section>
+
+    <section class="card" aria-labelledby="alertsH">
+      <h2 id="alertsH">Alerts</h2>
+      <ul id="alerts" class="alerts"></ul>
+    </section>
+
+    <div class="cols">
+      <section class="card" aria-labelledby="mapH">
+        <div class="card-head">
+          <h2 id="mapH">Spray map</h2>
+          <div class="seg" role="group" aria-label="Choose how to see the zones">
+            <button type="button" data-action="view" data-view="map" aria-pressed="true">Map</button>
+            <button type="button" data-action="view" data-view="list" aria-pressed="false">List</button>
+          </div>
+        </div>
+        <div id="viewArea"></div>
+        <div id="legend" class="legend" aria-label="Legend"></div>
+      </section>
+
+      <div>
+        <section class="card" id="detailCard" aria-labelledby="detailH">
+          <h2 id="detailH">Zone details</h2>
+          <div id="detail"></div>
+        </section>
+        <section class="card" aria-labelledby="planH">
+          <h2 id="planH">Spray plan</h2>
+          <div id="plan"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
+    <section class="card" aria-labelledby="histH">
+      <div class="card-head"><h2 id="histH">Crop health over the last 8 weeks</h2><span class="badge-demo">Demo data</span></div>
+      <p class="muted" style="margin-top:0">Healthy leaves (%) in each zone, from one weekly scan to the next. Week 8 is the scan you are looking at now. Higher is better.</p>
+      <div id="history"></div>
+    </section>
+  </div>
+
+  <!-- CHAT -->
+  <div id="panel-chat" role="tabpanel" aria-labelledby="tab-chat" hidden>
+    <section class="card" aria-labelledby="chatH">
+      <h2 id="chatH">Ask about your zones</h2>
+      <p class="muted small" style="margin-top:0">Demo chat: replies are pre-written for this mockup. The assistant explains results. You make every decision.</p>
+      <div id="chatLog" class="chat-log" role="log" aria-live="polite" aria-label="Conversation" tabindex="0"></div>
+      <div class="chips" id="chips" aria-label="Suggested questions"></div>
+      <form id="askForm" class="askrow" autocomplete="off">
+        <div style="flex:1 1 220px;display:flex;flex-direction:column">
+          <label class="lbl" for="askInput">Type your question</label>
+          <input id="askInput" type="text" maxlength="200" placeholder="For example: which zones need spraying?">
+        </div>
+        <button class="btn btn-primary" type="submit" style="align-self:flex-end">Send</button>
+      </form>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <div class="foot-info" id="footInfo"></div>
+      <div><strong>Demo data. Not real field results</strong></div>
+    </div>
+    <button type="button" class="btn" data-action="reset">Reset demo</button>
+  </div>
+</footer>
+
+<div id="live" class="sr-only" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   DATA  (demo placeholder; same structure as spraying_map.json)
+   To use real data: replace DEMO with the parsed spraying_map.json.
+   ============================================================ */
+function mk(id,sev,act,dose,nv,reasons,cls,n,conf,low,health,lat,lon){
+  var r=+id.charAt(1), c=+id.charAt(3);
+  return {zone_id:id,row:r,col:c,severity:sev,recommended_action:act,recommended_dose_pct:dose,
+    needs_verification:nv,verification_reasons:reasons,dominant_class:cls,n_detections:n,
+    mean_confidence_pct:conf,low_conf_share:low,health_index_pct:health,
+    centre_latitude:lat,centre_longitude:lon,
+    bounds_m:{x_min:c*20,x_max:c*20+20,y_min:r*20,y_max:r*20+20},
+    status:"AWAITING_FARMER_REVIEW"};
+}
+var NA="NO ACTION", GPSR=["100% of GPS fixes worse than 5.0 m: confirm zone position/boundary"];
+var DEMO={
+  scan_time:"2026-10-08T06:19:50+00:00",
+  field:{origin_latitude:-26.67,origin_longitude:27.93,cell_size_m:20,rows:3,cols:3},
+  spraying_map:[
+    mk("R0C0",10.7,NA,0,false,[],"Leaf spot",14,89.2,0.07,92.9,-26.669910,27.930101),
+    mk("R0C1",14.1,NA,0,false,[],"Leaf spot",13,87.5,0.08,84.6,-26.669910,27.930302),
+    mk("R0C2",12.7,NA,0,true,GPSR,"Leaf spot",12,85.9,0.08,91.7,-26.669910,27.930503),
+    mk("R1C0",10.6,NA,0,false,[],"Leaf spot",15,90.1,0.07,93.3,-26.669731,27.930101),
+    mk("R1C1",10.1,NA,0,false,[],"Leaf spot",14,88.7,0.07,92.9,-26.669731,27.930302),
+    mk("R1C2",13.7,NA,0,false,[],"Leaf spot",13,86.3,0.08,84.6,-26.669731,27.930503),
+    mk("R2C0",14.8,NA,0,false,[],"Leaf spot",13,87.0,0.08,84.6,-26.669551,27.930101),
+    mk("R2C1",38.0,"SPRAY - STANDARD",60,false,[],"Leaf spot",12,82.4,0.08,58.3,-26.669551,27.930302),
+    mk("R2C2",74.9,"SPRAY - HIGH PRIORITY",100,false,[],"Fall armyworm",14,88.6,0.07,21.4,-26.669551,27.930503)
+  ],
+  summary:{zones_total:9,zones_recommended_for_spray:2,zones_needing_extra_verification:1,
+    zones_released_after_farmer_approval:0,estimated_chemical_saving_vs_blanket_spray_pct:77.8}
+};
+var LABELS={farm:"Demo Farm",field:"North Field"};   // not in the JSON contract yet
+
+/* PLACEHOLDER A: weekly history (weeks 1 to 8) */
+var HISTORY={
+  R2C2:[88,79,70,58,45,36,28,21.4],
+  R2C1:[90,86,80,74,70,66,62,58.3],
+  R0C0:[94,93,94,92,93,93,92,92.9]
+};
+var HSTYLE={
+  R2C2:{color:"#D55E00",dash:"",name:"R2C2 (spray zone)"},
+  R2C1:{color:"#0072B2",dash:"10 6",name:"R2C1 (spray zone)"},
+  R0C0:{color:"#333333",dash:"2 7",name:"R0C0 (healthy comparison zone)"}
+};
+
+var CONF_THRESHOLD=70;
+var MAP, selected=null, viewMode="map", sortDir="desc", pendingFocus=null;
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function $(id){return document.getElementById(id);}
+function zoneById(id){return MAP.spraying_map.filter(function(z){return z.zone_id===id;})[0]||null;}
+function zoneAt(r,c){return MAP.spraying_map.filter(function(z){return z.row===r&&z.col===c;})[0]||null;}
+function isSpray(z){return z.recommended_action.indexOf("SPRAY -")===0;}
+function num(v){return String(+(+v).toFixed(1));}
+function sevDesc(a,b){return b.severity-a.severity;}
+function announce(t){$("live").textContent="";setTimeout(function(){$("live").textContent=t;},30);}
+
+var BANDS={
+  high:{key:"high",icon:"\u25B2",short:"Spray: high priority",plain:"Spray, high priority",
+        explain:"Serious damage found. The AI recommends spraying at full dose, if you agree.",
+        legend:"Spray, high priority (severity 60 or more, full dose)"},
+  std: {key:"std",icon:"\u25C6",short:"Spray: standard",plain:"Spray, standard priority",
+        explain:"Moderate damage found. The AI recommends a lower dose, if you agree.",
+        legend:"Spray, standard (severity 30 to 59, 60% dose)"},
+  def: {key:"def",icon:"\u25A0",short:"Spray deferred",plain:"Spray deferred (over budget). Scan again.",
+        explain:"Damage found, but the spray budget is used up. Scan this zone again.",
+        legend:"Spray deferred (over budget), scan again"},
+  mon: {key:"mon",icon:"\u25CF",short:"Monitor",plain:"Monitor. Scan again in 2 to 3 days.",
+        explain:"Early signs only. Watch this zone and scan again in 2 to 3 days.",
+        legend:"Monitor, scan again in 2 to 3 days (severity 15 to 29)"},
+  none:{key:"none",icon:"\u2713",short:"No action",plain:"No action needed",
+        explain:"Little or no damage found. No action needed.",
+        legend:"No action (severity under 15)"}
+};
+function band(z){
+  var a=z.recommended_action;
+  if(a.indexOf("SPRAY - HIGH")===0)return BANDS.high;
+  if(a.indexOf("SPRAY - STANDARD")===0)return BANDS.std;
+  if(a.indexOf("SPRAY DEFERRED")===0)return BANDS.def;
+  if(a.indexOf("MONITOR")===0)return BANDS.mon;
+  return BANDS.none;
+}
+function hasGps(z){return z.verification_reasons.some(function(r){return /GPS/i.test(r);});}
+function lowConf(z){return z.mean_confidence_pct<CONF_THRESHOLD||z.low_conf_share>0.25;}
+function warnList(z){
+  var w=[];
+  if(z.needs_verification)w.push(hasGps(z)?"Check position":"Needs checking");
+  if(lowConf(z))w.push("Low confidence");
+  return w;
+}
+function lowCount(z){return Math.round(z.low_conf_share*z.n_detections);}
+function friendlyReason(r){
+  var m=r.match(/(\d+(?:\.\d+)?)% of GPS fixes worse than ([\d.]+) m/i);
+  if(m)return (m[1]==="100"?"All":m[1]+"% of")+" the GPS position readings were less accurate than "+m[2]+" m. The zone\u2019s location may be wrong. Please confirm where it is.";
+  return r;
+}
+function statusInfo(s){
+  if(s==="APPROVED_BY_FARMER")return {icon:"\u2714",text:"Approved by you",short:"Approved",cls:"ok"};
+  if(s==="HELD_NOT_APPROVED")return {icon:"\u2716",text:"Held, not approved",short:"Held",cls:""};
+  return {icon:"\u25CF",text:"Waiting for your review",short:"Waiting for review",cls:""};
+}
+function coord(v,p,n){return Math.abs(v).toFixed(6)+"\u00B0 "+(v>=0?p:n);}
+function fmtScan(iso){
+  var d=new Date(iso),m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function p(n){return String(n).padStart(2,"0");}
+  return d.getUTCDate()+" "+m[d.getUTCMonth()]+" "+d.getUTCFullYear()+", "+p(d.getUTCHours())+":"+p(d.getUTCMinutes())+" UTC";
+}
+function totalImages(){return MAP.spraying_map.reduce(function(s,z){return s+z.n_detections;},0);}
+
+function recompute(){
+  var z=MAP.spraying_map,s=MAP.summary;
+  s.zones_total=z.length;
+  s.zones_recommended_for_spray=z.filter(isSpray).length;
+  s.zones_needing_extra_verification=z.filter(function(x){return x.needs_verification;}).length;
+  s.zones_released_after_farmer_approval=z.filter(function(x){return x.status==="APPROVED_BY_FARMER";}).length;
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderHeader(){
+  $("fieldTitle").textContent=LABELS.farm+" \u2013 "+LABELS.field;
+  $("scanInfo").textContent="Scan: "+fmtScan(MAP.scan_time);
+  $("imgInfo").textContent="Images checked: "+totalImages();
+}
+function renderFooter(){
+  var f=MAP.field,w=f.cols*f.cell_size_m,h=f.rows*f.cell_size_m;
+  $("footInfo").innerHTML="<span>Field size: "+w+" m \u00D7 "+h+" m</span><span>Zone size: "+f.cell_size_m+" m \u00D7 "+f.cell_size_m+" m</span>";
+}
+function renderSummary(){
+  var s=MAP.summary;
+  function c(n,l,note){return '<div class="sum"><div class="sum-n">'+n+'</div><div class="sum-l">'+l+'</div>'+(note?'<div class="sum-note">'+note+'</div>':'')+'</div>';}
+  $("summary").innerHTML=
+    c(s.zones_total,"Zones in this field")+
+    c(s.zones_recommended_for_spray,"Recommended for spraying")+
+    c(s.zones_needing_extra_verification,"Need extra checking")+
+    c(s.zones_released_after_farmer_approval,"Approved by you")+
+    c(s.estimated_chemical_saving_vs_blanket_spray_pct+"%","Estimated chemical saving vs blanket spraying","Estimate from demo data");
+}
+function computeAlerts(){
+  var a=[],spray=MAP.spraying_map.filter(isSpray).sort(sevDesc);
+  var waiting=spray.filter(function(z){return z.status==="AWAITING_FARMER_REVIEW";});
+  if(waiting.length){
+    var ids=waiting.map(function(z){return z.zone_id;});
+    a.push({type:"review",text:waiting.length+(waiting.length>1?" zones are":" zone is")+" waiting for your approval ("+ids.join(", ")+")",zone:ids[0]});
+  }else if(spray.length){
+    a.push({type:"ok",text:"You have reviewed every zone recommended for spraying."});
+  }
+  MAP.spraying_map.filter(function(z){return z.needs_verification;}).forEach(function(z){
+    a.push({type:"check",text:z.zone_id+": "+(hasGps(z)?"check the zone position, GPS was weak":"this zone needs an extra check"),zone:z.zone_id});
+  });
+  var drops=[];
+  Object.keys(HISTORY).forEach(function(id){
+    var h=HISTORY[id];if(h.length<2)return;
+    var prev=h[h.length-2],cur=h[h.length-1];
+    if(prev-cur>=5)drops.push({id:id,prev:prev,cur:cur});
+  });
+  drops.sort(function(x,y){return (y.prev-y.cur)-(x.prev-x.cur);});
+  drops.forEach(function(d){
+    a.push({type:"decline",text:d.id+": healthy leaves down from "+num(d.prev)+"% to "+num(d.cur)+"% since last week",zone:d.id});
+  });
+  return a;
+}
+function renderAlerts(){
+  var icons={review:"\u25CF",check:"\u26A0",decline:"\u25BC",ok:"\u2714"};
+  $("alerts").innerHTML=computeAlerts().map(function(al,i){
+    return '<li class="alert '+al.type+'"><span class="alert-text"><span aria-hidden="true">'+icons[al.type]+'</span> '+esc(al.text)+'</span>'+
+      (al.zone?'<button type="button" class="btn btn-small" data-action="select" data-scroll="1" data-zone="'+al.zone+'" data-key="alert-'+i+'">Open '+al.zone+'</button>':'')+'</li>';
+  }).join("");
+}
+
+function pills(z){
+  var h="";
+  warnList(z).forEach(function(w){h+='<span class="pill">\u26A0 '+w+'</span>';});
+  return h;
+}
+function cellHtml(z){
+  var b=band(z),sel=z.zone_id===selected,st=statusInfo(z.status),w=warnList(z);
+  var chip="";
+  if(z.status==="APPROVED_BY_FARMER")chip='<span class="pill">\u2714 Approved</span>';
+  else if(z.status==="HELD_NOT_APPROVED")chip='<span class="pill">\u2716 Held</span>';
+  else if(isSpray(z))chip='<span class="pill">Review needed</span>';
+  var aria=z.zone_id+", severity "+z.severity.toFixed(1)+", "+b.plain+", AI confidence "+z.mean_confidence_pct+" percent"+
+    (w.length?", warning: "+w.join(", "):"")+", "+st.text;
+  return '<button type="button" class="cell b-'+b.key+(sel?" sel":"")+'" data-action="select" data-scroll="1" data-zone="'+z.zone_id+'" data-key="zone-'+z.zone_id+'" aria-pressed="'+sel+'" aria-label="'+esc(aria)+'">'+
+    '<span class="cell-id">'+z.zone_id+'</span>'+
+    '<span>Severity '+z.severity.toFixed(1)+'</span>'+
+    '<span class="cell-act"><span aria-hidden="true">'+b.icon+'</span> '+b.short+'</span>'+
+    '<span>Confidence '+z.mean_confidence_pct+'%</span>'+pills(z)+chip+'</button>';
+}
+function renderMapView(){
+  var f=MAP.field,h='<div class="map-top"><p class="muted small" style="margin:0">North is at the top. Tap a zone to see its details.</p>'+
+    '<div class="north" aria-label="North is up"><svg width="26" height="30" viewBox="0 0 26 30" aria-hidden="true"><path d="M13 2 L22 26 L13 20 L4 26 Z" fill="#14231C"/></svg><span>N</span></div></div>'+
+    '<div class="grid" style="grid-template-columns:repeat('+f.cols+',minmax(0,1fr))" role="group" aria-label="Spray map, north at the top">';
+  for(var r=f.rows-1;r>=0;r--)for(var c=0;c<f.cols;c++){
+    var z=zoneAt(r,c);h+=z?cellHtml(z):'<div></div>';
+  }
+  return h+"</div>";
+}
+function renderListView(){
+  var arr=MAP.spraying_map.slice().sort(function(a,b){return sortDir==="desc"?b.severity-a.severity:a.severity-b.severity;});
+  var h='<div class="tw" role="region" aria-label="All zones" tabindex="0"><table><thead><tr><th scope="col">Zone</th>'+
+    '<th scope="col" aria-sort="'+(sortDir==="desc"?"descending":"ascending")+'"><button type="button" data-action="sort" data-key="sort">Severity '+(sortDir==="desc"?"\u25BC":"\u25B2")+'</button></th>'+
+    '<th scope="col">What to do</th><th scope="col">AI confidence</th></tr></thead><tbody>';
+  arr.forEach(function(z){
+    var b=band(z),sel=z.zone_id===selected,st=statusInfo(z.status);
+    h+='<tr class="'+(sel?"sel":"")+'" data-action="select" data-scroll="1" data-zone="'+z.zone_id+'"'+(sel?' aria-current="true"':"")+'>'+
+      '<th scope="row"><button type="button" class="rowbtn" data-action="select" data-scroll="1" data-zone="'+z.zone_id+'" data-key="row-'+z.zone_id+'">'+z.zone_id+'</button></th>'+
+      '<td>'+z.severity.toFixed(1)+'</td>'+
+      '<td><span class="tag b-'+b.key+'"><span aria-hidden="true">'+b.icon+'</span> '+b.short+'</span><br>'+
+        (z.recommended_dose_pct>0?z.recommended_dose_pct+"% dose":"No spray")+'<br>'+pills(z)+
+        '<div class="small">'+st.icon+' '+st.short+'</div></td>'+
+      '<td>'+z.mean_confidence_pct+'%</td></tr>';
+  });
+  return h+"</tbody></table></div>";
+}
+function renderView(){
+  $("viewArea").innerHTML=viewMode==="map"?renderMapView():renderListView();
+  $("mapH").textContent=viewMode==="map"?"Spray map":"All zones";
+  document.querySelectorAll('[data-action="view"]').forEach(function(b){b.setAttribute("aria-pressed",b.dataset.view===viewMode);});
+}
+function renderLegend(){
+  var h="";
+  ["high","std","def","mon","none"].forEach(function(k){
+    h+='<div class="lg"><span class="sw b-'+k+'" aria-hidden="true">'+BANDS[k].icon+'</span><span>'+BANDS[k].legend+'</span></div>';
+  });
+  h+='<div class="lg"><span class="sw" aria-hidden="true">\u26A0</span><span>Warning: this zone needs an extra check</span></div>';
+  h+='<div class="lg"><span class="sw selsw" aria-hidden="true"></span><span>Thick outline: the zone you selected</span></div>';
+  $("legend").innerHTML=h;
+}
+
+function renderDetail(){
+  var z=selected&&zoneById(selected);
+  if(!z){$("detail").innerHTML='<p class="empty">No zone selected</p><p class="muted" style="margin:4px 0 0">Tap a zone on the map or in the list to see its details.</p>';return;}
+  var b=band(z),st=statusInfo(z.status),w=warnList(z),conf=z.mean_confidence_pct,above=conf>=CONF_THRESHOLD;
+  var reasons=z.verification_reasons.length?'<ul style="margin:0;padding-left:20px">'+z.verification_reasons.map(function(r){return "<li>"+esc(friendlyReason(r))+"</li>";}).join("")+"</ul>":"No extra checks needed.";
+  var lc=lowCount(z);
+  var h='<h3>'+z.zone_id+'</h3><p style="margin:0"><span class="tag b-'+b.key+'"><span aria-hidden="true">'+b.icon+'</span> '+esc(b.plain)+'</span></p>';
+  if(isSpray(z)&&w.length)h+='<p class="notice">\u26A0 This zone has a warning ('+w.join(", ").toLowerCase()+'). Please check it before you decide.</p>';
+  h+='<dl class="dl">'+
+    '<div class="row"><dt>AI suggestion</dt><dd>'+esc(b.plain)+'<br>'+(z.recommended_dose_pct>0?"Dose: "+z.recommended_dose_pct+"% of the full dose":"No spraying recommended")+'</dd></div>'+
+    '<div class="row"><dt>Severity</dt><dd><strong>'+z.severity.toFixed(1)+' out of 100</strong><br>'+b.explain+'</dd></div>'+
+    '<div class="row"><dt>Main problem found</dt><dd>'+esc(z.dominant_class)+(b.key==="none"?" (low level)":"")+'</dd></div>'+
+    '<div class="row"><dt>Images checked</dt><dd>'+z.n_detections+'</dd></div>'+
+    '<div class="row"><dt>AI confidence (average)</dt><dd><strong>'+conf+'%</strong>: '+(above?"above":"<strong>below</strong>")+' the '+CONF_THRESHOLD+'% review level'+(above?"":". Please check this zone carefully")+
+      '<div class="meter" role="img" aria-label="Confidence '+conf+' percent. Review level is '+CONF_THRESHOLD+' percent."><div class="meter-fill" style="width:'+conf+'%;background:'+(above?"#0B5A43":"#A73F00")+'"></div><div class="meter-mark"></div><div class="meter-lbl">'+CONF_THRESHOLD+'% review level</div></div></dd></div>'+
+    '<div class="row"><dt>Images the AI was unsure about</dt><dd>'+lc+' of '+z.n_detections+' images ('+Math.round(z.low_conf_share*100)+'%) were below '+CONF_THRESHOLD+'% confidence</dd></div>'+
+    '<div class="row"><dt>Healthy leaves</dt><dd><strong>'+z.health_index_pct+'%</strong><br><span class="muted">Share of leaves that look healthy. Higher is better.</span></dd></div>'+
+    '<div class="row"><dt>Extra checks</dt><dd>'+reasons+'</dd></div>'+
+    '<div class="row"><dt>Centre of zone</dt><dd>'+coord(z.centre_latitude,"N","S")+', '+coord(z.centre_longitude,"E","W")+'</dd></div>'+
+    '<div class="row"><dt>Status</dt><dd><span class="status '+st.cls+'">'+st.icon+' '+st.text+'</span></dd></div>'+
+    '</dl>';
+  if(isSpray(z)){
+    var ap=z.status==="APPROVED_BY_FARMER",hd=z.status==="HELD_NOT_APPROVED";
+    h+='<div class="actions">'+
+      '<button type="button" class="btn btn-primary decision" data-action="approve" data-zone="'+z.zone_id+'" data-key="approve" aria-pressed="'+ap+'">'+(ap?"\u2714 Approved":"Approve this zone")+'</button>'+
+      '<button type="button" class="btn decision" data-action="reject" data-zone="'+z.zone_id+'" data-key="reject" aria-pressed="'+hd+'">'+(hd?"\u2716 Rejected (held)":"Reject this zone")+'</button></div>'+
+      '<p class="hint"><strong>Approving releases this zone to the spray plan.</strong></p>'+
+      '<p class="hint">Rejecting holds this zone. Nothing is sprayed there.</p>'+
+      ((ap||hd)?'<button type="button" class="linkbtn" data-action="undo" data-zone="'+z.zone_id+'" data-key="undo">Undo my decision</button>':"");
+  }else{
+    h+='<p class="hint muted">This zone does not need your approval.</p>';
+  }
+  $("detail").innerHTML=h;
+}
+function renderPlan(){
+  var ap=MAP.spraying_map.filter(function(z){return z.status==="APPROVED_BY_FARMER";}).sort(sevDesc);
+  var held=MAP.spraying_map.filter(function(z){return z.status==="HELD_NOT_APPROVED";}).sort(sevDesc);
+  var h="";
+  if(!ap.length)h+='<p class="empty">No zones approved yet</p><p class="muted" style="margin:4px 0 0">Zones you approve will appear here with their dose.</p>';
+  else h+='<ul class="plan">'+ap.map(function(z){return '<li><span>'+z.zone_id+' \u2013 '+esc(z.dominant_class)+'</span><span>Dose '+z.recommended_dose_pct+'%</span></li>';}).join("")+"</ul>";
+  if(held.length)h+='<p class="muted" style="margin:12px 0 0">Held, not approved: '+held.map(function(z){return z.zone_id;}).join(", ")+'</p>';
+  $("plan").innerHTML=h;
+}
+
+/* History chart (inline SVG) */
+function histSummary(){
+  return Object.keys(HISTORY).map(function(id){
+    var h=HISTORY[id],a=h[0],b=h[h.length-1];
+    return Math.abs(a-b)<5?id+" stayed steady at about "+Math.round(b)+"%":id+" fell from "+num(a)+"% to "+num(b)+"%";
+  }).join(". ")+".";
+}
+function renderHistory(){
+  var W=480,H=340,ml=54,mr=16,mt=16,mb=48,pw=W-ml-mr,ph=H-mt-mb;
+  function X(w){return ml+(w-1)/7*pw;}
+  function Y(v){return mt+(100-v)/100*ph;}
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-labelledby="hT hD"><title id="hT">Healthy leaves by week, demo data</title><desc id="hD">'+esc(histSummary())+'</desc>';
+  [0,20,40,60,80,100].forEach(function(v){
+    s+='<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#B9C4BE" stroke-width="1"/>'+
+       '<text x="'+(ml-8)+'" y="'+(Y(v)+5)+'" text-anchor="end" font-size="14" fill="#14231C">'+v+'</text>';
+  });
+  for(var w=1;w<=8;w++)s+='<text x="'+X(w)+'" y="'+(H-mb+20)+'" text-anchor="middle" font-size="14" fill="#14231C" font-weight="'+(w===8?"700":"400")+'">'+w+'</text>';
+  s+='<text x="'+(ml+pw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="14" fill="#14231C">Week (8 = this scan)</text>'+
+     '<text transform="translate(14 '+(mt+ph/2)+') rotate(-90)" text-anchor="middle" font-size="14" fill="#14231C">Healthy leaves (%)</text>';
+  Object.keys(HISTORY).forEach(function(id){
+    var st=HSTYLE[id],pts=HISTORY[id].map(function(v,i){return X(i+1)+","+Y(v);}).join(" ");
+    s+='<polyline points="'+pts+'" fill="none" stroke="'+st.color+'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"'+(st.dash?' stroke-dasharray="'+st.dash+'"':"")+'/>';
+    HISTORY[id].forEach(function(v,i){s+='<circle cx="'+X(i+1)+'" cy="'+Y(v)+'" r="3.5" fill="'+st.color+'"/>';});
+  });
+  Object.keys(HISTORY).forEach(function(id){
+    var z=zoneById(id);if(!z||!isSpray(z))return;
+    var h=HISTORY[id],sym=z.status==="APPROVED_BY_FARMER"?"\u2713":z.status==="HELD_NOT_APPROVED"?"\u2715":"!";
+    s+='<circle cx="'+X(8)+'" cy="'+Y(h[h.length-1])+'" r="11" fill="#fff" stroke="#14231C" stroke-width="3"/>'+
+       '<text x="'+X(8)+'" y="'+(Y(h[h.length-1])+5)+'" text-anchor="middle" font-size="15" font-weight="700" fill="#14231C">'+sym+'</text>';
+  });
+  s+="</svg>";
+  var leg='<ul class="hlegend">'+Object.keys(HISTORY).map(function(id){
+    var st=HSTYLE[id],h=HISTORY[id];
+    return '<li><svg width="44" height="12" aria-hidden="true"><line x1="3" y1="6" x2="41" y2="6" stroke="'+st.color+'" stroke-width="4" stroke-linecap="round"'+(st.dash?' stroke-dasharray="'+st.dash+'"':"")+'/></svg><span><strong>'+st.name+'</strong>: '+num(h[0])+'% \u2192 '+num(h[h.length-1])+'%</span></li>';
+  }).join("")+
+  '<li><span aria-hidden="true" style="display:inline-grid;place-items:center;width:24px;height:24px;border:3px solid #14231C;border-radius:50%;font-weight:700;font-size:.8rem">!</span><span>Circle at week 8: ! waiting for your approval, \u2713 approved by you, \u2715 held, not approved</span></li></ul>';
+  $("history").innerHTML=s+leg+'<p style="margin-bottom:0">'+esc(histSummary())+'</p>';
+}
+
+function render(){
+  var a=document.activeElement,key=pendingFocus||(a&&a.dataset?a.dataset.key:null);
+  pendingFocus=null;
+  recompute();
+  renderHeader();renderSummary();renderAlerts();renderView();renderDetail();renderPlan();renderHistory();
+  if(key){var n=document.querySelector('[data-key="'+key+'"]');if(n&&n!==document.activeElement)n.focus({preventScroll:true});}
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+function selectZone(id,scroll){
+  selected=id;render();
+  if(scroll&&window.matchMedia("(max-width:899px)").matches){
+    var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("detailCard").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
+  }
+}
+function decide(id,status){
+  var z=zoneById(id);if(!z||!isSpray(z))return;
+  z.status=status;
+  announce(id+(status==="APPROVED_BY_FARMER"?" approved. Added to the spray plan.":status==="HELD_NOT_APPROVED"?" rejected. Held, nothing is sprayed there.":" decision undone. Waiting for your review."));
+  render();
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-action]");if(!t)return;
+  var a=t.dataset.action,z=t.dataset.zone;
+  if(a==="select")selectZone(z,t.dataset.scroll==="1");
+  else if(a==="view"){viewMode=t.dataset.view;render();}
+  else if(a==="sort"){sortDir=sortDir==="desc"?"asc":"desc";render();}
+  else if(a==="approve")decide(z,"APPROVED_BY_FARMER");
+  else if(a==="reject")decide(z,"HELD_NOT_APPROVED");
+  else if(a==="undo"){pendingFocus="approve";decide(z,"AWAITING_FARMER_REVIEW");}
+  else if(a==="reset")resetDemo();
+  else if(a==="chip")ask(t.dataset.q);
+});
+
+/* tabs */
+function showTab(name,focus){
+  ["field","history","chat"].forEach(function(n){
+    var on=n===name,tab=$("tab-"+n);
+    tab.setAttribute("aria-selected",on);tab.tabIndex=on?0:-1;
+    $("panel-"+n).hidden=!on;
+    if(on&&focus)tab.focus();
+  });
+}
+$("tabs").addEventListener("click",function(e){var b=e.target.closest("[data-tab]");if(b)showTab(b.dataset.tab,false);});
+$("tabs").addEventListener("keydown",function(e){
+  var names=["field","history","chat"],i=names.indexOf(document.activeElement.dataset.tab);if(i<0)return;
+  var k=e.key;
+  if(k==="ArrowRight")i=(i+1)%3;else if(k==="ArrowLeft")i=(i+2)%3;else if(k==="Home")i=0;else if(k==="End")i=2;else return;
+  e.preventDefault();showTab(names[i],true);
+});
+
+/* ============================================================
+   PLACEHOLDER B: chat (keyword matching, canned-style replies)
+   ============================================================ */
+var CHIPS=["Which zones need spraying?","How confident is the AI about R2C2?","Why is R0C2 flagged?","Show last week\u2019s results"];
+function fmtQuery(q){return "{"+Object.keys(q).map(function(k){return '"'+k+'": "'+q[k]+'"';}).join(", ")+"}";}
+function parseQuery(raw){
+  var t=raw.toLowerCase().replace(/[\u2019']/g,"'");
+  var zm=raw.match(/\br\s*(\d)\s*c\s*(\d)\b/i),zone=zm?"R"+zm[1]+"C"+zm[2]:null,intent="unknown";
+  if(/\b(should i|can i|start|go|begin|let's)\b.{0,20}spray|spray (it )?now|spray everything/.test(t))intent="ask_to_spray";
+  else if(/last week|histor|trend|over time|previous|declin|week/.test(t))intent="show_history";
+  else if(/flag|why|gps|position|warn|check|location/.test(t))intent="explain_flag";
+  else if(/confiden|sure|certain|accura|trust|reliab/.test(t))intent="explain_confidence";
+  else if(/spray|which|zone|need|treat|dose|priorit|problem|disease|pest/.test(t))intent="show_spray_zones";
+  var q={intent:intent};
+  if(zone&&(intent==="explain_confidence"||intent==="explain_flag"))q.zone=zone;
+  return {q:q,zone:zone};
+}
+function botReply(p){
+  var q=p.q,zones=MAP.spraying_map,f=MAP.field;
+  if(p.zone&&!zoneById(p.zone)&&(q.intent==="explain_confidence"||q.intent==="explain_flag"))
+    return "I can\u2019t find zone "+p.zone+". Zones run from R0C0 to R"+(f.rows-1)+"C"+(f.cols-1)+".";
+  if(q.intent==="ask_to_spray")
+    return "I can\u2019t start spraying or tell you when to spray. Nothing is sprayed until you approve it. Please review the recommended zones on the map and approve them first.";
+  if(q.intent==="show_spray_zones"){
+    var sp=zones.filter(isSpray).sort(sevDesc);
+    if(!sp.length)return "No zones are recommended for spraying right now. Please still look over the map.";
+    var parts=sp.map(function(z){return z.zone_id+" ("+(band(z).key==="high"?"high":"standard")+" priority, "+z.dominant_class+", "+z.recommended_dose_pct+"% dose)";});
+    return sp.length+" of "+zones.length+" zones are recommended for spraying: "+(parts.length>1?parts.slice(0,-1).join(", ")+" and "+parts[parts.length-1]:parts[0])+". Please check them on the map and approve before any spraying.";
+  }
+  if(q.intent==="explain_confidence"){
+    var zc=zoneById(q.zone||(q.zone=zones.slice().sort(sevDesc)[0].zone_id));
+    var k=lowCount(zc);
+    return "Average confidence is "+zc.mean_confidence_pct+"% across "+zc.n_detections+" images, "+(zc.mean_confidence_pct>=CONF_THRESHOLD?"above":"below")+" the "+CONF_THRESHOLD+"% review threshold. "+
+      k+" of the "+zc.n_detections+" images "+(k===1?"was":"were")+" below "+CONF_THRESHOLD+"%. "+
+      (isSpray(zc)?"Please still check the zone before you approve it.":"Please still check the zone on the map.");
+  }
+  if(q.intent==="explain_flag"){
+    var zf=q.zone?zoneById(q.zone):zones.filter(function(z){return z.needs_verification;})[0];
+    if(!zf)return "No zones are flagged right now.";
+    q.zone=zf.zone_id;
+    if(!zf.needs_verification)return zf.zone_id+" is not flagged for an extra check. Open it on the map to see its details and review it before any decision.";
+    var m=(zf.verification_reasons.join(" ")).match(/worse than ([\d.]+) m/i);
+    if(hasGps(zf))return "Its GPS positions were weak (worse than "+(m?String(+m[1]):"5")+" m), so the zone\u2019s location may be wrong. Please confirm where it is. "+(isSpray(zf)?"Please review it before you decide.":"No spraying is recommended there.");
+    return "This zone needs an extra check. Please look at it on the map.";
+  }
+  if(q.intent==="show_history"){
+    var best=null;
+    Object.keys(HISTORY).forEach(function(id){var h=HISTORY[id],d=h[h.length-2]-h[h.length-1];if(!best||d>best.d)best={id:id,d:d,prev:h[h.length-2],cur:h[h.length-1]};});
+    if(!best||best.d<=0)return "No zone has gotten worse since last week. The History tab shows all 8 weeks.";
+    return best.id+"\u2019s healthy-leaf share fell from "+num(best.prev)+"% to "+num(best.cur)+"% since last week. It is the fastest-declining zone.";
+  }
+  return "I didn\u2019t understand that yet. Try one of the questions above. I can explain results, but you decide: please review and approve zones on the map before any spraying.";
+}
+function addMsg(who,html){
+  var d=document.createElement("div");d.className="msg "+who;d.innerHTML=html;
+  var log=$("chatLog");log.appendChild(d);log.scrollTop=log.scrollHeight;
+}
+function ask(text){
+  text=(text||"").trim();if(!text)return;
+  addMsg("user",esc(text));
+  var p=parseQuery(text),reply=botReply(p);
+  addMsg("bot",esc(reply)+'<span class="tagq">Understood as: '+esc(fmtQuery(p.q))+'</span>');
+  $("askInput").value="";
+}
+function initChat(){
+  $("chatLog").innerHTML="";
+  addMsg("bot","Hello. I can explain what the AI found in your zones. I never decide for you: you approve every spray.");
+  $("chips").innerHTML=CHIPS.map(function(c){return '<button type="button" class="btn" data-action="chip" data-q="'+esc(c)+'">'+esc(c)+'</button>';}).join("");
+}
+$("askForm").addEventListener("submit",function(e){e.preventDefault();ask($("askInput").value);});
+
+/* ============================================================
+   START / RESET
+   ============================================================ */
+function resetDemo(){
+  MAP=clone(DEMO);selected=null;viewMode="map";sortDir="desc";
+  initChat();renderFooter();render();
+  announce("Demo reset. All zones are waiting for your review.");
+}
+MAP=clone(DEMO);
+renderLegend();renderFooter();initChat();render();
+</script>
+</body>
+</html>
