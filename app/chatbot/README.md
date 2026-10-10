@@ -37,3 +37,13 @@ Terminal commands: `/json` toggle parsed query, `/focus East C` simulate a dashb
 * Confidence tiers (85% / 60%) and the clarification thresholds are starting values to tune.
 * The chatbot never triggers spraying. `mark_reviewed` only records the farmer's own check.
 * The photo viewer is simulated. Chat logs contain farm information, so protect them.
+
+## Measured accuracy (intent classifier)
+* 5-fold cross-validation on the training phrases: 88% (`python precision_driven_farming.py --eval`).
+* Held-out test of 113 new phrasings written after training was finished: 97.3% (110/113)
+  (`python test_precision_driven_farming.py` prints it, including the misses).
+* The test phrasings were written by the same team as the training data, so real farmers' wording will
+  probably score lower. Collect real questions and add them to the data.
+* Safety does not depend on this accuracy: spray-related messages are caught by a keyword rule, and
+  low-confidence messages get a clarifying question.
+
