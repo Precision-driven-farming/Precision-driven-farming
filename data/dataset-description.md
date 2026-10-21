@@ -2,7 +2,7 @@
 
 > **Issue:** #23
 > **Milestone:** Phase 2 — Foundations
-> **Last updated:** 2026-09-01
+> **Last updated:** 2026-10-21
 
 ---
 
@@ -208,3 +208,32 @@ In both cases, the "healthy" class remains the smallest. Additional balancing st
 | Tomato | Kaggle: `ccmt-plant-disease-clean-verified` → `Raw Data/Tomato` and `Augmented Data/Tomato` | Part of full CCMT (same download) |
 
 **Note:** The CCMT dataset contains all four crops (Cashew, Cassava, Maize, Tomato). Only the Maize and Tomato subfolders are used for this project.
+
+## 7.Time Series Data
+
+## 7.1 Purpose
+
+The CCMT dataset has no timestamps or locations, so a second data source supports the time series analysis.
+
+## 7.2 Weather data
+
+real weather with parameters : Daily temperature, relative humidity and rainfall for [JAY JAY FARMING, Mthatha, Eastern Cape] from [01-01-2023] to [30/06/2026] obtained from the NASA POWER agroclimatology archive. Sample below:
+
+Year DOY (Day of Year) Temperature (T2M, °C) Relative Humidity (RH2M, %) Rainfall (PRECTOTCORR, mm/day)
+2023 1 19.05 82.62 2.53
+2023 2 20.19 83.03 1.44
+2023 3 23.63 68.38 1.10
+2023 4 21.74 73.81 14.32
+2023 5 16.94 88.79 67.93
+
+## 7.3 Disease detection log (simulated)
+
+Because no public time-stamped disease data exists, a synthetic log was generated with the fields date, field zone, crop, disease class and severity. The probability of an outbreak rises after periods of high humidity and rainfall, with seasonal patterns and random noise added. Class names follow CCMT. This data is simulated, so results show the method working, not real-farm performance.
+
+## 7.4 Limitations
+
+Simulated detections reflect the assumptions built into the generator. Real farm logs would be needed to validate the forecasts.
+
+## References
+
+The Prediction Of Worldwide Energy Resources (POWER) Project is funded through the National Aeronautics and Space Administration (NASA) Applied Sciences Program within the Earth Science Division of the Science Mission Directorate. The POWER team could not have completed this task without both technical and scientific inputs from the following Earth Science Division teams: The Surface Radiation Budget (SRB) and the Clouds and the Earth's Radiant Energy System (CERES) projects at NASA LaRC and the Global Modeling and Assimilation Office at the NASA Goddard Space Flight Center. The data obtained through the POWER web services was made possible with collaboration from the NASA Langley Research Center (LaRC) Atmospheric Science Data Center (ASDC).
