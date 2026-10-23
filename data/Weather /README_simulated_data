@@ -1,0 +1,47 @@
+# Weather Data and SYNTHETIC Detection Log
+
+> **The detection log in this project is SIMULATED (SYNTHETIC). It is not real farm data.**
+> Label it as simulated in every document and on the poster.
+
+## Why it exists
+The CCMT image dataset has no timestamps or field locations, and no public time-stamped crop disease dataset exists. A synthetic log, driven by real weather, is used to demonstrate the time series method (functional requirement 11: compare crop health over time; forecast likely outbreak weeks). Results show the method working, not real-farm performance.
+
+## Files
+| Path | Type | Description |
+|---|---|---|
+| `generate_weather_and_log.py` | Script | Downloads weather and generates the log (fixed seed = 42) |
+| `data/weather/nasa_power_daily_raw.csv` | REAL | NASA POWER download for Mthatha. The team's copy was re-saved with semicolons; the script reads this format and the standard NASA comma format. |
+| `data/weather/nasa_power_daily_clean.csv` | REAL (cleaned) | Missing values (-999) interpolated (none were found) |
+| `data/simulated/simulated_detection_log.csv` | SYNTHETIC | Weekly detections per field zone and class |
+
+## How to run
+```
+pip install pandas numpy requests
+python generate_weather_and_log.py
+```
+We use `--skip-download` to reuse the saved raw weather file. The same weather file and seed always give the identical log.
+
+## Weather data (real)
+- Source: NASA POWER agroclimatology (AG community), daily, point data
+- Location: Mthatha, Eastern Cape, South Africa (lat -31.5919, lon 28.777; MERRA-2 grid cell average elevation 862 m)
+- Period: 1 January 2023 to 30 June 2026 (1,277 daily rows, no gaps, no missing values)
+- Variables: temperature at 2 m (T2M, °C), relative humidity at 2 m (RH2M, %), rainfall (PRECTOTCORR, mm/day)
+- Acknowledgement: "The data was obtained from the National Aeronautics and Space Administration (NASA) Langley Research Center (LaRC) Prediction of Worldwide Energy Resource (POWER) Project funded through the NASA Earth Science/Applied Science Program."
+
+## Generation rules for the synthetic log
+- **Unit of data:** one row per week × field zone × class. Full 7-day weeks only (2023-01-02 to 2026-06-22, 182 weeks, 4,368 rows).
+- **Zones:** 4 field zones (A-D), each a 10 ha block, with random zone-to-zone differences.
+- **Images scanned:** 700 per zone per week (baseline: 100 images per 10 ha per day).
+- **Crop and classes:** maize, using the CCMT class names: leaf blight, leaf spot, streak virus (diseases); fall armyworm, grasshopper, leaf beetle (pests).
+- **Weather drivers:** each class has an outbreak risk that depends on the previous week's humidity and rainfall (standardised) and on a preferred temperature band. Diseases respond positively to humidity and rain; pests respond to warmth and dry weather.
+- **Persistence:** outbreaks carry over from week to week (AR(1), coefficient 0.55) with random noise.
+- **Seasonality:** a maize crop calendar (planted about November, harvested about May) scales detections; a small off-season value remains so the series is never all zero.
+- **Counts:** Poisson draw, capped at images scanned. **Severity:** % leaf area affected, rising with outbreak intensity plus noise.
+- **Seed:** 42.
+
+## Assumptions and limitations
+- All risk coefficients, the crop calendar and the severity rule are assumptions made by the team. They are not measured values.
+- Forecast accuracy on this data reflects the simulator's structure, so real farm logs are needed to validate the approach.
+- Only one location and one crop (maize) are simulated.
+- Weather values come from the MERRA-2 reanalysis grid (about 50 km cells), not a local weather station, so they represent the surrounding region rather than a single farm.
+- The period covers about 3.5 years (three full seasons plus part of a fourth).
