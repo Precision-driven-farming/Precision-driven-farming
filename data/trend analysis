@@ -1,0 +1,41 @@
+# Time-series trend analysis (SIMULATED DATA)
+
+Zone health index H(t) = N_healthy / N_total x 100, weekly, 182 weeks (2023-01-02 to 2026-06-22). Slopes are in percentage points per week, fitted on the raw weekly values.
+
+## Pre- and post-spray slopes per spray event
+
+| Zone | Spray week | Treated pre | Treated post | Control pre | Control post | Post-slope advantage | 95% CI | CI excludes 0 |
+|---|---|---|---|---|---|---|---|---|
+| A | 2023-02-13 | -2.60 | 1.50 | -0.80 | 1.70 | -0.20 | -3.65 to 3.25 | no |
+| A | 2024-01-01 | -1.85 | -0.69 | -3.45 | 1.64 | -2.33 | -5.89 to 1.23 | no |
+| A | 2025-03-03 | 0.20 | 1.73 | -0.10 | 1.13 | 0.60 | -3.18 to 4.38 | no |
+| A | 2026-02-02 | -0.95 | 0.56 | 0.35 | 2.46 | -1.90 | -4.51 to 0.71 | no |
+| B | 2023-03-06 | -1.10 | 1.30 | -1.85 | 2.43 | -1.13 | -3.41 to 1.15 | no |
+| B | 2024-01-22 | -1.75 | 0.74 | -2.55 | 4.23 | -3.49 | -6.19 to -0.78 | no |
+| B | 2025-03-24 | -6.15 | 2.29 | -4.00 | 2.00 | 0.29 | -2.01 to 2.58 | no |
+| B | 2026-02-23 | 1.00 | 0.27 | -0.95 | 0.79 | -0.51 | -2.12 to 1.09 | no |
+
+## Level comparison: change in mean H after spraying, treated minus control (points)
+
+| Zone | Spray week | Treated change | Control change | Advantage | 95% CI | CI excludes 0 |
+|---|---|---|---|---|---|---|
+| A | 2023-02-13 | 4.42 | -5.02 | 9.43 | 1.67 to 17.19 | yes |
+| A | 2024-01-01 | 4.43 | -12.08 | 16.52 | 7.76 to 25.28 | yes |
+| A | 2025-03-03 | 6.58 | -6.25 | 12.83 | 6.07 to 19.60 | yes |
+| A | 2026-02-02 | 8.58 | 0.83 | 7.75 | 1.32 to 14.18 | yes |
+| B | 2023-03-06 | 11.98 | 7.57 | 4.42 | -3.85 to 12.69 | no |
+| B | 2024-01-22 | 7.40 | 4.07 | 3.33 | -6.87 to 13.54 | no |
+| B | 2025-03-24 | 15.87 | 3.90 | 11.97 | -1.14 to 25.07 | no |
+| B | 2026-02-23 | 12.12 | 9.05 | 3.07 | -1.70 to 7.83 | no |
+
+## Success criterion check (placeholder targets - team decision)
+
+| Criterion | Target | Result | Status |
+|---|---|---|---|
+| Spray response, documented method: post-spray SLOPE of H, treated minus control | >= 2.0 points/week | mean -1.08 points/week over 8 spray events; 0% of events meet the target; 0% have a CI above 0 | FAIL |
+| Spray response, recommended: change in mean LEVEL of H, treated minus control | >= 5.0 points | mean 8.66 points over 8 spray events; 100% of events positive; 50% have a CI above 0 | PASS |
+| Early warning: one-week fall in H of >= 10 points | informational | alert weeks per zone: {'A': 0, 'B': 3, 'C': 0} | - |
+
+*Note: sprays are triggered by a dip in the field-average index, so some rebound would occur even without spraying. That is why the untreated control zone is the comparison, not the treated zone's own before/after change.*
+
+Figure shows episode 1 of 4: Zone A sprayed 2023-02-13, Zone B sprayed 2023-03-06.
