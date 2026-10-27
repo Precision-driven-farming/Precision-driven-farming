@@ -1,0 +1,81 @@
+{
+  "test_samples": 1661,
+  "accuracy": 0.7519566526189043,
+  "macro_precision": 0.7407078569926927,
+  "macro_recall": 0.7975701311584227,
+  "macro_f1": 0.762330340375028,
+  "per_class": {
+    "Fall armyworm": {
+      "precision": 0.7592592592592593,
+      "recall": 0.9761904761904762,
+      "f1": 0.8541666666666666,
+      "support": 42
+    },
+    "Grasshopper": {
+      "precision": 0.98989898989899,
+      "recall": 0.9702970297029703,
+      "f1": 0.98,
+      "support": 101
+    },
+    "Healthy (Maize)": {
+      "precision": 0.6222222222222222,
+      "recall": 0.9333333333333333,
+      "f1": 0.7466666666666667,
+      "support": 30
+    },
+    "Leaf beetle": {
+      "precision": 0.9712230215827338,
+      "recall": 0.9642857142857143,
+      "f1": 0.967741935483871,
+      "support": 140
+    },
+    "Leaf blight (Maize)": {
+      "precision": 0.7633587786259542,
+      "recall": 0.6711409395973155,
+      "f1": 0.7142857142857143,
+      "support": 149
+    },
+    "Leaf spot": {
+      "precision": 0.7425149700598802,
+      "recall": 0.6666666666666666,
+      "f1": 0.7025495750708215,
+      "support": 186
+    },
+    "Streak virus": {
+      "precision": 0.8037974683544303,
+      "recall": 0.8758620689655172,
+      "f1": 0.8382838283828383,
+      "support": 145
+    },
+    "Healthy (Tomato)": {
+      "precision": 0.8214285714285714,
+      "recall": 0.9857142857142858,
+      "f1": 0.8961038961038961,
+      "support": 70
+    },
+    "Leaf blight (Tomato)": {
+      "precision": 0.6097560975609756,
+      "recall": 0.5181347150259067,
+      "f1": 0.5602240896358543,
+      "support": 193
+    },
+    "Leaf curl": {
+      "precision": 0.5094339622641509,
+      "recall": 0.7012987012987013,
+      "f1": 0.5901639344262295,
+      "support": 77
+    },
+    "Septoria leaf spot": {
+      "precision": 0.8105263157894737,
+      "recall": 0.7475728155339806,
+      "f1": 0.7777777777777778,
+      "support": 412
+    },
+    "Verticillium wilt": {
+      "precision": 0.48507462686567165,
+      "recall": 0.5603448275862069,
+      "f1": 0.52,
+      "support": 116
+    }
+  }
+}

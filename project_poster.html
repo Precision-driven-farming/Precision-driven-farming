@@ -5,180 +5,1149 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LeafSight: project poster</title>
 <style>
-@page{size:A1 portrait;margin:0}
-html,body{margin:0;padding:0;background:#6B756F}
-body{font-family:Arial,"Liberation Sans",Helvetica,sans-serif;color:#14231C}
-.stage{position:relative;margin:0 auto;width:1188px;height:1682px;overflow:hidden}
-.poster{position:absolute;left:0;top:0;width:1188px;height:1682px;background:#EDF0EE;overflow:hidden;transform-origin:0 0}
-.poster div{position:absolute;box-sizing:border-box;margin:0}
-.poster svg{position:absolute;display:block}
-@media print{
-  html,body{background:#fff;width:594mm;height:841mm;overflow:hidden}
-  .stage{width:594mm!important;height:841mm!important;margin:0;overflow:hidden}
-  .poster{transform:scale(1.8898)!important}
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page {
+  size: 594mm 841mm;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #6B756F;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+  color: #14231C;
+}
+
+/* Base Stage & A1 Canvas (1188px x 1682px) */
+.stage {
+  position: relative;
+  margin: 0 auto;
+  width: 1188px;
+  height: 1682px;
+  overflow: hidden;
+}
+.poster {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1188px;
+  height: 1682px;
+  background: #EDF0EE;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media print {
+  html, body {
+    background: #fff;
+    width: 594mm;
+    height: 841mm;
+    overflow: hidden;
+  }
+  .stage {
+    width: 594mm !important;
+    height: 841mm !important;
+    margin: 0;
+    overflow: hidden;
+  }
+  .poster {
+    transform: scale(1.8898) !important;
+    transform-origin: 0 0;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* Header & Footer */
+header.poster-header {
+  height: 130px;
+  background: #0B3B2D;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px solid #0B5A43;
+  flex-shrink: 0;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.header-titles {
+  display: flex;
+  flex-direction: column;
+}
+.main-title {
+  font-size: 58px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.main-tagline {
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 500;
+  color: #DDEBE3;
+  margin: 4px 0 0 0;
+}
+.header-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+.header-stat-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.header-stat-number {
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 800;
+  color: #FFE08A;
+  letter-spacing: -1px;
+}
+.header-stat-label {
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #ffffff;
+  max-width: 220px;
+  text-align: left;
+}
+.demo-pill {
+  display: inline-block;
+  background: #FFE08A;
+  border: 2px solid #14231C;
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 19px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #14231C;
+  text-transform: none;
+  margin-top: 6px;
+}
+
+/* Main Content Area */
+main.poster-body {
+  padding: 14px 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card Panels */
+.panel {
+  background: #ffffff;
+  border: 2px solid #9DAAA3;
+  border-radius: 12px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.panel-primary {
+  border: 2.5px solid #0B5A43;
+  box-shadow: 0 0 0 1px #0B5A43;
+}
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #EDF0EE;
+}
+.panel-number {
+  width: 38px;
+  height: 38px;
+  background: #14231C;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.panel-primary .panel-number {
+  background: #0B5A43;
+}
+.panel-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #14231C;
+  margin: 0;
+  line-height: 1.15;
+}
+
+/* Panel 1: The Problem */
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+.problem-card {
+  background: #EDF0EE;
+  border: 2px solid #9DAAA3;
+  border-radius: 10px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.problem-text {
+  font-size: 21px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #14231C;
+}
+
+/* Panel 2: Our Solution */
+.solution-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px 0 4px;
+}
+.solution-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 185px;
+}
+.step-icon-box {
+  width: 58px;
+  height: 58px;
+  background: #EDF0EE;
+  border: 2px solid #9DAAA3;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.step-label {
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #14231C;
+}
+.flow-arrow {
+  color: #14231C;
+  flex-shrink: 0;
+  margin-top: -24px;
+}
+
+/* Two-column Grid for Panels 3-8 */
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  flex: 1;
+}
+.poster-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Panel 3: Data and Model */
+.stat-banner {
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr 1fr;
+  gap: 12px;
+  background: #DDEBE3;
+  border: 2px solid #9DAAA3;
+  border-radius: 10px;
+  padding: 6px 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.stat-box-val {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 800;
+  color: #0B5A43;
+}
+.stat-box-lbl {
+  font-size: 19px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #14231C;
+  margin-top: 4px;
+}
+.classes-bar {
+  display: flex;
+  height: 34px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.bar-maize {
+  flex: 7;
+  background: #0B5A43;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 700;
+}
+.bar-tomato {
+  flex: 5;
+  background: #0072B2;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 700;
+}
+.model-text {
+  font-size: 19px;
+  line-height: 1.35;
+  color: #14231C;
+  margin: 0 0 6px 0;
+}
+
+/* Panel 4: Accuracy Table */
+.accuracy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+.accuracy-table th {
+  background: #DDEBE3;
+  border-top: 2px solid #9DAAA3;
+  border-bottom: 2px solid #9DAAA3;
+  padding: 6px 10px;
+  font-size: 21px;
+  font-weight: 700;
+  color: #14231C;
+  text-align: left;
+}
+.accuracy-table td {
+  padding: 5px 10px;
+  border-bottom: 1.5px solid #9DAAA3;
+  font-size: 20px;
+  color: #14231C;
+}
+.metric-name {
+  font-weight: 600;
+}
+.target-val {
+  font-weight: 700;
+  color: #0B5A43;
+}
+.result-val {
+  font-weight: 700;
+  font-size: 22px;
+}
+.result-was {
+  font-size: 16px;
+  color: #41504A;
+  margin-left: 6px;
+}
+.table-caption {
+  font-size: 18px;
+  line-height: 1.35;
+  color: #14231C;
+  margin: 0;
+}
+
+/* Panel 5: Precision Spraying Map */
+.spray-formula-strip {
+  background: #DDEBE3;
+  border: 2px solid #9DAAA3;
+  border-radius: 8px;
+  padding: 7px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #14231C;
+  margin-bottom: 8px;
+}
+.map-flex-container {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+.map-grid-graphic {
+  flex-shrink: 0;
+}
+.legend-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.legend-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 2px solid #14231C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.legend-label-bold {
+  font-size: 20px;
+  font-weight: 600;
+  color: #14231C;
+}
+.zone-rule-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #41504A;
+  margin-top: 4px;
+}
+.spray-result-highlight {
+  background: #EDF0EE;
+  border-left: 4px solid #0B5A43;
+  padding: 6px 12px;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #14231C;
+  margin: 0;
+}
+
+/* Panel 6: Chatbot and Dashboard */
+.screenshot-placeholder-box {
+  background: #EDF0EE;
+  border: 2.5px dashed #41504A;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.placeholder-headline {
+  font-size: 22px;
+  font-weight: 700;
+  color: #14231C;
+  margin-bottom: 4px;
+}
+.placeholder-subtext {
+  font-size: 18px;
+  font-weight: 500;
+  color: #41504A;
+}
+.chat-dialog-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.chat-bubble-user {
+  align-self: flex-end;
+  background: #14231C;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 14px 14px 4px 14px;
+  font-size: 19px;
+  font-weight: 500;
+  max-width: 85%;
+}
+.chat-bubble-bot {
+  align-self: flex-start;
+  background: #DDEBE3;
+  border: 2px solid #9DAAA3;
+  color: #14231C;
+  padding: 8px 14px;
+  border-radius: 14px 14px 14px 4px;
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 500;
+  max-width: 95%;
+}
+.bot-metadata {
+  font-size: 17px;
+  color: #41504A;
+  font-family: monospace;
+  margin: 0;
+}
+
+/* Panel 7: Crop-health Trends */
+.panel-header-with-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #EDF0EE;
+}
+.header-left-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.small-demo-badge {
+  background: #FFE08A;
+  border: 2px solid #14231C;
+  border-radius: 14px;
+  padding: 2px 12px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #14231C;
+}
+.trend-subtitle {
+  font-size: 19px;
+  font-weight: 600;
+  color: #14231C;
+  margin: 0 0 4px 0;
+}
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 2px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 19px;
+  font-weight: 600;
+  color: #14231C;
+}
+
+/* Panel 8: Impact and Next Steps */
+.impact-chips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.impact-chip {
+  background: #DDEBE3;
+  border: 2px solid #9DAAA3;
+  border-radius: 10px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chip-label {
+  font-size: 19px;
+  font-weight: 700;
+  color: #14231C;
+}
+.next-steps-section {
+  display: flex;
+  flex-direction: column;
+}
+.next-steps-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: #14231C;
+  margin: 0 0 6px 0;
+}
+.bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bullet-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.bullet-dot {
+  width: 8px;
+  height: 8px;
+  background: #14231C;
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+.bullet-text {
+  font-size: 18px;
+  line-height: 1.3;
+  color: #14231C;
+}
+
+/* Footer */
+footer.poster-footer {
+  height: 78px;
+  background: #0B3B2D;
+  border-top: 3px solid #0B5A43;
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+.footer-team {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.footer-line {
+  font-size: 20px;
+  line-height: 1.2;
+}
+.footer-line strong {
+  font-weight: 700;
+  color: #DDEBE3;
+}
+.footer-module {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 </style>
 </head>
 <body>
 <div class="stage" id="stage">
-<div class="poster" id="poster" role="document" aria-label="LeafSight project poster">
-<div style="left:0px;top:0px;width:1188px;height:124px;background:#0B3B2D;"></div>
-<svg style="left:24px;top:30px" width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M32 8 C50 12 54 36 32 56 C10 36 14 12 32 8 Z" fill="#DDEBE3"/><path d="M32 14 L32 52" stroke="#0B3B2D" stroke-width="3"/><path d="M4 16 V4 H16 M48 4 H60 V16 M60 48 V60 H48 M16 60 H4 V48" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
-<div style="left:104px;top:2px;width:560px;font-size:68px;line-height:76px;font-weight:700;color:#fff;text-align:left">LeafSight</div>
-<div style="left:104px;top:80px;width:620px;font-size:28px;line-height:34px;font-weight:400;color:#fff;text-align:left">Spot disease early. Spray only where needed.</div>
-<div style="left:730px;top:10px;width:200px;font-size:64px;line-height:72px;font-weight:700;color:#FFE08A;text-align:left">77.8%</div>
-<div style="left:930px;top:16px;width:234px;font-size:26px;line-height:32px;font-weight:400;color:#fff;text-align:left">less chemical than blanket spraying</div>
-<div style="left:730px;top:82px;width:277px;height:34px;background:#FFE08A;border:2px solid #14231C;border-radius:17px;"></div>
-<div style="left:730px;top:83px;width:277px;font-size:26px;line-height:30px;font-weight:700;color:#14231C;text-align:center">Simulated demo run</div>
-<div style="left:24px;top:134px;width:1140px;height:148px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:36px;top:143px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">1</text></svg>
-<div style="left:86px;top:143px;width:1066px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">The problem</div>
-<div style="left:36px;top:192px;width:364px;height:80px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:46px;top:208px" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M10 5 H38 L26 24 L38 43 H10 L22 24 Z" fill="none" stroke="#14231C" stroke-width="3" stroke-linejoin="round"/><path d="M17 43 H31 L24 32 Z" fill="#E69F00"/></svg>
-<div style="left:104px;top:200px;width:288px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Hand checks are slow, can miss early disease</div>
-<div style="left:412px;top:192px;width:364px;height:80px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:422px;top:208px" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="5" y="18" width="38" height="26" fill="#DDEBE3" stroke="#14231C" stroke-width="3"/><rect x="29" y="27" width="10" height="10" fill="#A73F00"/><path d="M11 3 V12 M24 3 V12 M37 3 V12" stroke="#0072B2" stroke-width="3" stroke-linecap="round"/></svg>
-<div style="left:480px;top:200px;width:288px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Whole fields sprayed for small patches</div>
-<div style="left:788px;top:192px;width:364px;height:80px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:798px;top:208px" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M24 3 C32 15 39 24 39 31 A15 15 0 0 1 9 31 C9 24 16 15 24 3 Z" fill="#0072B2"/><path d="M17 33 A7 7 0 0 0 24 40" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
-<div style="left:856px;top:200px;width:288px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Waste, cost and runoff into soil and water</div>
-<div style="left:24px;top:292px;width:1140px;height:210px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:36px;top:301px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">2</text></svg>
-<div style="left:86px;top:301px;width:1066px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">Our solution</div>
-<div style="left:111px;top:350px;width:72px;height:72px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:12px;box-sizing:content-box;margin:-2px 0 0 -2px;"></div>
-<svg style="left:111px;top:350px" width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><ellipse cx="13" cy="20" rx="11" ry="3.5" fill="#14231C"/><ellipse cx="59" cy="20" rx="11" ry="3.5" fill="#14231C"/><path d="M13 23 L28 32 M59 23 L44 32" stroke="#14231C" stroke-width="3"/><rect x="24" y="28" width="24" height="14" rx="6" fill="#14231C"/><circle cx="36" cy="47" r="5" fill="#0B5A43"/><path d="M36 52 L20 66 M36 52 L52 66" stroke="#0B5A43" stroke-width="2.5" stroke-dasharray="4 3"/></svg>
-<div style="left:36px;top:430px;width:223px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:center">Drone or pole photo</div>
-<svg style="left:246px;top:372px" width="26" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div style="left:334px;top:350px;width:72px;height:72px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:12px;box-sizing:content-box;margin:-2px 0 0 -2px;"></div>
-<svg style="left:334px;top:350px" width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M36 12 C54 16 58 40 36 60 C14 40 18 16 36 12 Z" fill="#0B5A43"/><path d="M36 20 V56" stroke="#fff" stroke-width="2.5"/><circle cx="28" cy="34" r="4" fill="#E69F00"/><circle cx="44" cy="42" r="4" fill="#E69F00"/><path d="M6 16 V6 H16 M56 6 H66 V16 M66 56 V66 H56 M16 66 H6 V56" fill="none" stroke="#14231C" stroke-width="3.5" stroke-linecap="round"/></svg>
-<div style="left:259px;top:430px;width:223px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:center">AI classifies leaf</div>
-<svg style="left:469px;top:372px" width="26" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div style="left:557px;top:350px;width:72px;height:72px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:12px;box-sizing:content-box;margin:-2px 0 0 -2px;"></div>
-<svg style="left:557px;top:350px" width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="12" y="44" width="14" height="18" fill="#56B4E9" stroke="#14231C" stroke-width="2"/><rect x="29" y="30" width="14" height="32" fill="#E69F00" stroke="#14231C" stroke-width="2"/><rect x="46" y="12" width="14" height="50" fill="#A73F00" stroke="#14231C" stroke-width="2"/><path d="M8 64 H64" stroke="#14231C" stroke-width="3"/></svg>
-<div style="left:482px;top:430px;width:223px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:center">Severity per zone</div>
-<svg style="left:692px;top:372px" width="26" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div style="left:780px;top:350px;width:72px;height:72px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:12px;box-sizing:content-box;margin:-2px 0 0 -2px;"></div>
-<svg style="left:780px;top:350px" width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="10" y="10" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/><rect x="28" y="10" width="16" height="16" fill="#E69F00" stroke="#14231C" stroke-width="1.5"/><rect x="46" y="10" width="16" height="16" fill="#A73F00" stroke="#14231C" stroke-width="1.5"/><rect x="10" y="28" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/><rect x="28" y="28" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/><rect x="46" y="28" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/><rect x="10" y="46" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/><rect x="28" y="46" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/><rect x="46" y="46" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/></svg>
-<div style="left:705px;top:430px;width:223px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:center">Spray map</div>
-<svg style="left:915px;top:372px" width="26" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div style="left:1003px;top:350px;width:72px;height:72px;background:#EDF0EE;border:2px solid #9DAAA3;border-radius:12px;box-sizing:content-box;margin:-2px 0 0 -2px;"></div>
-<svg style="left:1003px;top:350px" width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="36" cy="36" r="26" fill="#0B5A43"/><path d="M23 36 L32.1 45.1 L49 26.9" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div style="left:928px;top:430px;width:223px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:center">Farmer approves every zone</div>
-<div style="left:24px;top:512px;width:545px;height:360px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:36px;top:521px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">3</text></svg>
-<div style="left:86px;top:521px;width:471px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">Data and model</div>
-<div style="left:36px;top:570px;width:150px;font-size:40px;line-height:44px;font-weight:700;color:#0B5A43;text-align:left">11,069</div>
-<div style="left:36px;top:614px;width:150px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">raw images</div>
-<div style="left:186px;top:570px;width:215px;font-size:40px;line-height:44px;font-weight:700;color:#0B5A43;text-align:left">12</div>
-<div style="left:186px;top:614px;width:215px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">classes (3 pests)</div>
-<div style="left:401px;top:570px;width:176px;font-size:40px;line-height:44px;font-weight:700;color:#0B5A43;text-align:left">224×224</div>
-<div style="left:401px;top:614px;width:176px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">input size</div>
-<div style="left:36px;top:654px;width:301px;height:40px;background:#0B5A43;border-radius:8px 0 0 8px;"></div>
-<div style="left:339px;top:654px;width:218px;height:40px;background:#0072B2;border-radius:0 8px 8px 0;"></div>
-<div style="left:36px;top:658px;width:301px;font-size:26px;line-height:32px;font-weight:700;color:#fff;text-align:center">7 maize</div>
-<div style="left:339px;top:658px;width:218px;font-size:26px;line-height:32px;font-weight:700;color:#fff;text-align:center">5 tomato</div>
-<div style="left:36px;top:702px;width:521px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">CCMT dataset, Univ. of Energy and Natural Resources, Ghana, 2023.</div>
-<div style="left:36px;top:772px;width:521px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">MobileNetV3-Large, pre-trained, trained in two stages with class weights. Under 70% confidence, the farmer checks.</div>
-<div style="left:579px;top:512px;width:585px;height:360px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:591px;top:521px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">4</text></svg>
-<div style="left:641px;top:521px;width:511px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">How we measure accuracy</div>
-<div style="left:591px;top:570px;width:561px;height:38px;background:#DDEBE3;border-bottom:2px solid #9DAAA3;border-top:2px solid #9DAAA3;"></div>
-<div style="left:597px;top:573px;width:197px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:left">Metric</div>
-<div style="left:802px;top:573px;width:104px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:left">Target</div>
-<div style="left:914px;top:573px;width:236px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:left">Result</div>
-<div style="left:591px;top:608px;width:561px;height:38px;background:#fff;border-bottom:2px solid #9DAAA3;"></div>
-<div style="left:597px;top:611px;width:197px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Accuracy</div>
-<div style="left:802px;top:611px;width:104px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">≥ 90%</div>
-<div style="left:912px;top:612px;width:236px;height:30px;background:#FFF4CC;border:2px dashed #41504A;border-radius:6px;"></div>
-<div style="left:912px;top:612px;width:236px;font-size:26px;line-height:28px;font-weight:400;color:#41504A;text-align:center">insert final result</div>
-<div style="left:591px;top:646px;width:561px;height:38px;background:#fff;border-bottom:2px solid #9DAAA3;"></div>
-<div style="left:597px;top:649px;width:197px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Macro recall</div>
-<div style="left:802px;top:649px;width:104px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">≥ 92%</div>
-<div style="left:912px;top:650px;width:236px;height:30px;background:#FFF4CC;border:2px dashed #41504A;border-radius:6px;"></div>
-<div style="left:912px;top:650px;width:236px;font-size:26px;line-height:28px;font-weight:400;color:#41504A;text-align:center">insert final result</div>
-<div style="left:591px;top:684px;width:561px;height:38px;background:#fff;border-bottom:2px solid #9DAAA3;"></div>
-<div style="left:597px;top:687px;width:197px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Macro precision</div>
-<div style="left:802px;top:687px;width:104px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">≥ 87%</div>
-<div style="left:912px;top:688px;width:236px;height:30px;background:#FFF4CC;border:2px dashed #41504A;border-radius:6px;"></div>
-<div style="left:912px;top:688px;width:236px;font-size:26px;line-height:28px;font-weight:400;color:#41504A;text-align:center">insert final result</div>
-<div style="left:591px;top:722px;width:561px;height:38px;background:#fff;border-bottom:2px solid #9DAAA3;"></div>
-<div style="left:597px;top:725px;width:197px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Macro F1</div>
-<div style="left:802px;top:725px;width:104px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">≥ 89.5%</div>
-<div style="left:912px;top:726px;width:236px;height:30px;background:#FFF4CC;border:2px dashed #41504A;border-radius:6px;"></div>
-<div style="left:912px;top:726px;width:236px;font-size:26px;line-height:28px;font-weight:400;color:#41504A;text-align:center">insert final result</div>
-<div style="left:591px;top:768px;width:561px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Recall comes first: a missed sick plant costs more than a false alarm. A confusion matrix is also shown.</div>
-<div style="left:24px;top:882px;width:545px;height:356px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:36px;top:891px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">5</text></svg>
-<div style="left:86px;top:891px;width:471px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">Precision spraying map</div>
-<div style="left:36px;top:940px;width:521px;height:34px;background:#DDEBE3;border:2px solid #9DAAA3;border-radius:8px;"></div>
-<div style="left:36px;top:941px;width:521px;font-size:26px;line-height:30px;font-weight:700;color:#14231C;text-align:center">Severity = class weight × confidence</div>
-<svg style="left:36px;top:980px" width="182" height="182" viewBox="0 0 182 182" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="6" y="122" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M22.0 149.0 L29.7 156.7 L44.0 141.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="64" y="122" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M80.0 149.0 L87.7 156.7 L102.0 141.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="122" y="122" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M138.0 149.0 L145.7 156.7 L160.0 141.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="64" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M22.0 91.0 L29.7 98.7 L44.0 83.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="64" y="64" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M80.0 91.0 L87.7 98.7 L102.0 83.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="122" y="64" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M138.0 91.0 L145.7 98.7 L160.0 83.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M22.0 33.0 L29.7 40.7 L44.0 25.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="64" y="6" width="54" height="54" rx="6" fill="#E69F00" stroke="#14231C" stroke-width="2"/><path d="M91.0 20.0 L104.0 33.0 L91.0 46.0 L78.0 33.0 Z" fill="#14231C"/><rect x="122" y="6" width="54" height="54" rx="6" fill="#A73F00" stroke="#14231C" stroke-width="2"/><path d="M149.0 20.0 L163.3 44.05 L134.7 44.05 Z" fill="#fff"/><rect x="119" y="3" width="60" height="60" rx="8" fill="none" stroke="#14231C" stroke-width="4"/></svg>
-<svg style="left:220px;top:984px" width="30" height="60" viewBox="0 0 30 60" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M15 2 L26 30 L15 24 L4 30 Z" fill="#14231C"/><text x="15" y="57" text-anchor="middle" font-size="26" font-weight="700" fill="#14231C">N</text></svg>
-<svg style="left:258px;top:982px" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="1" y="1" width="28" height="28" rx="5" fill="#A73F00" stroke="#14231C" stroke-width="2"/><path d="M15 7 L23.8 21.8 L6.199999999999999 21.8 Z" fill="#fff"/></svg>
-<div style="left:296px;top:981px;width:261px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">High: 100% dose</div>
-<svg style="left:258px;top:1020px" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="1" y="1" width="28" height="28" rx="5" fill="#E69F00" stroke="#14231C" stroke-width="2"/><path d="M15 7 L23 15 L15 23 L7 15 Z" fill="#14231C"/></svg>
-<div style="left:296px;top:1019px;width:261px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Standard: 60% dose</div>
-<svg style="left:258px;top:1058px" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><rect x="1" y="1" width="28" height="28" rx="5" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/><path d="M8 15 L12.9 19.9 L22 10.100000000000001" fill="none" stroke="#14231C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div style="left:296px;top:1057px;width:261px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">No action</div>
-<div style="left:258px;top:1100px;width:299px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">20 m zones; max 50% sprayed per run</div>
-<div style="left:36px;top:1166px;width:521px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Simulated demo run: 2 of 9 zones flagged, about 77.8% less chemical.</div>
-<div style="left:579px;top:882px;width:585px;height:356px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:591px;top:891px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">6</text></svg>
-<div style="left:641px;top:891px;width:511px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">Chatbot and dashboard</div>
-<div style="left:591px;top:940px;width:561px;height:100px;background:#EDF0EE;border:3px dashed #41504A;border-radius:10px;"></div>
-<div style="left:601px;top:946px;width:541px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:center">Insert dashboard screenshot</div>
-<div style="left:601px;top:978px;width:541px;font-size:26px;line-height:28px;font-weight:400;color:#41504A;text-align:center">Map, zone details, approve/reject, history, chat</div>
-<div style="left:791px;top:1048px;width:361px;height:40px;background:#14231C;border-radius:14px 14px 4px 14px;"></div>
-<div style="left:791px;top:1052px;width:361px;font-size:26px;line-height:32px;font-weight:400;color:#fff;text-align:center">Which zones need spraying?</div>
-<div style="left:591px;top:1094px;width:561px;height:78px;background:#DDEBE3;border:2px solid #9DAAA3;border-radius:14px 14px 14px 4px;"></div>
-<div style="left:603px;top:1101px;width:537px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">2 of 9 zones are recommended for spraying. Please check and approve them first.</div>
-<div style="left:595px;top:1174px;width:561px;font-size:26px;line-height:32px;font-weight:400;color:#41504A;text-align:left">Understood as: {"intent": "show_spray_zones"}</div>
-<div style="left:24px;top:1248px;width:545px;height:348px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:36px;top:1257px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">7</text></svg>
-<div style="left:86px;top:1257px;width:471px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">Crop-health trends</div>
-<div style="left:397px;top:1259px;width:160px;height:34px;background:#FFE08A;border:2px solid #14231C;border-radius:17px;"></div>
-<div style="left:397px;top:1260px;width:160px;font-size:26px;line-height:30px;font-weight:700;color:#14231C;text-align:center">Demo data</div>
-<div style="left:36px;top:1304px;width:521px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Weekly % healthy leaves per zone: spread and recovery</div>
-<svg style="left:36px;top:1370px" width="521" height="180" viewBox="0 0 521 180" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><line x1="62" x2="509" y1="140.0" y2="140.0" stroke="#9DAAA3" stroke-width="1.5"/><text x="54" y="149.0" text-anchor="end" font-size="26" fill="#14231C">0</text><line x1="62" x2="509" y1="75.0" y2="75.0" stroke="#9DAAA3" stroke-width="1.5"/><text x="54" y="84.0" text-anchor="end" font-size="26" fill="#14231C">50</text><line x1="62" x2="509" y1="10.0" y2="10.0" stroke="#9DAAA3" stroke-width="1.5"/><text x="54" y="19.0" text-anchor="end" font-size="26" fill="#14231C">100</text><text x="62.0" y="172" text-anchor="middle" font-size="26" fill="#14231C">1</text><text x="125.85714285714286" y="172" text-anchor="middle" font-size="26" fill="#14231C">2</text><text x="189.71428571428572" y="172" text-anchor="middle" font-size="26" fill="#14231C">3</text><text x="253.57142857142858" y="172" text-anchor="middle" font-size="26" fill="#14231C">4</text><text x="317.42857142857144" y="172" text-anchor="middle" font-size="26" fill="#14231C">5</text><text x="381.2857142857143" y="172" text-anchor="middle" font-size="26" fill="#14231C">6</text><text x="445.14285714285717" y="172" text-anchor="middle" font-size="26" fill="#14231C">7</text><text x="509.0" y="172" text-anchor="middle" font-size="26" fill="#14231C">8</text><line x1="317.42857142857144" x2="317.42857142857144" y1="10" y2="140" stroke="#14231C" stroke-width="2.5" stroke-dasharray="6 5"/><polyline points="62.0,17.8 125.85714285714286,19.1 189.71428571428572,17.8 253.57142857142858,20.4 317.42857142857144,19.1 381.2857142857143,19.1 445.14285714285717,20.4 509.0,19.1" fill="none" stroke="#0B5A43" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="12 7"/><circle cx="62.0" cy="17.8" r="4.5" fill="#0B5A43"/><circle cx="125.85714285714286" cy="19.1" r="4.5" fill="#0B5A43"/><circle cx="189.71428571428572" cy="17.8" r="4.5" fill="#0B5A43"/><circle cx="253.57142857142858" cy="20.4" r="4.5" fill="#0B5A43"/><circle cx="317.42857142857144" cy="19.1" r="4.5" fill="#0B5A43"/><circle cx="381.2857142857143" cy="19.1" r="4.5" fill="#0B5A43"/><circle cx="445.14285714285717" cy="20.4" r="4.5" fill="#0B5A43"/><circle cx="509.0" cy="19.1" r="4.5" fill="#0B5A43"/><polyline points="62.0,23.0 125.85714285714286,33.4 189.71428571428572,49.0 253.57142857142858,64.6 317.42857142857144,80.2 381.2857142857143,72.4 445.14285714285717,56.8 509.0,41.2" fill="none" stroke="#A73F00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62.0" cy="23.0" r="4.5" fill="#A73F00"/><circle cx="125.85714285714286" cy="33.4" r="4.5" fill="#A73F00"/><circle cx="189.71428571428572" cy="49.0" r="4.5" fill="#A73F00"/><circle cx="253.57142857142858" cy="64.6" r="4.5" fill="#A73F00"/><circle cx="317.42857142857144" cy="80.2" r="4.5" fill="#A73F00"/><circle cx="381.2857142857143" cy="72.4" r="4.5" fill="#A73F00"/><circle cx="445.14285714285717" cy="56.8" r="4.5" fill="#A73F00"/><circle cx="509.0" cy="41.2" r="4.5" fill="#A73F00"/><text x="325.42857142857144" y="131.0" font-size="26" font-weight="700" fill="#14231C">Spray approved</text></svg>
-<svg style="left:36px;top:1560px" width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><line x1="3" x2="37" y1="7" y2="7" stroke="#A73F00" stroke-width="5" stroke-linecap="round"/></svg>
-<div style="left:82px;top:1552px;width:200px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Diseased zone</div>
-<svg style="left:286px;top:1560px" width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><line x1="3" x2="37" y1="7" y2="7" stroke="#0B5A43" stroke-width="5" stroke-linecap="round" stroke-dasharray="12 7"/></svg>
-<div style="left:332px;top:1552px;width:200px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Healthy zone</div>
-<div style="left:557px;top:1552px;width:1px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left"></div>
-<div style="left:579px;top:1248px;width:585px;height:348px;background:#fff;border:2px solid #9DAAA3;border-radius:12px;"></div>
-<svg style="left:591px;top:1257px" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="20" cy="20" r="20" fill="#14231C"/><text x="20" y="29" text-anchor="middle" font-size="26" font-weight="700" fill="#fff">8</text></svg>
-<div style="left:641px;top:1257px;width:511px;font-size:32px;line-height:40px;font-weight:700;color:#14231C;text-align:left">Impact and next steps</div>
-<div style="left:591px;top:1306px;width:275px;height:44px;background:#DDEBE3;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:599px;top:1311px" width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><circle cx="17" cy="17" r="15" fill="#E69F00" stroke="#14231C" stroke-width="2"/><text x="17" y="25" text-anchor="middle" font-size="22" font-weight="700" fill="#14231C">$</text></svg>
-<div style="left:639px;top:1313px;width:223px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Lower spray cost</div>
-<div style="left:876px;top:1306px;width:275px;height:44px;background:#DDEBE3;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:884px;top:1311px" width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M17 2 C22 10 28 16 28 22 A11 11 0 0 1 6 22 C6 16 12 10 17 2 Z" fill="#0072B2"/></svg>
-<div style="left:924px;top:1313px;width:223px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Less runoff</div>
-<div style="left:591px;top:1358px;width:275px;height:44px;background:#DDEBE3;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:599px;top:1363px" width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M17 32 V16" stroke="#14231C" stroke-width="3"/><path d="M17 18 C6 18 4 8 4 5 C14 5 17 10 17 18 Z" fill="#0B5A43"/><path d="M17 15 C26 15 30 8 30 4 C20 4 17 8 17 15 Z" fill="#0B5A43"/></svg>
-<div style="left:639px;top:1365px;width:223px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Fewer lost crops</div>
-<div style="left:876px;top:1358px;width:275px;height:44px;background:#DDEBE3;border:2px solid #9DAAA3;border-radius:10px;"></div>
-<svg style="left:884px;top:1363px" width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Liberation Sans,Helvetica,sans-serif"><path d="M4 15 H30 L27 31 H7 Z" fill="#E69F00" stroke="#14231C" stroke-width="2" stroke-linejoin="round"/><path d="M9 15 A8 9 0 0 1 25 15" fill="none" stroke="#14231C" stroke-width="2.5"/></svg>
-<div style="left:924px;top:1365px;width:223px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Local food support</div>
-<div style="left:591px;top:1410px;width:561px;font-size:26px;line-height:32px;font-weight:700;color:#14231C;text-align:left">Limits and next steps</div>
-<div style="left:593px;top:1455px;width:10px;height:10px;background:#14231C;border-radius:5px;"></div>
-<div style="left:615px;top:1444px;width:537px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Dataset comes from Ghana</div>
-<div style="left:593px;top:1489px;width:10px;height:10px;background:#14231C;border-radius:5px;"></div>
-<div style="left:615px;top:1478px;width:537px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Agronomist to validate class weights and thresholds</div>
-<div style="left:593px;top:1555px;width:10px;height:10px;background:#14231C;border-radius:5px;"></div>
-<div style="left:615px;top:1544px;width:537px;font-size:26px;line-height:32px;font-weight:400;color:#14231C;text-align:left">Drone hardware and speed tests to come</div>
-<div style="left:0px;top:1606px;width:1188px;height:76px;background:#14231C;"></div>
-<div style="left:24px;top:1612px;width:740px;font-size:26px;line-height:32px;font-weight:400;color:#fff;text-align:left">Team: [Name 1]   [Name 2]   [Name 3]   [Name 4]</div>
-<div style="left:24px;top:1644px;width:740px;font-size:26px;line-height:32px;font-weight:400;color:#fff;text-align:left">Student numbers: [No. 1]   [No. 2]   [No. 3]   [No. 4]</div>
-<div style="left:800px;top:1612px;width:364px;font-size:26px;line-height:32px;font-weight:700;color:#fff;text-align:left">Module:</div>
-<div style="left:800px;top:1644px;width:364px;font-size:26px;line-height:32px;font-weight:400;color:#fff;text-align:left">[Module name and code]</div>
+  <div class="poster" id="poster" role="document" aria-label="LeafSight project poster">
+    
+    <!-- HEADER -->
+    <header class="poster-header">
+      <div class="header-brand">
+        <!-- LeafSight Logo Icon -->
+        <svg width="68" height="68" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 8 C50 12 54 36 32 56 C10 36 14 12 32 8 Z" fill="#DDEBE3"/>
+          <path d="M32 14 L32 52" stroke="#0B3B2D" stroke-width="3"/>
+          <path d="M4 16 V4 H16 M48 4 H60 V16 M60 48 V60 H48 M16 60 H4 V48" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+        </svg>
+        <div class="header-titles">
+          <h1 class="main-title">LeafSight</h1>
+          <div class="main-tagline">Spot disease early. Spray only where needed.</div>
+        </div>
+      </div>
+      <div class="header-stat-box">
+        <div class="header-stat-row">
+          <span class="header-stat-number">77.8%</span>
+          <span class="header-stat-label">less chemical than blanket spraying</span>
+        </div>
+        <div class="demo-pill">Simulated demo run</div>
+      </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="poster-body">
+      
+      <!-- PANEL 1: The Problem (Full Width) -->
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-number">1</div>
+          <h2 class="panel-title">The problem</h2>
+        </div>
+        <div class="problem-grid">
+          <div class="problem-card">
+            <!-- Hourglass / Slow icon -->
+            <svg width="44" height="44" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 5 H38 L26 24 L38 43 H10 L22 24 Z" fill="none" stroke="#14231C" stroke-width="3.5" stroke-linejoin="round"/>
+              <path d="M17 43 H31 L24 32 Z" fill="#E69F00"/>
+            </svg>
+            <div class="problem-text">Hand checks are slow, can miss early disease</div>
+          </div>
+          <div class="problem-card">
+            <!-- Whole field spray icon -->
+            <svg width="44" height="44" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="18" width="38" height="26" fill="#DDEBE3" stroke="#14231C" stroke-width="3"/>
+              <rect x="29" y="27" width="10" height="10" fill="#A73F00"/>
+              <path d="M11 3 V12 M24 3 V12 M37 3 V12" stroke="#0072B2" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+            <div class="problem-text">Whole fields sprayed for small patches</div>
+          </div>
+          <div class="problem-card">
+            <!-- Runoff / Droplet icon -->
+            <svg width="44" height="44" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 3 C32 15 39 24 39 31 A15 15 0 0 1 9 31 C9 24 16 15 24 3 Z" fill="#0072B2"/>
+              <path d="M17 33 A7 7 0 0 0 24 40" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="problem-text">Waste, cost and runoff into soil and water</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANEL 2: Our Solution (Full Width Pipeline) -->
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-number">2</div>
+          <h2 class="panel-title">Our solution</h2>
+        </div>
+        <div class="solution-flow">
+          <!-- Stage 1 -->
+          <div class="solution-step">
+            <div class="step-icon-box">
+              <svg width="50" height="50" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="13" cy="20" rx="11" ry="3.5" fill="#14231C"/>
+                <ellipse cx="59" cy="20" rx="11" ry="3.5" fill="#14231C"/>
+                <path d="M13 23 L28 32 M59 23 L44 32" stroke="#14231C" stroke-width="3"/>
+                <rect x="24" y="28" width="24" height="14" rx="6" fill="#14231C"/>
+                <circle cx="36" cy="47" r="5" fill="#0B5A43"/>
+                <path d="M36 52 L20 66 M36 52 L52 66" stroke="#0B5A43" stroke-width="2.5" stroke-dasharray="4 3"/>
+              </svg>
+            </div>
+            <div class="step-label">Drone or pole photo</div>
+          </div>
+
+          <!-- Arrow -->
+          <svg class="flow-arrow" width="28" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <!-- Stage 2 -->
+          <div class="solution-step">
+            <div class="step-icon-box">
+              <svg width="50" height="50" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                <path d="M36 12 C54 16 58 40 36 60 C14 40 18 16 36 12 Z" fill="#0B5A43"/>
+                <path d="M36 20 V56" stroke="#ffffff" stroke-width="2.5"/>
+                <circle cx="28" cy="34" r="4" fill="#E69F00"/>
+                <circle cx="44" cy="42" r="4" fill="#E69F00"/>
+                <path d="M6 16 V6 H16 M56 6 H66 V16 M66 56 V66 H56 M16 66 H6 V56" fill="none" stroke="#14231C" stroke-width="3.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="step-label">AI classifies leaf</div>
+          </div>
+
+          <!-- Arrow -->
+          <svg class="flow-arrow" width="28" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <!-- Stage 3 -->
+          <div class="solution-step">
+            <div class="step-icon-box">
+              <svg width="50" height="50" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                <rect x="12" y="44" width="14" height="18" fill="#56B4E9" stroke="#14231C" stroke-width="2"/>
+                <rect x="29" y="30" width="14" height="32" fill="#E69F00" stroke="#14231C" stroke-width="2"/>
+                <rect x="46" y="12" width="14" height="50" fill="#A73F00" stroke="#14231C" stroke-width="2"/>
+                <path d="M8 64 H64" stroke="#14231C" stroke-width="3"/>
+              </svg>
+            </div>
+            <div class="step-label">Severity per zone</div>
+          </div>
+
+          <!-- Arrow -->
+          <svg class="flow-arrow" width="28" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <!-- Stage 4 -->
+          <div class="solution-step">
+            <div class="step-icon-box">
+              <svg width="50" height="50" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="28" y="10" width="16" height="16" fill="#E69F00" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="46" y="10" width="16" height="16" fill="#A73F00" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="10" y="28" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="28" y="28" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="46" y="28" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="10" y="46" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="28" y="46" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+                <rect x="46" y="46" width="16" height="16" fill="#DDEBE3" stroke="#14231C" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="step-label">Spray map</div>
+          </div>
+
+          <!-- Arrow -->
+          <svg class="flow-arrow" width="28" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 14 H19 M12 5 L22 14 L12 23" fill="none" stroke="#14231C" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <!-- Stage 5 -->
+          <div class="solution-step">
+            <div class="step-icon-box">
+              <svg width="50" height="50" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="36" cy="36" r="26" fill="#0B5A43"/>
+                <path d="M23 36 L32.1 45.1 L49 26.9" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="step-label">Farmer approves every zone</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TWO-COLUMN BALANCED CORE SECTION -->
+      <div class="two-column-layout">
+        
+        <!-- LEFT COLUMN: Technical Foundation & Action -->
+        <div class="poster-column">
+          
+          <!-- PANEL 3: Data and Model (Dominant Technical Card) -->
+          <section class="panel panel-primary" style="flex: 1.05;">
+            <div class="panel-header">
+              <div class="panel-number">3</div>
+              <h2 class="panel-title">Data and model</h2>
+            </div>
+            <div class="stat-banner">
+              <div>
+                <div class="stat-box-val">11,069</div>
+                <div class="stat-box-lbl">raw images</div>
+              </div>
+              <div>
+                <div class="stat-box-val">12</div>
+                <div class="stat-box-lbl">classes (3 pests)</div>
+              </div>
+              <div>
+                <div class="stat-box-val">224×224</div>
+                <div class="stat-box-lbl">input size</div>
+              </div>
+            </div>
+            <div class="classes-bar">
+              <div class="bar-maize">7 maize</div>
+              <div class="bar-tomato">5 tomato</div>
+            </div>
+            <p class="model-text" style="font-weight: 600; color: #41504A;">
+              CCMT dataset, Univ. of Energy and Natural Resources, Ghana, 2023.
+            </p>
+            <p class="model-text" style="margin-top: 4px;">
+              MobileNetV3-Large, pre-trained, trained in two stages with class weights. Under 70% confidence, the farmer checks.
+            </p>
+          </section>
+
+          <!-- PANEL 5: Precision Spraying Map (Core AI Output) -->
+          <section class="panel panel-primary" style="flex: 1.15;">
+            <div class="panel-header">
+              <div class="panel-number">5</div>
+              <h2 class="panel-title">Precision spraying map</h2>
+            </div>
+            <div class="spray-formula-strip">
+              Severity = class weight × confidence
+            </div>
+            <div class="map-flex-container">
+              <!-- 3x3 Grid of Zones -->
+              <div class="map-grid-graphic">
+                <svg width="168" height="168" viewBox="0 0 182 182" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Row 3 (Bottom) -->
+                  <rect x="6" y="122" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M22 149 L29.7 156.7 L44 141.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="64" y="122" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M80 149 L87.7 156.7 L102 141.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="122" y="122" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M138 149 L145.7 156.7 L160 141.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  
+                  <!-- Row 2 (Middle) -->
+                  <rect x="6" y="64" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M22 91 L29.7 98.7 L44 83.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="64" y="64" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M80 91 L87.7 98.7 L102 83.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="122" y="64" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M138 91 L145.7 98.7 L160 83.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  
+                  <!-- Row 1 (Top) -->
+                  <rect x="6" y="6" width="54" height="54" rx="6" fill="#DDEBE3" stroke="#14231C" stroke-width="2"/>
+                  <path d="M22 33 L29.7 40.7 L44 25.3" fill="none" stroke="#14231C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="64" y="6" width="54" height="54" rx="6" fill="#E69F00" stroke="#14231C" stroke-width="2"/>
+                  <path d="M91 20 L104 33 L91 46 L78 33 Z" fill="#14231C"/>
+                  <rect x="122" y="6" width="54" height="54" rx="6" fill="#A73F00" stroke="#14231C" stroke-width="2"/>
+                  <path d="M149 20 L163.3 44 L134.7 44 Z" fill="#ffffff"/>
+                  <rect x="119" y="3" width="60" height="60" rx="8" fill="none" stroke="#14231C" stroke-width="4"/>
+                </svg>
+              </div>
+
+              <!-- Legend -->
+              <div class="legend-column">
+                <div class="legend-row">
+                  <div class="legend-icon-badge" style="background: #A73F00;">
+                    <svg width="20" height="20" viewBox="0 0 30 30">
+                      <path d="M15 7 L23.8 21.8 L6.2 21.8 Z" fill="#ffffff"/>
+                    </svg>
+                  </div>
+                  <span class="legend-label-bold">High: 100% dose</span>
+                </div>
+                <div class="legend-row">
+                  <div class="legend-icon-badge" style="background: #E69F00;">
+                    <svg width="20" height="20" viewBox="0 0 30 30">
+                      <path d="M15 7 L23 15 L15 23 L7 15 Z" fill="#14231C"/>
+                    </svg>
+                  </div>
+                  <span class="legend-label-bold">Standard: 60% dose</span>
+                </div>
+                <div class="legend-row">
+                  <div class="legend-icon-badge" style="background: #DDEBE3;">
+                    <svg width="20" height="20" viewBox="0 0 30 30">
+                      <path d="M8 15 L12.9 19.9 L22 10.1" fill="none" stroke="#14231C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <span class="legend-label-bold">No action</span>
+                </div>
+                <div class="zone-rule-text">20 m zones; max 50% sprayed per run</div>
+              </div>
+            </div>
+            <p class="spray-result-highlight">
+              Simulated demo run: 2 of 9 zones flagged, about 77.8% less chemical.
+            </p>
+          </section>
+
+          <!-- PANEL 7: Crop-health Trends -->
+          <section class="panel" style="flex: 1.1;">
+            <div class="panel-header-with-badge">
+              <div class="header-left-group">
+                <div class="panel-number">7</div>
+                <h2 class="panel-title">Crop-health trends</h2>
+              </div>
+              <div class="small-demo-badge">Demo data</div>
+            </div>
+            <div class="trend-subtitle">Weekly % healthy leaves per zone: spread and recovery</div>
+            
+            <div class="chart-container">
+              <!-- Inline SVG Line Chart -->
+              <svg width="478" height="165" viewBox="0 0 521 180" xmlns="http://www.w3.org/2000/svg">
+                <!-- Grid Lines and Y-Axis Labels -->
+                <line x1="62" x2="509" y1="140.0" y2="140.0" stroke="#9DAAA3" stroke-width="1.5"/>
+                <text x="54" y="147.0" text-anchor="end" font-size="22" font-weight="600" fill="#14231C">0</text>
+                <line x1="62" x2="509" y1="75.0" y2="75.0" stroke="#9DAAA3" stroke-width="1.5"/>
+                <text x="54" y="82.0" text-anchor="end" font-size="22" font-weight="600" fill="#14231C">50</text>
+                <line x1="62" x2="509" y1="10.0" y2="10.0" stroke="#9DAAA3" stroke-width="1.5"/>
+                <text x="54" y="17.0" text-anchor="end" font-size="22" font-weight="600" fill="#14231C">100</text>
+                
+                <!-- X-Axis Labels (Weeks 1 to 8) -->
+                <text x="62.0" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">1</text>
+                <text x="125.85" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">2</text>
+                <text x="189.71" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">3</text>
+                <text x="253.57" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">4</text>
+                <text x="317.42" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">5</text>
+                <text x="381.28" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">6</text>
+                <text x="445.14" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">7</text>
+                <text x="509.0" y="168" text-anchor="middle" font-size="20" font-weight="600" fill="#14231C">8</text>
+                
+                <!-- Spray Approved Event Marker at Week 5 -->
+                <line x1="317.4" x2="317.4" y1="10" y2="140" stroke="#14231C" stroke-width="2.5" stroke-dasharray="6 5"/>
+                <text x="325" y="130" font-size="22" font-weight="800" fill="#14231C">Spray approved</text>
+
+                <!-- Healthy Zone Series (Green Dashed) -->
+                <polyline points="62.0,17.8 125.85,19.1 189.71,17.8 253.57,20.4 317.42,19.1 381.28,19.1 445.14,20.4 509.0,19.1" fill="none" stroke="#0B5A43" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="12 7"/>
+                <circle cx="62.0" cy="17.8" r="4.5" fill="#0B5A43"/>
+                <circle cx="125.85" cy="19.1" r="4.5" fill="#0B5A43"/>
+                <circle cx="189.71" cy="17.8" r="4.5" fill="#0B5A43"/>
+                <circle cx="253.57" cy="20.4" r="4.5" fill="#0B5A43"/>
+                <circle cx="317.42" cy="19.1" r="4.5" fill="#0B5A43"/>
+                <circle cx="381.28" cy="19.1" r="4.5" fill="#0B5A43"/>
+                <circle cx="445.14" cy="20.4" r="4.5" fill="#0B5A43"/>
+                <circle cx="509.0" cy="19.1" r="4.5" fill="#0B5A43"/>
+
+                <!-- Diseased Zone Series (Orange/Rust Solid) -->
+                <polyline points="62.0,23.0 125.85,33.4 189.71,49.0 253.57,64.6 317.42,80.2 381.28,72.4 445.14,56.8 509.0,41.2" fill="none" stroke="#A73F00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="62.0" cy="23.0" r="4.5" fill="#A73F00"/>
+                <circle cx="125.85" cy="33.4" r="4.5" fill="#A73F00"/>
+                <circle cx="189.71" cy="49.0" r="4.5" fill="#A73F00"/>
+                <circle cx="253.57" cy="64.6" r="4.5" fill="#A73F00"/>
+                <circle cx="317.42" cy="80.2" r="4.5" fill="#A73F00"/>
+                <circle cx="381.28" cy="72.4" r="4.5" fill="#A73F00"/>
+                <circle cx="445.14" cy="56.8" r="4.5" fill="#A73F00"/>
+                <circle cx="509.0" cy="41.2" r="4.5" fill="#A73F00"/>
+              </svg>
+
+              <!-- Chart Legend -->
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <svg width="34" height="12" viewBox="0 0 34 12">
+                    <line x1="2" x2="32" y1="6" y2="6" stroke="#A73F00" stroke-width="4.5" stroke-linecap="round"/>
+                  </svg>
+                  <span>Diseased zone</span>
+                </div>
+                <div class="legend-item">
+                  <svg width="34" height="12" viewBox="0 0 34 12">
+                    <line x1="2" x2="32" y1="6" y2="6" stroke="#0B5A43" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="8 5"/>
+                  </svg>
+                  <span>Healthy zone</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Evaluation, Interface & Translation -->
+        <div class="poster-column">
+          
+          <!-- PANEL 4: How we measure accuracy (Dominant Evaluation Card) -->
+          <section class="panel panel-primary" style="flex: 1.05;">
+            <div class="panel-header">
+              <div class="panel-number">4</div>
+              <h2 class="panel-title">How we measure accuracy</h2>
+            </div>
+            <table class="accuracy-table">
+              <thead>
+                <tr>
+                  <th style="width: 44%;">Metric</th>
+                  <th style="width: 20%;">Target</th>
+                  <th style="width: 36%;">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="metric-name">Accuracy</td>
+                  <td class="target-val">≥ 90%</td>
+                  <td><span class="result-val">84.3%</span><span class="result-was">from 75.2%</span></td>
+                </tr>
+                <tr>
+                  <td class="metric-name">Macro recall</td>
+                  <td class="target-val">≥ 92%</td>
+                  <td><span class="result-val">85.3%</span><span class="result-was">from 79.8%</span></td>
+                </tr>
+                <tr>
+                  <td class="metric-name">Macro precision</td>
+                  <td class="target-val">≥ 87%</td>
+                  <td><span class="result-val">83.8%</span><span class="result-was">from 74.1%</span></td>
+                </tr>
+                <tr>
+                  <td class="metric-name">Macro F1</td>
+                  <td class="target-val">≥ 89.5%</td>
+                  <td><span class="result-val">84.3%</span><span class="result-was">from 76.2%</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="table-caption">
+              1,661 unseen test images. Fine-tuning the whole network lifted every metric; targets not yet met. No maize leaf was ever mistaken for tomato.
+            </p>
+          </section>
+
+          <!-- PANEL 6: Chatbot and dashboard -->
+          <section class="panel" style="flex: 1.15;">
+            <div class="panel-header">
+              <div class="panel-number">6</div>
+              <h2 class="panel-title">Chatbot and dashboard</h2>
+            </div>
+            
+            <div class="screenshot-placeholder-box">
+              <div class="placeholder-headline">Insert dashboard screenshot</div>
+              <div class="placeholder-subtext">Map, zone details, approve/reject, history, chat</div>
+            </div>
+
+            <div class="chat-dialog-container">
+              <div class="chat-bubble-user">
+                Which zones need spraying?
+              </div>
+              <div class="chat-bubble-bot">
+                2 of 9 zones are recommended for spraying. Please check and approve them first.
+              </div>
+            </div>
+            <p class="bot-metadata">
+              Understood as: {"intent": "show_spray_map"}
+            </p>
+          </section>
+
+          <!-- PANEL 8: Impact and next steps -->
+          <section class="panel" style="flex: 1.1;">
+            <div class="panel-header">
+              <div class="panel-number">8</div>
+              <h2 class="panel-title">Impact and next steps</h2>
+            </div>
+            
+            <!-- 4 Outcome Chips -->
+            <div class="impact-chips-grid">
+              <div class="impact-chip">
+                <svg width="28" height="28" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="15" fill="#E69F00" stroke="#14231C" stroke-width="2"/>
+                  <text x="17" y="24" text-anchor="middle" font-size="20" font-weight="800" fill="#14231C">$</text>
+                </svg>
+                <span class="chip-label">Lower spray cost</span>
+              </div>
+              <div class="impact-chip">
+                <svg width="28" height="28" viewBox="0 0 34 34">
+                  <path d="M17 2 C22 10 28 16 28 22 A11 11 0 0 1 6 22 C6 16 12 10 17 2 Z" fill="#0072B2"/>
+                </svg>
+                <span class="chip-label">Less runoff</span>
+              </div>
+              <div class="impact-chip">
+                <svg width="28" height="28" viewBox="0 0 34 34">
+                  <path d="M17 32 V16" stroke="#14231C" stroke-width="3"/>
+                  <path d="M17 18 C6 18 4 8 4 5 C14 5 17 10 17 18 Z" fill="#0B5A43"/>
+                  <path d="M17 15 C26 15 30 8 30 4 C20 4 17 8 17 15 Z" fill="#0B5A43"/>
+                </svg>
+                <span class="chip-label">Fewer lost crops</span>
+              </div>
+              <div class="impact-chip">
+                <svg width="28" height="28" viewBox="0 0 34 34">
+                  <path d="M4 15 H30 L27 31 H7 Z" fill="#E69F00" stroke="#14231C" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M9 15 A8 9 0 0 1 25 15" fill="none" stroke="#14231C" stroke-width="2.5"/>
+                </svg>
+                <span class="chip-label">Local food support</span>
+              </div>
+            </div>
+
+            <!-- Limits & Next Steps -->
+            <div class="next-steps-section">
+              <div class="next-steps-title">Limits and next steps</div>
+              <div class="bullet-list">
+                <div class="bullet-row">
+                  <div class="bullet-dot"></div>
+                  <div class="bullet-text">Dataset comes from Ghana</div>
+                </div>
+                <div class="bullet-row">
+                  <div class="bullet-dot"></div>
+                  <div class="bullet-text">Agronomist to validate class weights and thresholds</div>
+                </div>
+                <div class="bullet-row">
+                  <div class="bullet-dot"></div>
+                  <div class="bullet-text">Drone hardware and speed tests to come</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="poster-footer">
+      <div class="footer-team">
+        <div class="footer-line">
+          <strong>Team:</strong> [Name 1] &nbsp; [Name 2] &nbsp; [Name 3] &nbsp; [Name 4]
+        </div>
+        <div class="footer-line">
+          <strong>Student numbers:</strong> [No. 1] &nbsp; [No. 2] &nbsp; [No. 3] &nbsp; [No. 4]
+        </div>
+      </div>
+      <div class="footer-module">
+        <div class="footer-line"><strong>Module:</strong></div>
+        <div class="footer-line">[Module name and code]</div>
+      </div>
+    </footer>
+
+  </div>
 </div>
-</div>
+
 <script>
-(function(){var p=document.getElementById('poster'),s=document.getElementById('stage');
-function fit(){var k=Math.min(1,window.innerWidth/1188);p.style.transform='scale('+k+')';s.style.width=(1188*k)+'px';s.style.height=(1682*k)+'px';}
-fit();window.addEventListener('resize',fit);})();
+(function() {
+  var p = document.getElementById('poster'),
+      s = document.getElementById('stage');
+  function fit() {
+    var k = Math.min(1, window.innerWidth / 1188);
+    p.style.transform = 'scale(' + k + ')';
+    s.style.width = (1188 * k) + 'px';
+    s.style.height = (1682 * k) + 'px';
+  }
+  fit();
+  window.addEventListener('resize', fit);
+})();
 </script>
 </body>
 </html>

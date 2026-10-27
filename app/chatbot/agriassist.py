@@ -50,39 +50,39 @@ TRAINING = {
         "is there any disease in the north field", "what disease did the AI find",
         "what did the AI find on my tomatoes", "are my plants sick",
         "do my crops have a disease", "which disease is affecting my maize",
-        "what is the problem with my wheat", "is something wrong with the leaves",
+        "what is the problem with my tomatoes", "is something wrong with the leaves",
         "any disease detected", "what did the scan find", "is my maize infected",
         "what is attacking my tomatoes", "tell me what's wrong with the crop",
         "disease check on my field", "what illness do my plants have",
-        "whats wrong with the maize", "is there rust in my field",
+        "whats wrong with the maize", "is there armyworm in my field",
         "did the system detect any disease", "diagnose my field",
-        "what is wrong with the wheat",
+        "what is wrong with the tomatoes",
     ],
     "field_health_summary": [
         "how is my field doing", "give me an overview of crop health",
-        "is everything okay with the wheat", "how are my crops",
+        "is everything okay with the tomatoes", "how are my crops",
         "crop health summary", "how healthy is my farm", "overall status of the fields",
         "how is the maize looking", "are my crops healthy", "give me a summary",
         "field status", "how are things on the farm", "is the north field ok",
         "health report please", "how did the field look in the latest scan",
         "overview", "is my tomato healthy", "quick summary of all zones",
         "how's the farm", "what is the general condition of my crops",
-        "how is the east zone doing", "north", "north?", "east zone", "what about east c",
-        "and the south", "west field", "north a", "centre", "what about the north field",
-        "how is everything looking", "status of all my crops", "give me the big picture", "how are the tomatoes doing", "is the wheat okay", "what is the state of the farm", "overall crop condition", "farm summary please",
+        "how is the east zone doing", "north", "north?", "east zone", "what about r0c2",
+        "and the south", "west field", "r2c2", "centre", "what about the north field",
+        "how is everything looking", "status of all my crops", "give me the big picture", "how are the tomatoes doing", "is the maize okay", "what is the state of the farm", "overall crop condition", "farm summary please",
     ],
     "disease_location": [
-        "where exactly is the disease", "which part of the field has rust",
+        "where exactly is the disease", "which part of the field has armyworm",
         "show me where the problem is", "where was the disease found",
         "which zones are infected", "where are the sick plants",
         "location of the infected plants", "where did the AI detect disease",
-        "which area has gray leaf spot", "where is the blight",
+        "which area has leaf spot", "where is the blight",
         "point me to the diseased area", "which zones have disease",
         "where are the affected plants", "in which part of the field is the problem",
         "where was it detected", "show infected zones",
-        "map of the infected spots", "where is the rust",
+        "map of the infected spots", "where are the armyworms",
         "what part of the field is sick", "where do I find the disease",
-        "which blocks have disease", "where are the infected zones", "locate the disease", "which areas are sick", "where did you find the rust", "tell me where the infection is", "which zones show disease", "where are the problem spots",
+        "which blocks have disease", "where are the infected zones", "locate the disease", "which areas are sick", "where did you find the grasshoppers", "tell me where the infection is", "which zones show disease", "where are the problem spots",
     ],
     "get_affected_area": [
         "how much of the north field is affected", "what percentage is infected",
@@ -131,45 +131,45 @@ TRAINING = {
         "what's the confidence", "how much can I trust the detection",
         "is this result reliable", "how confident is the system",
         "what percentage sure is the AI", "confidence for the north zone",
-        "is the AI certain about rust", "can I rely on this result",
+        "is the AI certain about leaf spot", "can I rely on this result",
         "how good is this detection",
-        "how certain are you about east c", "what is the confidence for east c", "is that result trustworthy", "how sure is the system about this", "how accurate is the AI here", "give me the confidence",
+        "how certain are you about r0c2", "what is the confidence for r0c2", "is that result trustworthy", "how sure is the system about this", "how accurate is the AI here", "give me the confidence",
     ],
     "explain_result": [
-        "why does the AI say it is rust", "show me the photo you used",
+        "why does the AI say it is fall armyworm", "show me the photo you used",
         "why was this zone flagged", "what did the AI look at",
         "show me the leaf pictures", "explain this result",
         "how did the AI decide", "show me the images", "show the photos",
         "what does the AI see in the photo", "why do you think it is blight",
         "which photo shows the disease", "let me see the leaf images",
-        "what evidence is there", "why is east c flagged", "open the photos",
+        "what evidence is there", "why is r0c2 flagged", "open the photos",
         "show me the evidence", "what made the AI think that",
         "see the pictures of the sick leaves", "explain why",
-        "why is north a flagged", "show me what the AI saw", "why did you say gray leaf spot", "show the leaf pictures for east c",
+        "why is r2c2 flagged", "show me what the AI saw", "why did you say leaf spot", "show the leaf pictures for r0c2",
     ],
     "mark_reviewed": [
-        "I've checked North A and it looks right", "mark the east zone as reviewed",
-        "I reviewed north b", "I have checked the map", "confirm I checked zone a",
-        "I checked it, it looks correct", "reviewed east c",
-        "mark north a as checked", "I verified the north zones",
+        "I've checked r2c2 and it looks right", "mark the east zone as reviewed",
+        "I reviewed r2c1", "I have checked the map", "confirm I checked zone a",
+        "I checked it, it looks correct", "reviewed r0c2",
+        "mark r2c2 as checked", "I verified the north zones",
         "the map looks right to me", "approve the north zone",
-        "I've inspected east c in the field", "I confirm the results for north a",
-        "set north b to reviewed", "done checking the photos",
+        "I've inspected r0c2 in the field", "I confirm the results for r2c2",
+        "set r2c1 to reviewed", "done checking the photos",
         "I checked all zones", "I looked at the photos and they match",
-        "I walked the field and it matches", "checked north a and b",
-        "the detection in east c is right",
-        "I have inspected north a", "reviewed and confirmed", "I checked the photos for east c", "north b is confirmed by me", "I double checked north a and it is right", "tick off north b as checked", "I have verified east c", "record that I reviewed the north zone",
+        "I walked the field and it matches", "checked r2c1 and r2c2",
+        "the detection in r0c2 is right",
+        "I have inspected r2c2", "reviewed and confirmed", "I checked the photos for r0c2", "r2c1 is confirmed by me", "I double checked r2c2 and it is right", "tick off r2c1 as checked", "I have verified r0c2", "record that I reviewed the north zone",
     ],
     "flag_incorrect": [
         "that leaf is healthy", "this result is wrong", "the map is in the wrong place",
-        "the AI is wrong", "flag this result", "that's not rust",
+        "the AI is wrong", "flag this result", "that's not armyworm",
         "this is incorrect", "report a mistake", "there is no disease there",
-        "the detection in north a is wrong", "that is a false alarm",
+        "the detection in r2c2 is wrong", "that is a false alarm",
         "the AI got it wrong", "flag as incorrect", "this isn't right",
         "wrong disease", "the plants there are fine", "I disagree with this result",
         "mark this as a mistake", "the zone is healthy", "that diagnosis is not right",
         "the location is off",
-        "the AI made a mistake in north b", "that detection is a mistake", "no that is wrong", "the result for east c is incorrect", "it is not rust it is healthy", "please flag the north a result", "this detection is false", "the AI missed the mark here",
+        "the AI made a mistake in r2c1", "that detection is a mistake", "no that is wrong", "the result for r0c2 is incorrect", "it is not leaf spot it is healthy", "please flag the r2c2 result", "this detection is false", "the AI missed the mark here",
     ],
     "show_history": [
         "show me last week's results", "what did the AI find yesterday",
@@ -183,7 +183,7 @@ TRAINING = {
         "results from the past week",
     ],
     "compare_over_time": [
-        "is the north field better than last month", "has the rust spread since the last scan",
+        "is the north field better than last month", "has the leaf spot spread since the last scan",
         "is it getting worse", "compare this scan with the previous one",
         "is the disease spreading", "has it improved since last week",
         "how does it compare with last week", "trend over time",
@@ -196,15 +196,15 @@ TRAINING = {
         "is it better than last week", "has it got worse since the last scan", "how has it changed", "compare with the previous scan", "is the infection spreading or shrinking",
     ],
     "get_disease_info": [
-        "what is gray leaf spot", "how does common rust spread",
-        "tell me about early blight", "what causes rust in maize",
-        "explain gray leaf spot", "what does blight look like",
-        "how does the disease spread", "what are the symptoms of rust",
-        "what conditions does gray leaf spot like", "info on early blight",
-        "what is common rust", "is gray leaf spot dangerous",
+        "what is leaf spot", "how does streak virus spread",
+        "tell me about leaf curl", "what causes streak virus in maize",
+        "explain leaf spot", "what does blight look like",
+        "how does the disease spread", "what are the symptoms of streak virus",
+        "what conditions does leaf spot like", "info on septoria leaf spot",
+        "what is fall armyworm", "is fall armyworm dangerous",
         "tell me more about the disease", "how does blight affect tomatoes",
-        "what are the signs of rust", "what is a fungal leaf disease",
-        "learn about gray leaf spot", "what is blight", "describe rust",
+        "what are the signs of fall armyworm", "what is a fungal leaf disease",
+        "learn about verticillium wilt", "what is blight", "describe fall armyworm",
     ],
     "scan_status": [
         "when was the field last scanned", "did the drone cover the whole field",
@@ -234,7 +234,7 @@ TRAINING = {
         "how do I fix my tractor", "what is the exchange rate",
         "recommend a movie", "how tall is mount everest",
         "send an email to my supplier", "how do I get a loan for seeds",
-        "when should I plant maize", "how much does a tractor cost", "what fertiliser is best for wheat", "tell me the news", "how do I register my farm", "where can I buy seed", "what is the price of wheat", "translate this to zulu", "what is five plus five", "who is the president", "what is the date today", "i am hungry", "my phone is broken", "give me a recipe", "how many people live in africa", "can you call my husband", "what is a good name for a dog", "is it going to be hot this week", "how do I irrigate better", "tell me about the stock market",
+        "when should I plant maize", "how much does a tractor cost", "what fertiliser is best for tomatoes", "tell me the news", "how do I register my farm", "where can I buy seed", "what is the price of maize", "translate this to zulu", "what is five plus five", "who is the president", "what is the date today", "i am hungry", "my phone is broken", "give me a recipe", "how many people live in africa", "can you call my husband", "what is a good name for a dog", "is it going to be hot this week", "how do I irrigate better", "tell me about the stock market",
     ],
 }
 
@@ -243,7 +243,7 @@ TRAINING = {
 EXTRA_TRAINING = {
     "identify_disease": [
         "what is making my maize sick",
-        "has my wheat got a disease",
+        "has my tomato crop got a disease",
         "is the corn unhealthy",
         "what has the AI spotted in my crop",
         "name the disease on my tomatoes",
@@ -255,14 +255,14 @@ EXTRA_TRAINING = {
         "what's bothering my crops",
         "which disease was found in the east zone",
         "what's the matter with my maize",
-        "is my wheat diseased",
+        "is my maize diseased",
         "any sickness on the tomato plants",
         "what has the scan picked up on my crops",
         "is a disease attacking the corn",
         "which illness is in the east zone",
         "my maize looks sick, what is it",
         "which disease do my crops have",
-        "has the AI picked up any disease on the wheat",
+        "has the AI picked up any disease on the tomatoes",
     ],
     "field_health_summary": [
         "how's everything on the farm today",
@@ -271,7 +271,7 @@ EXTRA_TRAINING = {
         "any problems on the farm today",
         "give me the farm status",
         "how are all the zones",
-        "what's the health of my wheat",
+        "what's the health of my tomatoes",
         "is the maize in good condition",
         "report on crop health",
         "are all my zones healthy",
@@ -281,7 +281,7 @@ EXTRA_TRAINING = {
         "give me a quick rundown of the farm",
         "is the whole farm in good shape",
         "crop condition report please",
-        "how is the wheat looking",
+        "how is the maize looking",
         "what is the overall picture",
         "give me the state of play on the farm",
         "are the tomatoes fine",
@@ -295,13 +295,13 @@ EXTRA_TRAINING = {
         "find the infected spots",
         "where is the sickness in the field",
         "tell me the location of the disease",
-        "which zones does the rust affect",
+        "which zones does the armyworm affect",
         "where has the AI found problems",
         "list the diseased zones",
         "where on the farm is the infection",
         "which parts of the field are diseased",
         "show me the spots where plants are sick",
-        "where did the system find rust",
+        "where did the system find leaf spot",
         "tell me which zones have the disease",
         "which area is the blight in",
         "which section of the field has the disease",
@@ -312,7 +312,7 @@ EXTRA_TRAINING = {
         "how much of the zone is diseased",
         "what is the size of the problem",
         "how many hectares are sick",
-        "percentage infected in east c",
+        "percentage infected in r0c2",
         "what portion is damaged",
         "how much of the crop has the disease",
         "give me the infected area in hectares",
@@ -333,7 +333,7 @@ EXTRA_TRAINING = {
         "open the map of zones to treat",
         "which zones should be treated",
         "show me where to spray",
-        "spray map for east c",
+        "spray map for r0c2",
         "what is on the spray map",
         "list the zones flagged for treatment",
         "where is treatment suggested",
@@ -353,10 +353,10 @@ EXTRA_TRAINING = {
     "request_treatment_advice": [
         "what should I use to treat this",
         "how do I fix the disease on my maize",
-        "which product kills rust",
+        "which product kills armyworm",
         "what is the recommended pesticide",
         "give me a treatment plan",
-        "what spray works on gray leaf spot",
+        "what spray works on leaf spot",
         "should I treat everything",
         "tell me what chemicals to apply",
         "is it time to apply fungicide",
@@ -378,14 +378,14 @@ EXTRA_TRAINING = {
         "what is the probability that this is right",
         "give me the confidence percentage",
         "how much do you trust this detection",
-        "how reliable is the AI on east c",
+        "how reliable is the AI on r0c2",
         "what are the chances the AI is correct",
         "how dependable is that result",
         "level of certainty please",
         "how sure is the AI about the maize result",
         "are the results trustworthy",
         "how confident is the AI",
-        "is the system certain about north a",
+        "is the system certain about r2c2",
         "what are the odds the AI is right",
         "how much should I believe this detection",
         "give me the certainty level",
@@ -399,62 +399,62 @@ EXTRA_TRAINING = {
         "how did the AI reach that decision",
         "which part of the leaf did it look at",
         "show me the evidence photos",
-        "walk me through why it flagged north a",
+        "walk me through why it flagged r2c2",
         "why did the AI pick that disease",
-        "what did the AI see that made it say rust",
+        "what did the AI see that made it say armyworm",
         "can I view the images behind the detection",
         "explain how you decided",
-        "show the image for east c",
-        "why does the system think it is gray leaf spot",
-        "let me look at the photos for north b",
+        "show the image for r0c2",
+        "why does the system think it is leaf spot",
+        "let me look at the photos for r2c1",
         "what in the image made it flag this",
         "show me the pictures behind this",
         "how did you come to that conclusion",
         "can I see the leaf images",
-        "why did the AI flag east c",
+        "why did the AI flag r0c2",
         "can I see the pictures the AI used",
         "what is the AI basing this on",
     ],
     "mark_reviewed": [
-        "I am happy with the north a result",
-        "I have gone through north b and it is correct",
-        "record my check of east c",
-        "log that I verified north a",
-        "I confirm north a and b are right",
+        "I am happy with the r2c2 result",
+        "I have gone through r2c1 and it is correct",
+        "record my check of r0c2",
+        "log that I verified r2c2",
+        "I confirm r2c1 and r2c2 are right",
         "I looked at the zone myself and it is accurate",
         "mark the zones I checked",
         "I've verified the results",
         "confirm that I reviewed this",
-        "north a has been checked by me",
-        "I looked at north a and the result is correct",
-        "please mark east c as reviewed",
-        "I have confirmed the north b detection",
-        "I went out and checked north a, all good",
-        "sign off north b for me",
-        "I inspected the plants in east c and they match",
-        "I've looked at north b and agree",
-        "mark north a as verified",
-        "I checked east c in person and it is right",
+        "r2c2 has been checked by me",
+        "I looked at r2c2 and the result is correct",
+        "please mark r0c2 as reviewed",
+        "I have confirmed the r2c1 detection",
+        "I went out and checked r2c2, all good",
+        "sign off r2c1 for me",
+        "I inspected the plants in r0c2 and they match",
+        "I've looked at r2c1 and agree",
+        "mark r2c2 as verified",
+        "I checked r0c2 in person and it is right",
     ],
     "flag_incorrect": [
-        "the AI is wrong about north a",
+        "the AI is wrong about r2c2",
         "that result is not correct",
-        "false detection in east c",
+        "false detection in r0c2",
         "this flag is a mistake",
         "this zone should not be marked",
         "tell the team this is wrong",
-        "incorrect result in north b",
+        "incorrect result in r2c1",
         "the AI misidentified the disease",
         "the map location is wrong",
         "that is a wrong result",
-        "the AI is mistaken about east c",
+        "the AI is mistaken about r0c2",
         "those plants are fine, the result is wrong",
         "report this detection as incorrect",
-        "north b is not diseased, flag it",
+        "r2c1 is not diseased, flag it",
         "the map shows the wrong spot",
         "this is a false positive",
-        "the AI got north a wrong",
-        "that is not gray leaf spot",
+        "the AI got r2c2 wrong",
+        "that is not leaf spot",
         "this detection is mistaken",
     ],
     "show_history": [
@@ -485,7 +485,7 @@ EXTRA_TRAINING = {
         "how does this scan compare to the last one",
         "is the number of infected zones going up",
         "any change from last month",
-        "is east c getting worse",
+        "is r0c2 getting worse",
         "has the area affected grown since last scan",
         "compare this week with last week",
         "is the north field recovering",
@@ -500,25 +500,25 @@ EXTRA_TRAINING = {
         "compare with the last scan",
     ],
     "get_disease_info": [
-        "what is gray leaf spot disease",
-        "tell me about rust in maize",
-        "what are the symptoms of early blight",
-        "how does gray leaf spot spread",
-        "what causes early blight",
-        "describe common rust to me",
-        "what does rust look like on a leaf",
+        "what is streak virus disease",
+        "tell me about grasshoppers in maize",
+        "what are the symptoms of septoria leaf spot",
+        "how does leaf spot spread",
+        "what causes leaf blight",
+        "describe leaf curl to me",
+        "what does leaf curl look like on a leaf",
         "what conditions favour blight",
-        "explain early blight",
-        "what should I know about gray leaf spot",
-        "what is early blight",
-        "what does gray leaf spot look like",
-        "how does common rust spread between plants",
-        "explain what rust is",
-        "what weather does early blight like",
-        "give me background on gray leaf spot",
-        "tell me about gray leaf spot",
-        "what does common rust do to maize",
-        "how does early blight start",
+        "explain septoria leaf spot",
+        "what should I know about leaf beetles",
+        "what is verticillium wilt",
+        "what does leaf spot look like",
+        "how does leaf curl spread between plants",
+        "explain what streak virus is",
+        "what weather does septoria leaf spot like",
+        "give me background on leaf beetles",
+        "tell me about leaf spot",
+        "what does fall armyworm do to maize",
+        "how does leaf blight start",
     ],
     "scan_status": [
         "when was the last drone flight",
@@ -567,7 +567,7 @@ EXTRA_TRAINING = {
         "will it rain this weekend",
         "which tractor should I buy",
         "how do I apply for a loan",
-        "what is the best time to plant wheat",
+        "what is the best time to plant tomatoes",
         "recommend a seed supplier",
         "who is the minister of agriculture",
         "tell me a story",
@@ -616,6 +616,10 @@ ROUTES = {
 def preprocess(text):
     t = text.lower().replace("\u2019", "'")
     t = re.sub(r"[^a-z0-9'\s]", " ", t)
+    # Which zone is named says nothing about what the farmer wants, so every grid
+    # cell reads as the same word; otherwise "r0c2" leans towards whichever intent
+    # happened to use it most in the training phrases.
+    t = GRID_RE.sub(" zone ", t)
     return re.sub(r"\s+", " ", t).strip()
 
 
@@ -644,54 +648,96 @@ def train_classifier():
 # --------------------------------------------------------------------------
 # Farm configuration and MOCK scan data
 # --------------------------------------------------------------------------
-ZONES = {
-    "North A": {"crop": "maize", "ha": 4.0},
-    "North B": {"crop": "maize", "ha": 3.5},
-    "East C": {"crop": "maize", "ha": 3.0},
-    "South A": {"crop": "maize", "ha": 2.5},
-    "West A": {"crop": "wheat", "ha": 4.5},
-    "South B": {"crop": "wheat", "ha": 5.0},
-    "West B": {"crop": "tomato", "ha": 1.5},
-    "Centre": {"crop": "tomato", "ha": 2.0},
-}
-CROPS = {"maize": r"maize|corn|mealies?", "wheat": r"wheat", "tomato": r"tomato(?:es)?"}
+# The field is the spraying pipeline's grid: 3 x 3 cells of 20 m x 20 m, named
+# R<row>C<col> exactly as on the dashboard and in spraying_map.json. The pipeline counts
+# rows northwards from the field origin, so row 0 is the south edge and row 2 the north
+# edge (the dashboard draws row 2 at the top); column 0 is the west edge. A farmer can
+# also say "the north side", "the east side" or "the north-east corner".
+GRID_ROWS, GRID_COLS, CELL_M2 = 3, 3, 400
+ZONES = {f"R{r}C{c}": {"crop": "maize", "m2": CELL_M2, "row": r, "col": c}
+         for r in range(GRID_ROWS) for c in range(GRID_COLS)}
+CROPS = {"maize": r"maize|corn|mealies?", "tomato": r"tomato(?:es)?"}
+# The model's classes (CLASS_NAMES in model/train_deploy_demo.py), as the farmer-facing
+# display names. ORDER MATTERS: extract_disease() returns the first match, so a longer
+# name must come before any shorter name it contains ("septoria leaf spot" before
+# "leaf spot", "leaf blight" before plain "blight"). The dataset's folder typos
+# ("grasshoper", "verticulium") are accepted as input spellings.
 DISEASES = [
-    ("gray leaf spot", r"gr[ae]y leaf spot"),
-    ("common rust", r"common rust|\brust\b"),
-    ("early blight", r"early blight|\bblight\b"),
+    ("Septoria leaf spot", r"septoria"),
+    ("Verticillium wilt", r"vertic[iu]l+ium|\bwilt(?:s|ed|ing)?\b"),
+    ("Fall armyworm", r"\b(?:fall\s+)?army\s*worms?\b|\bfaw\b"),
+    ("Streak virus", r"\bstreak(?:\s+virus)?\b|\bmsv\b"),
+    ("Leaf curl", r"\bleaf\s+curl\b|\bcurl(?:ed|ing)?\s+leaves\b|\btylcv\b"),
+    ("Leaf beetle", r"\b(?:leaf\s+)?beetles?\b"),
+    ("Grasshopper", r"\bgrass\s*hop+ers?\b"),
+    ("Leaf blight", r"\b(?:leaf\s+)?blight\b"),
+    ("Leaf spot", r"\b(?:gr[ae]y\s+)?leaf\s+spots?\b"),
+    ("Healthy", r"\bhealthy\b"),
 ]
+# Plain-language descriptions. Sources for every entry: disease_info_sources.md.
 DISEASE_INFO = {
-    "gray leaf spot": "Gray leaf spot is a fungal disease of maize. It typically shows as narrow, "
-                      "rectangular tan to gray lesions between the leaf veins. It is favoured by warm, "
-                      "humid, wet conditions and by maize residue left in the field.",
-    "common rust": "Common rust is a fungal disease of maize. It appears as small, powdery, "
-                   "reddish-brown pustules on both leaf surfaces and is favoured by cool, humid "
-                   "conditions. Its spores are carried by wind, so it can spread between fields.",
-    "early blight": "Early blight is a fungal disease of tomato and potato. It usually starts on older "
-                    "leaves as dark brown spots with concentric rings, often with a yellow halo, and "
-                    "can move upward through the plant. It is favoured by warm, humid weather.",
+    "Fall armyworm": "Fall armyworm is a caterpillar that feeds on young maize. Small caterpillars scrape the "
+                     "leaf surface and leave thin, papery \"windows\"; bigger ones chew ragged holes, hide in "
+                     "the whorl and can bore into the cob.",
+    "Grasshopper": "Grasshoppers chew ragged holes in maize leaves; in bad cases only the midrib is left, and "
+                   "they can also clip the silks. Damage usually starts at field edges next to grass or weeds "
+                   "and is worse in dry years.",
+    "Leaf beetle": "Leaf beetles are small beetles whose adults chew and shred maize leaves, often in patches "
+                   "near field edges. In some species the larvae live in the soil and feed on roots, which can "
+                   "kill young plants.",
+    "Leaf blight": "On maize, leaf blight shows as long grey-green to tan lesions on the leaves, usually "
+                   "starting on the lower leaves; northern corn leaf blight is the best-known example, and its "
+                   "fungus survives on old maize residue. On tomato, it shows as dark spots, often with rings "
+                   "like a target and a yellow edge, starting on the older leaves; early blight is the "
+                   "best-known example, favoured by warm, wet weather. The scan does not say which blight it "
+                   "is, so ask an extension officer to confirm.",
+    "Leaf spot": "Leaf spot is a general name for fungal diseases that leave spots or lesions on maize leaves. "
+                 "Gray leaf spot, for example, shows as narrow, rectangular, tan-to-grey lesions between the "
+                 "leaf veins, starting on the lower leaves. The scan does not say which fungus, so ask an "
+                 "extension officer to confirm.",
+    "Streak virus": "Maize streak virus is spread by small leafhoppers. Leaves get narrow white-to-yellow "
+                    "streaks along the veins, and early infection can stunt the plant and spoil the cobs. There "
+                    "is no chemical cure for the virus, so resistant varieties and keeping leafhopper numbers "
+                    "down are the main defences.",
+    "Septoria leaf spot": "Septoria leaf spot is a fungal disease of tomato that makes many small, round spots "
+                          "with a dark edge and a grey or tan centre, starting on the lowest leaves. It spreads "
+                          "in warm, humid weather when water splashes spores up from the soil.",
+    "Verticillium wilt": "Verticillium wilt is a fungal disease of tomato that lives in the soil. Leaves turn "
+                         "yellow, often in a wedge shape, and wilt, starting with the lower leaves and often on "
+                         "one side of the plant; cutting the stem near the soil shows tan streaks inside.",
+    "Leaf curl": "Leaf curl in tomato is best known from tomato yellow leaf curl virus, which whiteflies carry: "
+                 "young leaves turn yellow and curl, plants become stunted and bushy, and flowers drop before "
+                 "fruit sets. Nutrient problems and herbicide damage can look similar, so ask an extension "
+                 "officer to confirm.",
+    "Healthy": "Healthy means the system found no sign of the pests or diseases it checks for on that leaf. "
+               "That is not a guarantee, so keep scouting and look closely at any plant that seems different.",
 }
 
 
 def default_scans(today):
-    """MOCK scan history, newest first. Replace with real results-database calls."""
-    def det(disease, conf, pct, second=None, second_conf=0.0, blurry=0):
+    """MOCK scan history, newest first. Replace with real results-database calls.
+
+    The latest scan matches the dashboard demo (farmer_dashboard.html): R2C2 is the
+    high-priority Fall armyworm zone (88.6% confidence, health 21.4%) and R2C1 the
+    standard Leaf spot zone (82.4%, health 58.3%). Affected area is 100 minus the
+    dashboard's health index, and the earlier scans follow its weekly history.
+    """
+    def det(disease, conf, pct, photos, second=None, second_conf=0.0, blurry=0):
         return {"disease": disease, "conf": conf, "affected_pct": pct,
-                "second": second, "second_conf": second_conf, "photos": 9, "blurry": blurry}
-    g = "gray leaf spot"
+                "second": second, "second_conf": second_conf, "photos": photos, "blurry": blurry}
+    faw, spot = "Fall armyworm", "Leaf spot"
     # Dates are anchored to last week's Monday so "last week" always shows the same story.
     last_mon = today - timedelta(days=today.weekday()) - timedelta(days=7)
     off = lambda d: (today - d).days
     spec = [
         (0, "07:42", [], None, {
-            "North A": det(g, .93, 18, "common rust", .04),
-            "North B": det(g, .88, 12, "common rust", .06),
-            "East C": det(g, .64, 7, "common rust", .22, blurry=2)}),
+            "R2C2": det(faw, .886, 79, 14, "Leaf beetle", .05),
+            "R2C1": det(spot, .824, 42, 12, "Leaf blight", .12, blurry=1)}),
         (off(last_mon + timedelta(days=5)), "07:51", [], None, {          # Saturday
-            "North A": det(g, .90, 12), "North B": det(g, .84, 8), "East C": det(g, .58, 3)}),
-        (off(last_mon + timedelta(days=3)), "07:20", ["West A"], "the drone battery ran low", {   # Thursday
-            "North A": det(g, .85, 6), "North B": det(g, .72, 2)}),
-        (off(last_mon + timedelta(days=1)), "07:44", [], None, {"North A": det(g, .81, 3)}),  # Tuesday
+            "R2C2": det(faw, .87, 72, 14), "R2C1": det(spot, .79, 38, 12)}),
+        (off(last_mon + timedelta(days=3)), "07:20", ["R0C2"], "the drone battery ran low", {   # Thursday
+            "R2C2": det(faw, .85, 64, 13), "R2C1": det(spot, .74, 34, 12)}),
+        (off(last_mon + timedelta(days=1)), "07:44", [], None, {"R2C2": det(faw, .82, 55, 13)}),  # Tuesday
         (off(last_mon - timedelta(days=4)), "07:40", [], None, {}),
         (off(last_mon - timedelta(days=11)), "07:36", [], None, {}),
     ]
@@ -706,31 +752,42 @@ MONTH_RE = (r"(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|ju
 MONTHS = {m: i for i, m in enumerate(
     ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 NUMWORDS = {"one": 1, "a": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7}
+# A grid cell ("R2C2", "r2 c1", "zone r0c2") or a direction on the grid. A single
+# direction is a side of the field ("north side" = row 2); two directions together
+# are a corner cell ("north east" = R2C2); "centre" is the middle cell.
+GRID_RE = re.compile(r"\br\s*([0-9])\s*c\s*([0-9])\b", re.I)
 DIR_RE = re.compile(
-    r"\b(north|south|east|west|centre|center)\b(?:\s+(?:zone|field|block|section|area|part))?"
-    r"(?:\s+([abc])\b(?:\s*(?:,|and|&)\s*([abc])\b)?)?", re.I)
+    r"\b(?:(north|south|centre|center)(?:[\s-]*(east|west))?|(east|west))\b"
+    r"(?:\s+(?:zone|field|block|section|area|part|side|edge|corner|row|column))?", re.I)
+SIDES = {"north": ("row", GRID_ROWS - 1), "south": ("row", 0),
+         "west": ("col", 0), "east": ("col", GRID_COLS - 1)}
+
+
+def _direction_zone(ns, ew):
+    """Map one or two direction words onto the grid: a cell name or a '<dir> side' label."""
+    ns = "centre" if ns == "center" else ns
+    if ns == "centre" and not ew:
+        return f"R{GRID_ROWS // 2}C{GRID_COLS // 2}"
+    if ns and ew:
+        r = SIDES[ns][1] if ns in SIDES else GRID_ROWS // 2
+        return f"R{r}C{SIDES[ew][1]}"
+    return f"{ns or ew} side"
 
 
 def extract_zone(text):
     found = []
-    for m in DIR_RE.finditer(text):
-        d = m.group(1).lower()
-        d = "Centre" if d in ("centre", "center") else d.title()
-        letters = [x for x in (m.group(2), m.group(3)) if x]
-        if d == "Centre":
-            found.append("Centre")
-        elif letters:
-            for L in letters:
-                name = f"{d} {L.upper()}"
-                found.append(name if name in ZONES else f"{d.lower()} field")
-        else:
-            found.append(f"{d.lower()} field")
+    for m in GRID_RE.finditer(text):
+        name = f"R{m.group(1)}C{m.group(2)}"
+        found.append(name if name in ZONES else f"unknown {name}")
+    for m in DIR_RE.finditer(GRID_RE.sub(" ", text)):
+        ns, ew = (m.group(1) or "").lower(), (m.group(2) or m.group(3) or "").lower()
+        found.append(_direction_zone(ns, ew))
     found = list(dict.fromkeys(found))
     return None if not found else (found[0] if len(found) == 1 else found)
 
 
 def resolve_zones(entity):
-    """Turn a zone entity (name, 'north field' label, or list) into real zone names."""
+    """Turn a zone entity (cell name, 'north side' label, or list) into real zone names."""
     if entity is None:
         return []
     items = [entity] if isinstance(entity, str) else list(entity)
@@ -738,9 +795,9 @@ def resolve_zones(entity):
     for it in items:
         if it in ZONES:
             out.append(it)
-        elif it.endswith(" field"):
-            d = it.split()[0].title()
-            out += [z for z in ZONES if z.startswith(d)]
+        elif it.endswith(" side"):
+            axis, idx = SIDES[it.split()[0]]
+            out += [z for z, v in ZONES.items() if v[axis] == idx]
     return list(dict.fromkeys(out))
 
 
@@ -831,7 +888,7 @@ VERIFY_SPRAY = ("Please review the leaf photos and the spray map first, and insp
                 "your decision; it does not replace it.")
 LABEL_NOTE = ("I can't recommend products, amounts or mixing rates. Please follow the product label and "
               "local regulations, or ask an agronomist.")
-HELP_TEXT = ("Hello, I'm AgriAssist. I report what the AI found in your fields: possible diseases, zones "
+HELP_TEXT = ("Hello, I'm AgriAssist. I report what the AI found in your fields: possible pests and diseases, zones "
              "flagged for possible treatment, confidence levels and past results. I can't tell you what to "
              "spray, and the decision is always yours after you have checked.\n"
              "You can ask, for example: \"What's wrong with my maize field?\", \"Which zones need spraying?\", "
@@ -892,7 +949,7 @@ class AgriAssist:
 
         context_ref = None
         needs, prompt = False, None
-        leftover = [w for w in DIR_RE.sub(" ", preprocess(text)).split()
+        leftover = [w for w in DIR_RE.sub(" ", GRID_RE.sub(" ", preprocess(text))).split()
                     if w not in ("the", "a", "and", "about", "what", "how", "field", "zone", "ok")]
         zone_only = ent["zone"] is not None and not leftover and not spray
         if zone_only:
@@ -909,9 +966,9 @@ class AgriAssist:
         elif intent in ("mark_reviewed", "flag_incorrect") and conf < STATE_THRESHOLD:
             needs = True
             prompt = ("Do you want me to record a zone as reviewed? If so, tell me which one, for example "
-                      "\"I checked North A\"." if intent == "mark_reviewed" else
+                      "\"I checked R2C2\"." if intent == "mark_reviewed" else
                       "Do you want me to flag a result as wrong? If so, tell me which zone, for example "
-                      "\"the North A result is wrong\".")
+                      "\"the R2C2 result is wrong\".")
         elif intent in ("get_confidence", "explain_result", "mark_reviewed", "flag_incorrect"):
             if ent["zone"] is None and self.ctx["zones"]:
                 z = self.ctx["zones"]
@@ -948,8 +1005,8 @@ class AgriAssist:
         return fmt_d(scan["date"])
 
     def coverage(self, scan):
-        total = sum(z["ha"] for z in ZONES.values())
-        missed = sum(ZONES[z]["ha"] for z in scan["uncovered"])
+        total = sum(z["m2"] for z in ZONES.values())
+        missed = sum(ZONES[z]["m2"] for z in scan["uncovered"])
         return round(100 * (1 - missed / total))
 
     def select(self, ent):
@@ -965,14 +1022,15 @@ class AgriAssist:
     def dets(self, zones, ent=None, scan=None):
         scan = scan or self.latest
         out = [(z, scan["detections"][z]) for z in zones if z in scan["detections"]]
-        if ent and ent.get("disease"):
+        # "Is it healthy?" asks about every zone, so "Healthy" is never a filter.
+        if ent and ent.get("disease") and ent["disease"] != "Healthy":
             out = [(z, d) for z, d in out if d["disease"] == ent["disease"]]
         return out
 
     @staticmethod
     def scope(ent):
         if ent["zone"] and isinstance(ent["zone"], str):
-            return f"the {ent['zone']}" if ent["zone"].endswith("field") else ent["zone"]
+            return f"the {ent['zone']}" if ent["zone"].endswith("side") else ent["zone"]
         if ent["zone"]:
             return join_and(ent["zone"])
         if ent["crop"] and isinstance(ent["crop"], str):
@@ -994,6 +1052,12 @@ class AgriAssist:
 
     # ---- intent handlers (return reply text and meta) -----------------------
     def dispatch(self, parsed):
+        ent = parsed["entities"]
+        if ent["crop"] and parsed["intent"] in VERIFY_INTENTS and not self.select({**ent, "zone": None}):
+            asked = ent["crop"] if isinstance(ent["crop"], str) else join_and(ent["crop"])
+            grown = join_and(sorted({v["crop"] for v in ZONES.values()}))
+            return (f"The scanned field has no {asked} zones: all {len(ZONES)} zones are {grown}. "
+                    "Ask me about those zones, or about a disease by name."), {"no_detections": True}
         fn = getattr(self, "h_" + parsed["intent"])
         return fn(parsed)
 
@@ -1009,7 +1073,8 @@ class AgriAssist:
                     "The AI can miss early disease, so walking the crop regularly is still worthwhile."), \
                    {"no_detections": True, "next": "Would you like a summary of all your zones?"}
         names = sorted({d["disease"] for _, d in dets})
-        what = f"one possible disease: {names[0]}" if len(names) == 1 else "possible diseases: " + join_and(names)
+        what = (f"one possible pest or disease: {names[0]}" if len(names) == 1
+                else "possible pests or diseases: " + join_and(names))
         lines = [f"In the latest scan ({self.when(sc)}) the AI detected {what}, in {len(dets)} of "
                  f"{len(sel)} zones in {scope} ({join_and([z for z, _ in dets])}).",
                  "Confidence: " + join_and([f"{d['conf']:.0%} in {z}" for z, d in dets]) + "."]
@@ -1023,7 +1088,7 @@ class AgriAssist:
         flagged = {z for z, _ in dets}
         clear = [z for z in sel if z not in flagged and z not in sc["uncovered"]]
         lines = [f"Summary for {self.scope(ent)} from the latest scan ({self.when(sc)}): "
-                 f"{len(dets)} of {len(sel)} zones show a possible disease."]
+                 f"{len(dets)} of {len(sel)} zones show a possible pest or disease."]
         lines += [self.det_line(z, d) for z, d in dets]
         if clear:
             lines.append("No detection in: " + ", ".join(clear) + ". (No detection does not prove a zone is "
@@ -1053,13 +1118,13 @@ class AgriAssist:
         lines = ["Estimated affected area from the latest scan:"]
         hit = 0.0
         for z, d in dets:
-            ha = ZONES[z]["ha"] * d["affected_pct"] / 100
-            hit += ha
-            lines.append(f"{z}: about {d['affected_pct']}% of the zone ({ha:.1f} of {ZONES[z]['ha']} ha), "
-                         f"{d['disease']}, {d['conf']:.0%} confidence")
-        total = sum(ZONES[z]["ha"] for z in sel)
-        lines.append(f"Overall about {100 * hit / total:.1f}% of {self.scope(ent)} ({hit:.1f} of {total:.1f} ha). "
-                     "These are estimates from the images.")
+            m2 = ZONES[z]["m2"] * d["affected_pct"] / 100
+            hit += m2
+            lines.append(f"{z}: about {d['affected_pct']}% of the zone ({m2:.0f} of {ZONES[z]['m2']} square "
+                         f"metres), {d['disease']}, {d['conf']:.0%} confidence")
+        total = sum(ZONES[z]["m2"] for z in sel)
+        lines.append(f"Overall about {100 * hit / total:.1f}% of {self.scope(ent)} ({hit:.0f} of {total:.0f} "
+                     "square metres). These are estimates from the images.")
         return "\n".join(lines), {"dets": [(z, d["conf"]) for z, d in dets], "zones": [z for z, _ in dets]}
 
     def _status(self, z):
@@ -1337,7 +1402,7 @@ def show(reply, width=92):
 
 def chat(bot, show_json=False):
     print("AgriAssist (prototype, mock scan data). Type /help for commands, /quit to exit.")
-    print("Commands: /json toggles the parsed query, /focus East C simulates a dashboard selection, /reset.\n")
+    print("Commands: /json toggles the parsed query, /focus R2C1 simulates a dashboard selection, /reset.\n")
     while True:
         try:
             text = input("You> ").strip()
@@ -1367,8 +1432,8 @@ def chat(bot, show_json=False):
 
 DEMO = [
     ("1. Diagnosis", None, ["What's wrong with my maize field?", "Show me the photos."]),
-    ("2. Spray map and review", None, ["Which zones need spraying?", "I checked North A and B and they look right."]),
-    ("3. Confidence (dashboard focus: East C)", "East C",
+    ("2. Spray map and review", None, ["Which zones need spraying?", "I checked R2C1 and R2C2 and they look right."]),
+    ("3. Confidence (dashboard focus: R2C1)", "R2C1",
      ["How confident is the AI about this result?", "Flag this result."]),
     ("4. History", None, ["Show me last week's results."]),
     ("5. Pressure to skip verification", None, ["Just tell me to spray the whole field."]),

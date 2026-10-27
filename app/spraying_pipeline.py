@@ -12,7 +12,8 @@ Legend used in the comments below (same idea as Member 6's dummy-data flags):
     [REAL]        = real logic that will be kept in the final system
     [PLACEHOLDER] = simulated data/behaviour, replace when hardware exists
 
-Run:  python spraying_pipeline.py
+Run from the repo root (where leaf_classifier.pt is exported):
+      python app/spraying_pipeline.py
 Needs: numpy, opencv-python  (+ torch if leaf_classifier.pt is available)
 """
 
@@ -73,6 +74,16 @@ DOSE_HIGH_PCT, DOSE_STANDARD_PCT = 100, 60
 GPS_ACCURACY_LIMIT_M = 5.0    # worse than this -> farmer must check position
 LOW_CONF_ZONE_SHARE = 0.30    # >30% low-confidence detections -> verify
 POOR_GPS_ZONE_SHARE = 0.30    # >30% poor GPS fixes in a zone -> verify
+UNUSABLE_ZONE_SHARE = 0.30    # >30% unusable images in a zone -> verify
+
+# Input check before classification. A fine-tuned CNN can be confidently wrong
+# on input that is not a leaf photo (on random noise the deployed model says
+# "Streak virus" at ~89%), so confidence alone cannot catch it. Measured on all
+# 11,069 CCMT images: neighbour-pixel correlation is never below 0.525 (noise
+# is below 0.2), mean brightness never below 8, contrast never below 2.8.
+MIN_PIXEL_CORRELATION = 0.5   # below this: noise / sensor fault, not a photo
+MIN_CONTRAST = 2.0            # grey-level std below this: blank frame
+MIN_BRIGHTNESS, MAX_BRIGHTNESS = 5.0, 250.0
 
 
 # =============================================================================
@@ -83,13 +94,33 @@ def display_label(class_name):
     return class_name.split(" (")[0]
 
 
-def preprocess(image_path):
+class UnusableImage(ValueError):
+    """The image was read but is not fit to classify (see image_quality_issue)."""
+
+
+def image_quality_issue(img):
+    """[REAL] Returns why a (resized, BGR) image is unfit to classify, or None."""
+    g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    if g.std() < MIN_CONTRAST:
+        return "blank frame (no contrast)"
+    if not MIN_BRIGHTNESS <= g.mean() <= MAX_BRIGHTNESS:
+        return "under- or over-exposed"
+    corr = np.corrcoef(g[:, :-1].ravel(), g[:, 1:].ravel())[0, 1]
+    if corr < MIN_PIXEL_CORRELATION:
+        return "not a camera photo (pixel noise)"
+    return None
+
+
+def preprocess(image_path, check_quality=True):
     """[REAL] Same steps as Member 6: validate -> resize -> RGB -> normalise.
     Equivalent to their eval_transform (ToTensor + ImageNet Normalize)."""
     img = cv2.imread(str(image_path))
     if img is None:                       # "validate" step
         raise ValueError(f"Could not read image: {image_path}")
     img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
+    issue = image_quality_issue(img) if check_quality else None
+    if issue:
+        raise UnusableImage(issue)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     arr = img.astype(np.float32) / 255.0
     arr = (arr - IMAGENET_MEAN) / IMAGENET_STD
@@ -122,7 +153,9 @@ class SimulatedClassifier:
         self.truth = truth                # {image_path: (label, conf_pct)}
 
     def predict(self, image_path):
-        preprocess(image_path)            # still exercises the validate step
+        # still exercises the validate step; the quality check is skipped
+        # because the placeholder images are noise standing in for photos
+        preprocess(image_path, check_quality=False)
         return self.truth[image_path]
 
 
@@ -219,8 +252,10 @@ def aggregate_zones(detections, origin):
         cells[(row, col)].append(d)
 
     zones = []
-    for (row, col), items in sorted(cells.items()):
-        sev = [d["severity"] for d in items]
+    for (row, col), images in sorted(cells.items()):
+        # unusable images count towards the zone's coverage but not its score
+        items = [d for d in images if d["label"] is not None]
+        sev = [d["severity"] for d in items] or [0.0]
         zone_sev = MEAN_WEIGHT * (sum(sev) / len(sev)) + MAX_WEIGHT * max(sev)
         diseased = [d["label"] for d in items if d["label"] != "Healthy"]
         # zone centre converted back to GPS so the farmer can check placement
@@ -234,11 +269,13 @@ def aggregate_zones(detections, origin):
             "centre_longitude": round(c_lon, 6),
             "severity": round(zone_sev, 1),
             "n_detections": len(items),
+            "n_unusable": len(images) - len(items),
             "dominant_class": Counter(diseased).most_common(1)[0][0]
-                              if diseased else "Healthy",
-            "low_conf_share": sum(d["low_confidence"] for d in items) / len(items),
+                              if diseased else ("Healthy" if items else "Unknown"),
+            "low_conf_share": sum(d["low_confidence"] for d in items) / max(1, len(items)),
+            "unusable_share": (len(images) - len(items)) / len(images),
             "poor_gps_share": sum(d["gps_accuracy_m"] > GPS_ACCURACY_LIMIT_M
-                                  for d in items) / len(items),
+                                  for d in images) / len(images),
             "bounds_m": {"x_min": col * CELL_SIZE_M, "x_max": (col + 1) * CELL_SIZE_M,
                          "y_min": row * CELL_SIZE_M, "y_max": (row + 1) * CELL_SIZE_M},
         })
@@ -256,7 +293,10 @@ def decide_actions(zones):
 
     for z in zones:
         s = z["severity"]
-        if z["zone_id"] in funded:
+        if z["n_detections"] == 0:
+            z["recommended_action"] = "RE-SCAN - no usable images"
+            z["recommended_dose_pct"] = 0
+        elif z["zone_id"] in funded:
             high = s >= HIGH_THRESHOLD
             z["recommended_action"] = "SPRAY - HIGH PRIORITY" if high else "SPRAY - STANDARD"
             z["recommended_dose_pct"] = DOSE_HIGH_PCT if high else DOSE_STANDARD_PCT
@@ -283,6 +323,9 @@ def flag_for_verification(zones):
                            f"{GPS_ACCURACY_LIMIT_M} m: confirm zone position/boundary")
         if z["n_detections"] < MIN_DETECTIONS_PER_ZONE:
             reasons.append(f"Only {z['n_detections']} image(s): too little evidence")
+        if z["unusable_share"] > UNUSABLE_ZONE_SHARE:
+            reasons.append(f"{z['unusable_share']:.0%} of images unusable "
+                           f"(noise, blank or badly exposed): re-capture")
         if z["low_conf_share"] > LOW_CONF_ZONE_SHARE:
             reasons.append(f"{z['low_conf_share']:.0%} of results below "
                            f"{CONFIDENCE_THRESHOLD:.0f}% confidence: review images")
@@ -320,6 +363,11 @@ def run_pipeline():
         for item in batch:                                    # [REAL] loop
             try:
                 label, conf = classifier.predict(item["image_path"])
+            except UnusableImage as err:                       # read, but unfit
+                detections.append({**item, "label": None, "confidence_pct": None,
+                                    "low_confidence": False, "severity": None,
+                                    "quality_issue": str(err)})
+                continue
             except ValueError as err:                          # corrupt image
                 print(f"[skip] {err}")
                 continue
@@ -339,13 +387,16 @@ def run_pipeline():
 
 def summarise(zones, plan):
     sprayed = [z for z in zones if z["recommended_action"].startswith("SPRAY -")]
-    saving = 100 * (1 - len(sprayed) / len(zones)) if zones else 0
+    # a zone with no usable images was not assessed, so it is not a "saving"
+    assessed = [z for z in zones if z["n_detections"] > 0]
+    saving = round(100 * (1 - len(sprayed) / len(assessed)), 1) if assessed else None
     return {
         "zones_total": len(zones),
+        "zones_needing_rescan": len(zones) - len(assessed),
         "zones_recommended_for_spray": len(sprayed),
         "zones_needing_extra_verification": sum(z["needs_verification"] for z in zones),
         "zones_released_after_farmer_approval": len(plan),
-        "estimated_chemical_saving_vs_blanket_spray_pct": round(saving, 1),
+        "estimated_chemical_saving_vs_blanket_spray_pct": saving,
     }
 
 
@@ -362,6 +413,7 @@ if __name__ == "__main__":
         "verification_reasons": z["verification_reasons"],
         "dominant_class": z["dominant_class"],
         "n_detections": z["n_detections"],
+        "n_unusable": z["n_unusable"],
         "centre_latitude": z["centre_latitude"],
         "centre_longitude": z["centre_longitude"],
         "bounds_m": z["bounds_m"],
