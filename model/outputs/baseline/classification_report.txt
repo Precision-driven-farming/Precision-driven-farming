@@ -1,0 +1,18 @@
+                      precision    recall  f1-score   support
+
+       Fall armyworm      0.759     0.976     0.854        42
+         Grasshopper      0.990     0.970     0.980       101
+     Healthy (Maize)      0.622     0.933     0.747        30
+         Leaf beetle      0.971     0.964     0.968       140
+ Leaf blight (Maize)      0.763     0.671     0.714       149
+           Leaf spot      0.743     0.667     0.703       186
+        Streak virus      0.804     0.876     0.838       145
+    Healthy (Tomato)      0.821     0.986     0.896        70
+Leaf blight (Tomato)      0.610     0.518     0.560       193
+           Leaf curl      0.509     0.701     0.590        77
+  Septoria leaf spot      0.811     0.748     0.778       412
+   Verticillium wilt      0.485     0.560     0.520       116
+
+            accuracy                          0.752      1661
+           macro avg      0.741     0.798     0.762      1661
+        weighted avg      0.758     0.752     0.752      1661

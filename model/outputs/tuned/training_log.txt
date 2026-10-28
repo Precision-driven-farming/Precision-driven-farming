@@ -1,0 +1,79 @@
+
+Total images found: 11069
+Split -> train: 7748, val: 1660, test: 1661
+
+Computed class weights (imbalance handling): [3.2283332347869873, 1.3708422183990479, 4.515151500701904, 0.9887697696685791, 0.9316979050636292, 0.744713544845581, 0.9565432071685791, 1.9805725812911987, 0.7158166766166687, 1.803538203239441, 0.33628472685813904, 1.1956790685653687]
+
+[Init] Loaded weights from model/outputs/stage1_best_baseline.pt
+
+[Stage 1] Skipped: loaded weights score val_acc=0.729 val_loss=0.6184
+
+[Stage 2] Fine-tuning the top 17 backbone blocks (backbone lr 0.0001, head lr 0.001)...
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 1/12 | train_loss=0.5610 train_acc=0.715 | val_loss=0.5373 val_acc=0.755 | 14.4 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 2/12 | train_loss=0.4323 train_acc=0.770 | val_loss=0.4520 val_acc=0.778 | 10.0 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 3/12 | train_loss=0.3794 train_acc=0.798 | val_loss=0.4834 val_acc=0.786 | 9.9 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 4/12 | train_loss=0.3156 train_acc=0.830 | val_loss=0.4735 val_acc=0.801 | 10.3 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 5/12 | train_loss=0.2895 train_acc=0.847 | val_loss=0.4776 val_acc=0.794 | 10.1 min
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 6/12 | train_loss=0.2466 train_acc=0.867 | val_loss=0.4440 val_acc=0.817 | 9.8 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 7/12 | train_loss=0.2170 train_acc=0.883 | val_loss=0.5118 val_acc=0.823 | 9.8 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 8/12 | train_loss=0.2057 train_acc=0.891 | val_loss=0.4601 val_acc=0.820 | 9.7 min
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 9/12 | train_loss=0.1781 train_acc=0.898 | val_loss=0.5597 val_acc=0.819 | 10.0 min
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 10/12 | train_loss=0.1675 train_acc=0.911 | val_loss=0.4901 val_acc=0.826 | 9.8 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 11/12 | train_loss=0.1519 train_acc=0.920 | val_loss=0.4797 val_acc=0.831 | 9.5 min  <- best so far
+Corrupt JPEG data: premature end of data segment
+Corrupt JPEG data: premature end of data segment
+  Epoch 12/12 | train_loss=0.1339 train_acc=0.927 | val_loss=0.5116 val_acc=0.827 | 10.3 min
+
+[Checkpoint] Returning best model from stage 2 epoch 11 (val_acc=0.831, val_loss=0.4797), saved at model/outputs/tuned\best_checkpoint.pt.
+
+[Inference demo] Running prediction on one sample image...
+Leaf blight: 92%
+
+[Evaluation] Running full test-set evaluation for Member 7...
+Evaluated 1661 test samples.
+[export] Model exported for deployment -> model/outputs/tuned/leaf_classifier_tuned.pt
+
+Accuracy 0.843 | macro precision 0.838 | macro recall 0.853 | macro F1 0.843
+
+                      precision    recall  f1-score   support
+
+       Fall armyworm      0.881     0.881     0.881        42
+         Grasshopper      0.980     0.980     0.980       101
+     Healthy (Maize)      0.730     0.900     0.806        30
+         Leaf beetle      0.964     0.957     0.961       140
+ Leaf blight (Maize)      0.724     0.792     0.756       149
+           Leaf spot      0.776     0.710     0.742       186
+        Streak virus      0.915     0.890     0.902       145
+    Healthy (Tomato)      0.932     0.971     0.951        70
+Leaf blight (Tomato)      0.778     0.782     0.780       193
+           Leaf curl      0.707     0.844     0.769        77
+  Septoria leaf spot      0.884     0.886     0.885       412
+   Verticillium wilt      0.781     0.647     0.708       116
+
+            accuracy                          0.843      1661
+           macro avg      0.838     0.853     0.843      1661
+        weighted avg      0.844     0.843     0.842      1661
+
+[outputs] Metrics, report, confusion matrix and curves saved in model/outputs/tuned

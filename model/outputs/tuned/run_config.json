@@ -1,0 +1,16 @@
+{
+  "unfreeze_blocks": 17,
+  "backbone_lr": 0.0001,
+  "head_lr": 0.001,
+  "stage1_epochs": 10,
+  "stage2_epochs": 12,
+  "init_weights": "model/outputs/stage1_best_baseline.pt",
+  "out_dir": "model/outputs/tuned",
+  "export_path": "model/outputs/tuned/leaf_classifier_tuned.pt",
+  "batch_size": 32,
+  "early_stop_patience": 4,
+  "dropout": 0.3,
+  "stage1_lr": 0.001,
+  "weight_decay": 0.0001,
+  "seed": 42
+}

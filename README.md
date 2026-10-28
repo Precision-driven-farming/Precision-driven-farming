@@ -27,11 +27,25 @@ spending on remedies.
 ## Repository Structure
 
 ```
-/documentation      → Business analysis, problem definition, requirements, poster, roster
-/data               → Dataset documentation, exploratory data analysis, preprocessing notes
-/model     → Computer vision / deep learning model code, training, evaluation
-/app       → Chatbot, spraying map logic, dashboard, integration code
+/docs      → Project report (LeafSight_Project_Report.md, in rubric order), architecture, spraying-map design
+/data      → Dataset documentation, EDA, sample scan history for the time-series analysis
+/model     → Deep learning model: training, evaluation, export, live prediction demo, time-series analysis
+/app       → Spraying pipeline, chatbot (AgriAssist)
+farmer_dashboard.html, project_poster.html → dashboard and A1 poster (open in a browser)
 ```
+
+## How to Run
+
+Install once: `pip install -r requirements.txt`. Put the CCMT raw data in `data/Raw Data/Maize` and
+`data/Raw Data/Tomato` (see `data/dataset-description.md`). Run everything from the repository root.
+
+| Command | What it does |
+|---|---|
+| `python model/train_deploy_demo.py` | Train and evaluate the classifier; export `leaf_classifier.pt`; metrics, confusion matrix and curves in `model/outputs/`. Submitted runs: `model/outputs/tuned/` (deployed, 84.3% test accuracy) and `model/outputs/baseline/` (75.2%) |
+| `python model/predict_demo.py --class "Fall armyworm"` | Live prediction on a held-out test image |
+| `python app/spraying_pipeline.py` | Classify a batch of geotagged images and write `spraying_map.json` |
+| `python model/time_series_analysis.py` | Crop-health time series per zone: trend, forecast, early warning, treatment check |
+| `python app/chatbot/agriassist.py --web` | Farmer chatbot in the browser (`python app/chatbot/test_agriassist.py` runs its tests) |
 
 ## Team Roster
 
@@ -39,10 +53,8 @@ spending on remedies.
 |---   |---      |---               |
 | **Leader** | **NhlanhlaRikhotso** | Coordination, GitHub Project board, monitoring, risk log, presentation |
 | **Team 1 – Foundation** | **malokampho**, **Buhle-03-coder**, **J_Sizwe** | Business objectives, requirements/constraints/risks, problem definition, dataset documentation |
-| **Team 2 – AI Model** |**thamahalehlohonolo7**,**Kamogelo1932**,
-**Himothy1ofWun** | Computer vision model, deep learning training pipeline, model evaluation & time-series analysis |
-| **Team 3 – Application** |**Pfumiy24**, **Sanel32004**,
-**waltonmoichela** | Chatbot/NLP, precision spraying map logic, dashboard UI, poster, documentation QA |
+| **Team 2 – AI Model** | **thamahalehlohonolo7**, **Kamogelo1932**, **Himothy1ofWun** | Computer vision model, deep learning training pipeline, model evaluation & time-series analysis |
+| **Team 3 – Application** | **Pfumiy24**, **Sanel32004**, **waltonmoichela** | Chatbot/NLP, precision spraying map logic, dashboard UI, poster, documentation QA |
 
 
 ## Project Timeline
