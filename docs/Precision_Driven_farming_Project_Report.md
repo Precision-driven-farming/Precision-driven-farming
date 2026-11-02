@@ -1,12 +1,5 @@
-# LeafSight: AI Crop Disease Detection and Precision Spraying
+# Precision-Driven farming: AI Crop Disease Detection and Precision Spraying
 
-**Theme:** An AI Solution for Industries — **Industry:** Agriculture (maize and tomato farming)
-**Repository:** Precision-driven-farming · **Due:** 02 November 2026
-
-> **How to use this document.** It is written in the order of the marking rubric, so each
-> section can be pasted into the group's Word document under the same heading. Word counts for
-> the limited sections are given in brackets and were counted by script. Run the final Word
-> document through Grammarly and attach the report, as the brief requires.
 
 | Rubric line | Marks | Section |
 |---|---|---|
@@ -27,22 +20,16 @@
 
 ## 1. AI Solution and its relevance to the theme
 
-*(one paragraph, 194 words)*
-
-LeafSight is an AI solution for the agriculture industry, the sector the 4IR has so far done least for in developing countries. Cameras on a drone or on fixed poles photograph maize and tomato leaves as the field is scanned. A deep learning model (MobileNetV3, trained on 11,069 expert-validated CCMT images from Ghana) sorts each leaf into one of 12 classes: nine different pests and diseases, or healthy. The system then turns those results into a precision spraying map: a 20 m grid that shows which zones need treatment, how urgently and at what dose, so that only those zones are sprayed. A time-series analysis of repeated scans warns of zones that are heading towards trouble before they get there, and a chatbot lets the farmer ask about the results in plain English. Nothing is sprayed until the farmer has checked and approved each zone. The model is light enough to run on a laptop or a drone's onboard computer, so the solution can reach small and emerging farmers, not only large commercial farms, which is exactly the gap between the promise of the 4IR and people on the ground that the theme describes.
+Precision-Driven farming is an AI solution for the agriculture industry, the sector the 4IR has so far done least for in developing countries. Cameras on a drone or on fixed poles photograph maize and tomato leaves as the field is scanned. A deep learning model (MobileNetV3, trained on 11,069 expert-validated CCMT images from Ghana) sorts each leaf into one of 12 classes: nine different pests and diseases, or healthy. The system then turns those results into a precision spraying map: a 20 m grid that shows which zones need treatment, how urgently and at what dose, so that only those zones are sprayed. A time-series analysis of repeated scans warns of zones that are heading towards trouble before they get there, and a chatbot lets the farmer ask about the results in plain English. Nothing is sprayed until the farmer has checked and approved each zone. The model is light enough to run on a laptop or a drone's onboard computer, so the solution can reach small and emerging farmers, not only large commercial farms, which is exactly the gap between the promise of the 4IR and people on the ground that the theme describes.
 
 ## 2. Problem definition
 
 *(246 words including the three question headings, limit 250; "What exactly is the problem?" 148 words, limit 190)*
 
-**What exactly is the problem?**
-Farmers find crop pests and diseases by walking the field and looking at leaves. This is slow and often late: by the time damage is visible, fall armyworm or leaf blight has usually spread, the yield loss is locked in, and treatment costs more or fails. Because farmers cannot see which plants are affected, they spray the whole field "to be safe", paying for chemicals that land mostly on healthy plants and run off into soil and rivers. The losses are large. FAO estimates that up to 40% of the world's crop production is lost to pests and diseases each year, and fall armyworm alone costs African maize farmers an estimated USD 1 to 4.6 billion a year. Small-scale farmers are hit hardest: South Africa has about 2.4 million, and they cannot afford agronomists, scouts or wasted chemicals. The problem is therefore late detection combined with untargeted spraying.
+Small-scale and commercial farmers have problems identifying crop diseases early and using pesticides in the right way. Crop diseases can spread quickly if they are not noticed early. This can damage crops, reduce the amount of food produced and cause farmers to lose money. Normally, farmers inspect their fields manually, which can take a lot of time, especially on large farms. It can also be difficult to check every plant properly. Farmers sometimes spray pesticides over the whole field even when only a small part of the field is affected. This can waste pesticides, increase farming costs and cause chemicals to enter the soil and nearby water sources. Because of this, farmers need a faster and more effective way to monitor crops and identify diseases early.
 
-**How is it relevant to the theme?**
-The problem sits in agriculture, a core industry, and is solved with AI: computer vision, deep learning, time-series analysis and natural language processing.
-
-**How will solving it with AI benefit the local municipality?**
-For the local municipality, Emfuleni in the Vaal, where the demo field is located, less blanket spraying means less chemical runoff into the Vaal River, already under pollution pressure. Earlier detection protects local food supply and farm jobs, and a low-cost tool lets small farmers produce enough to sell, not only to eat.
+AI Benefit
+Precision Driven Farming can help by using cameras on drones or fixed poles to take pictures of crops and leaves. Computer vision can then be used to analyse these images and identify possible crop diseases. The system can also create a spraying map that shows which areas may need treatment. This can help farmers use less pesticide, reduce costs and protect their crops. For the municipality and local community, healthier crops can help increase local food production and support farmers. Using less pesticide can also help reduce chemical runoff into nearby water sources and support a cleaner environment.
 
 ## 3. Business understanding
 
@@ -52,81 +39,157 @@ Maize is South Africa's staple food crop and tomato one of its main vegetable cr
 
 Today, crop protection on most farms works like this: someone walks the rows, inspects leaves by eye, and if a problem is found, the whole field is sprayed. Commercial farms can pay agronomists and scouts; small farms usually cannot. Precision agriculture already shows what targeting can save: in a peer-reviewed maize trial, drone-guided spot spraying used 47% less herbicide than blanket spraying with the same weed control (Allmendinger et al., 2024). What has been missing is an affordable way to find *which* plants need treatment early enough to matter, for pests and diseases rather than weeds.
 
-LeafSight's target customer is a maize and tomato farm of a few hectares to a few hundred hectares, from emerging farmers supported by an agricultural cooperative or the municipality's agricultural extension services, to commercial growers. The demo field in this project is a 60 m × 60 m maize block (a 3 × 3 grid of 20 m zones) at Vereeniging, in Emfuleni Local Municipality.
+Our target customer is a maize and tomato farm of a few hectares to a few hundred hectares, from emerging farmers supported by an agricultural cooperative or the municipality's agricultural extension services, to commercial growers. The demo field in this project is a 60 m × 60 m maize block (a 3 × 3 grid of 20 m zones) at Vereeniging, in Emfuleni Local Municipality.
+
+1.	Company / Project Background
+•	Precision Driven Farming is conceptualized as an AgriTech start-up focused on small to medium commercial farms in the country. The business was founded to solve a simple problem observed on local farms
+•	Farmers know they have a disease only when 40% of the crop is already infected.
+•	The project leverages the 4th Agricultural Revolution (Agriculture 4.0) which combines AI, drones, and IoT. 
+•	Unlike expensive solutions from John Deere or Trimble that cost >R400k and target US mega-farms
+•	It is built for the African context: low-cost, works with a smartphone, and uses WhatsApp for alerts which every farmer already uses.
+
+2.	Business Context & Problem Drivers
+•	Economic Driver: Fertilizer & pesticide costs are farmer's largest expense at 35% of input costs.
+•	Environmental Driver: South Africa's new Agricultural Pest Act pressures farmers to reduce chemical runoff
+•	. Technological Driver: 92% of SA farmers now have smartphones and cheap drones (<R5k) are available.
+•	Social Driver: Shortage of skilled agronomists - one agronomist serves 100+ farms, cannot visit often.
+
+3.	Current Business Process (AS-IS)
+•	Farmer notices yellowing/brown spots
+•	Takes photo and sends to agronomist on WhatsApp
+•	Waits 2-3 days for response
+•	Agronomist visits, confirms Late Blight
+•	Farmer sprays entire 100ha field
+•	Result: Disease has spread, chemical wasted
+
+
+4.	Proposed Business Process (TO-BE)
+•	Drone / fixed poles cameras captures 100 images per 10ha daily
+•	 AI automatically detects Early Blight at 5% severity
+•	System generates Spray Map: Zone A=0L/ha, Zone B=50L/ha, Zone C=150L/ha (Critical
+•	Farmer receives WhatsApp alert with map: "Spray Zone C within 24h"
+•	Tractor with variable-rate sprayer executes map OR manual spot-spraying
+•	Result: Infection contained at 5%, 65% chemical save
+
+
 
 ### 3.2 Business objectives
 
-1. **Detect pests and diseases earlier** than walking inspections, so farmers can act before damage spreads.
-2. **Cut chemical use and cost** by spraying only the zones that need it, at a dose matched to severity.
-3. **Reduce yield losses** from the nine pests and diseases the system recognises on maize and tomato.
-4. **Reduce environmental harm**: less pesticide runoff into soil and the Vaal River catchment.
-5. **Keep the farmer in control**: every AI result is explained, its confidence shown, and nothing is sprayed without the farmer's approval.
-6. **Be affordable and usable for small farmers**: low-cost hardware, works offline, plain-language explanations.
+The main business objective of Precision Driven Farming is to help small to medium commercial farmers in South Africa detect crop diseases early and treat only the affected areas, so that crop losses, chemical costs and environmental damage are reduced. The specific objectives are:
+1.	Detect disease early. Identify crop disease at an early stage (about 5% severity) instead of the current situation where farmers only discover disease once about 40% of the crop is infected.
+2.	Reduce chemical use and cost. Replace blanket spraying with a zone-based spray map, so that pesticide is applied only where it is needed.
+3.	Speed up decision-making. Deliver a disease alert and spray map to the farmer within 24 hours of image capture, instead of the 2 to 3 days currently spent waiting for an agronomist’s response.
+4.	Make the solution affordable and accessible. Provide a low-cost system that works with a smartphone, low-cost drones and WhatsApp alerts, in contrast to existing solutions that cost over R400,000.
+5.	Support, not replace, the farmer. Keep the farmer in control by showing confidence scores and requiring the farmer to verify results before spraying.
+6.	Benefit the community and environment. Protect local food production and reduce chemical runoff into soil and nearby water sources.
+
 
 ### 3.3 Business success criteria
 
-Each objective has a measurable test. "Status" is what this project has measured so far (see sections 5.3 and 5.4 for details).
+The project will be considered successful if the following measurable targets are met when the prototype is evaluated:
+#	Criterion| Target| How it will be measured
+1	Disease classification accuracy| At least 90% accuracy on unseen test images|	Held-out test set, confusion matrix
+2	Missed detections|	Recall of at least 90% for diseased leaves|	Test set recall per disease class
+3	Early detection|	Disease detected at an early stage severity|	Test images labelled by severity
+4	Processing time|	Prediction within 10 seconds per image|	Timed runs of the model
+5	Alert speed|	Alert and spray map delivered within 24 hours of capture|	End-to-end test of the workflow
+6	Chemical reduction|	At least 50% less chemical than blanket spraying|	Comparison of spray-map area against whole-field area on sample fields
+7	Affordability	Hardware |cost per farm under R10,000|	Cost breakdown of drone and equipment
+8	Usability|	At least 80% of test users can read the result and spray map without help|	Short user test
+9	Farmer verification	|Every spray recommendation can be reviewed before action	|Demonstration of the review step
+10	Weather forecast|	forecast MAE at least [20]% lower than the seasonal naive baseline|	measured on the held-out final weeks
 
-| # | Objective | Success criterion | How it is measured | Status in this project |
-|---|---|---|---|---|
-| 1 | Earlier detection | Warn at least 7 days before a zone falls below the review level (60% healthy leaves) | Time-series early-warning lead time, replaying a season scan by scan | **11 days** on the simulated season (5.4) |
-| 2 | Less chemical | At least 40% less chemical than blanket spraying | Spraying map dose total vs spraying every zone at full dose | **77.8%** less on the simulated scan; field trials report 47% |
-| 3 | Fewer losses | Disease classifier catches sick plants: macro recall ≥ 92% | Held-out test set, 12 classes | **Not yet met: 85.3%** (baseline 79.8%) (5.3) |
-| 3 | Fewer losses | Overall accuracy ≥ 90%, macro precision ≥ 87%, macro F1 ≥ 89.5% | Held-out test set | **Not yet met:** accuracy 84.3%, precision 83.8%, F1 84.3% (5.3) |
-| 4 | Less runoff | Untreated area ≥ 50% of the field on every run | Spraying map: at most 50% of zones may be sprayed per run (enforced in code) | Enforced; 2 of 9 zones sprayed in the demo |
-| 5 | Farmer in control | 100% of spray zones need explicit farmer approval; low-confidence results always flagged | Pipeline verification gate; chatbot safety tests | Enforced in code; 13.4% of test results flagged; 22/22 chatbot tests pass |
-| 6 | Usable | Chatbot understands farmer questions correctly ≥ 90% of the time | 113 held-out phrasings | **97.3%** (110/113) |
 
-The model targets (rows 3) are deliberately high, and recall comes first: missing a sick plant costs more than a false alarm, because a missed outbreak spreads, while a false alarm is caught when the farmer reviews the zone. Tuning closed about half of the gap (accuracy from 75.2% to 84.3%). The remaining gap comes from look-alike lesion classes and from training on a laptop CPU, which allowed one tuning experiment of about three hours (section 5.5). Until the targets are met, the farmer-approval gate is what keeps a wrong result from becoming a wrong spray.
+The model targets are deliberately high, and recall comes first: missing a sick plant costs more than a false alarm, because a missed outbreak spreads, while a false alarm is caught when the farmer reviews the zone. Tuning closed about half of the gap (accuracy from 75.2% to 84.3%). The remaining gap comes from look-alike lesion classes and from training on a laptop CPU, which allowed one tuning experiment of about three hours (section 5.5). Until the targets are met, the farmer-approval gate is what keeps a wrong result from becoming a wrong spray.
 
 ### 3.4 Requirements
 
 **Functional requirements**
 
-| ID | Requirement | Where it is met |
-|---|---|---|
-| F1 | Classify a leaf image into one of 12 classes (7 maize, 5 tomato) with a confidence score | `model/train_deploy_demo.py`, `predict_image()` |
-| F2 | Flag predictions below 70% confidence for farmer verification | `CONFIDENCE_THRESHOLD`, both in the model and the pipeline |
-| F3 | Turn a batch of geotagged leaf results into a zone-by-zone spraying map with severity, action and dose | `app/spraying_pipeline.py` |
-| F4 | Never spray more than 50% of the field in one run; prioritise the most severe zones | `MAX_SPRAY_FRACTION`, `decide_actions()` |
-| F5 | Require farmer approval of every zone before it is released for spraying | `release_for_spraying()`; dashboard status "Awaiting farmer review" |
-| F6 | Track each zone's health over time, forecast it, and warn early | `model/time_series_analysis.py` |
-| F7 | Answer farmer questions in plain English, without recommending products or doses | `app/chatbot/agriassist.py` |
-| F8 | Show the map, zone details, trends and the chat on one screen | `farmer_dashboard.html` |
-| F9 | Refuse to classify images that are not usable leaf photos (blank, badly exposed, sensor noise) and ask for a re-scan | `image_quality_issue()` in the spraying pipeline |
+The system should be able to: 
+1. Take pictures of crops using drones or fixed cameras. 
+2. Process the images using Python and OpenCV. 
+3. Find and analyse leaves in the images. 
+4. Identify crop diseases using a PyTorch AI model. 
+5. Identify the affected areas of the crop. 
+6. Give disease predictions soon after an image is taken. 
+7. Record the time and location where a disease is detected. 
+8. Use GPS information to connect disease detections to areas in the field. 
+9. Create a map showing areas where pesticide treatment may be needed. 
+10. Show the results to farmers through a simple interface. 
+11. Save previous results so farmers can compare crop health over time. 
+12. Give a confidence score or warning when a disease is detected.
+13. Allow the farmer to check the results before making a spraying decision. 
+14. Forecast likely outbreak weeks
+
+
 
 **Non-functional requirements**
 
-| ID | Requirement | How it is addressed |
-|---|---|---|
-| N1 | Runs without a GPU and without internet in the field | MobileNetV3 model with about 3.0 million parameters (12 MB file); TorchScript export; chatbot runs locally |
-| N2 | Compatible with Python, PyTorch and OpenCV | The whole stack is Python; `requirements.txt` |
-| N3 | Explainable to non-experts | Confidence shown on every result; plain-language disease descriptions with sources |
-| N4 | Accessible | Colour-blind-safe palette, symbols as well as colours on the map, screen-reader labels on the dashboard |
-| N5 | Reproducible | Fixed random seed; stratified split; one script produces the model, metrics and charts |
+Requirement 	Description 
+Accuracy    	  The system should identify crop diseases correctly as much as possible. 
+Performance 	  The system should process images quickly enough for near-real-time monitoring. 
+Reliability 	  The system should work properly during normal crop monitoring. 
+Scalability 	  The system should be able to work on both small and larger farms. 
+Usability 	    The system should be simple enough for farmers to understand and use. 
+Security   	    Farm information, images and user details should be protected from unauthorized access. 
+Maintainability The software and AI model should be easy to update and fix when needed 
+Compatibility 	The system should work with the chosen cameras, drones, Python, OpenCV and PyTorch. 
+Availability    The system should be available when crop monitoring is being carried out. 
+Explainability 	The system should show the detected disease and, where possible, how confident the AI is about the result. 
 
 ### 3.5 Constraints
 
-* **Budget:** no paid hardware or cloud; the team has no GPU, so training ran on a laptop CPU (section 5.5).
-* **Time:** about ten weeks from kickoff to submission (22 August to 2 November 2026).
-* **Data:** only public data. The CCMT dataset covers 12 maize and tomato classes from one region (Ghana); there are no South African field images and no labelled time series.
-* **Hardware:** no drone was available, so drone flights, GPS and timestamps are simulated in the pipeline and clearly labelled as such.
-* **Regulation and safety:** the system must not recommend products, doses or mixing rates; pesticide use follows product labels and local regulations, and the farmer makes every spraying decision.
+1. Limited training data: It may be difficult to find enough good images of different crop diseases to train the AI. 
+
+2. Image quality: Poor lighting, blurry pictures, shadows, wind and the position of leaves can affect the results. 
+3. Hardware limitations: Drones and cameras have limits such as battery life, storage and processing power. 
+
+4. Internet connection: Some farming areas may have weak or no internet connection. 
+
+5.	Computing power: Training the AI model may require a powerful computer or GPU. 
+
+6.	Weather: Rain, strong wind, fog and dust can make it difficult to collect good images. 
+
+7.	Different crops: Different crop types and growth stages may make disease detection more difficult. 
+
+8.	Cost: Drones, cameras, maintenance and computer equipment can be expensive. 
+
+9.	Legal requirements: Drone use and pesticide spraying must follow the relevant laws and regulations. 
+
+10.	AI limitations: The AI can make mistakes, especially when it sees images or diseases that were not included in its training data. 
+
+11.	no public time-stamped disease data exists so the disease log will be simulated
+
+
 
 ### 3.6 Risks and contingencies
 
-| Risk | Likelihood | Impact | Mitigation in this project |
-|---|---|---|---|
-| Model misclassifies a disease (false negative) | Medium | High: an outbreak spreads | Recall prioritised; class-weighted loss; confidence threshold; farmer review; time-series early warning catches what one scan misses |
-| Model raises a false alarm (false positive) | Medium | Low–medium: wasted inspection | Farmer approves every zone; `flag_incorrect` feedback goes to the team |
-| Model is confidently wrong on an image that is not a leaf (camera fault, blank frame) | Medium | High: a spray decided by noise | Input check before classification rejects such images (0 of 11,069 real images rejected, every noise image caught); the zone is marked for re-scan |
-| Dataset differs from local fields (domain shift) | High | High | Results reported honestly as CCMT test results; next step is collecting and labelling local images |
-| Class imbalance (Septoria 2,743 vs Healthy maize 204 images) | Certain | Medium | Class weights; per-class recall reported; stratified split |
-| Farmers over-trust the AI | Medium | High | Confidence first in every reply; tiers with warnings; the chatbot never says "spray" |
-| Poor GPS puts a result in the wrong zone | Medium | Medium | Zones with >30% poor GPS fixes are flagged for the farmer to confirm |
-| Drone battery or weather stops a scan | Medium | Low | The chatbot reports uncovered zones; the time series tolerates missing scans |
-| No GPU for training | Certain | Medium | Lightweight model, two-stage transfer learning, checkpoints saved every epoch |
-| Data loss (dataset overwritten by the demo mode) | Low | High | Guard in the code refuses to delete real data; dataset kept out of git |
+Risks and Mitigation |	Possible Impact |	How to Reduce the Risk 
+Incorrect disease classification| The farmer could use the wrong treatment. |Train the AI using a large range of good-quality images and allow the farmer to check the result. 
+
+False disease detection |	Pesticide may be used when it is not needed. |Use confidence levels and check uncertain results before spraying. 
+
+Missed disease detection |	A disease could spread to other crops. |	Monitor crops regularly and improve the AI model over time. 
+
+Poor image quality| The AI may give incorrect results. |	Use suitable cameras and check the quality of images. 
+
+Drone failure |	Some areas may not be monitored.| Maintain the drone and have another monitoring method available. 
+
+Battery runs out| 	The drone may not finish checking the field.| 	Plan the flight properly and have charged spare batteries. 
+
+Biased training data |	The AI may not work well on some crops or environments.| 	Use different crops, diseases, environments and lighting conditions when training the model. 
+
+Data security breach |	Farm information or images could be accessed by other people. |Use passwords, access controls and secure data storage. 
+
+Bad weather |	Crop images may not be collected properly. |	Monitor weather conditions and only fly when conditions are suitable. 
+
+Over-reliance on AI | Farmers could make a bad decision based only on the AI result. |Use the AI as a support tool and allow human checking before important decisions. 
+
+Incorrect spraying map| Pesticide could be sprayed in the wrong location. |Check the GPS information and allow the farmer to verify the map. 
+
+Regulatory problems | The project may break drone or pesticide regulations. | Make sure the system follows the relevant laws and regulations. 
+
 
 ### 3.7 Initial assessment of tools and techniques
 
@@ -357,7 +420,12 @@ The spraying demo on the dashboard and poster uses simulated detections and is l
 
 `project_poster.html` (A1 portrait) gives the overview in eight panels: the problem, the solution pipeline, data and model, how accuracy is measured (with the test-set results), the precision spraying map, the chatbot and dashboard, crop-health trends, and impact and next steps.
 
-## 8. References
+## 8 Summary 
+
+This project uses AI to solve a real problem in the farming industry. The system uses computer vision and deep learning to help farmers find crop diseases and identify areas that may need treatment. It does not replace the farmer but helps the farmer make better decisions. By using pesticides more carefully, farmers can reduce waste and costs while protecting their crops. The project can also benefit the local community by supporting food production, reducing chemical pollution and helping the local farming economy.
+
+
+## 9. References
 
 * Allmendinger, A., Spaeth, M., Saile, M., Peteinatos, G. G. and Gerhards, R. (2024). Agronomic and technical evaluation of herbicide spot spraying in maize based on high-resolution aerial weed maps: an on-farm trial. *Plants*, 13(15), 2164. <https://doi.org/10.3390/plants13152164>
 * CABI (2018). Fall armyworm: impacts and implications for Africa, evidence note update (USD 1–4.6 billion per year across 12 countries), as reported in <https://www.allaboutfeed.net/animal-feed/raw-materials/progress-made-on-controlling-fall-armyworm>
